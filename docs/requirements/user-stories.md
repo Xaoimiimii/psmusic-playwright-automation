@@ -12,7 +12,7 @@ Method and limits:
 - The SUT was not modified. No tests or detailed test cases were written.
 - Message texts are quoted verbatim from source (mostly Vietnamese) as evidence. The exact wording shown to users must be confirmed at runtime.
 
-Status legend: CONFIRMED, REPOSITORY-CONFIRMED, REPOSITORY-INFERRED, PARTIALLY-CONFIRMED, UNKNOWN, CONFLICTING.
+Status legend: CONFIRMED, REPOSITORY-CONFIRMED, REPOSITORY-INFERRED, PARTIALLY-CONFIRMED, UNKNOWN, CONFLICTING. RUNTIME-CONFIRMED, RUNTIME-OBSERVED and STAKEHOLDER-CONFIRMED are used for US-022, the third-party recommendation feature. It is not in the repository, so its criteria come from browser exploration and a stakeholder requirement.
 
 Path shorthand used in evidence: `C:` = `PSMusic/psmusic.client/src/`, `S:` = `PSMusic/PSMusic.Server/`.
 
@@ -32,7 +32,7 @@ Note: no content-creation endpoints exist (songs, artists and categories are rea
 
 ## 3. User Stories
 
-Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Search (US-010), Song & Artist detail (US-011..012), Playback (US-013..014), Personalization (US-015..018), Preferences (US-019..020), Popularity (US-021).
+Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Search (US-010), Song & Artist detail (US-011..012), Playback (US-013..014), Personalization (US-015..018), Preferences (US-019..020), Popularity (US-021), Recommendations - third-party (US-022).
 
 ---
 
@@ -278,13 +278,13 @@ Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Sear
   - Given the user clicks a genre card / artist card
   - Then they are taken to the genre / artist page (route pattern from `GenreCard`/`ItemCardColumn` - exact target: UNKNOWN, needs confirmation)
 - US-005-AC-05 - Ordering and membership of popular lists depend on stream data in the last 7 days: UNKNOWN - requires seed data / runtime validation.
-- US-005-AC-06 - A "Recommended for you" heading is rendered with an empty container (`recommendSys`): no functionality found.
+- US-005-AC-06 - The "Recommends for you" section (`recommendSys` container) is filled at runtime by the third-party recommendation service. It is covered by US-022.
 
 **Business Rules:** BR-11 "Popular" = ordered by number of plays in the last 7 days (both categories and artists).
 
-**Browser Validation Needed:** empty vs. populated home; data cache behavior (home data is cached client-side in `DataCacheContext`, TTL unknown); error state text on API failure; "Recommended for you" is empty.
+**Browser Validation Needed:** empty vs. populated home; data cache behavior (home data is cached client-side in `DataCacheContext`, TTL unknown); error state text on API failure; "Recommends for you" (see US-022).
 
-**Open Questions:** Is the recommendation section unfinished (placeholder)? (See U-06.)
+**Open Questions:** Recommendation questions are tracked in US-022.
 
 ---
 
@@ -914,6 +914,123 @@ Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Sear
 
 ---
 
+### US-022 - Receive "Recommended for you" song recommendations
+
+**Status:** RUNTIME-CONFIRMED (third browser pass, 2026-09-30, see `browser/recommendations.md` §8), with two defects (AC-14 behavior after Decline, AC-15 identity after Decline) and a few open checks
+
+**Priority:** Critical (stakeholder-confirmed on 2026-09-30)
+
+**Actor:** Guest, Registered user
+
+**User Story:**
+
+> As a listener, I want to see songs recommended for me while I browse, so that I can find music I am likely to enjoy and open it with one click.
+
+**Scope note:** Recommendations are a **third-party service owned by another team**. It is not in the PSMusic repository or documentation. The app only loads the tracker script and provides empty host containers, and the script renders the results into them. The feature is still in scope and critical: we validate what the user sees and what data the page sends to the service. We do not test the recommendation algorithm.
+
+**Test placement (stakeholder decision):**
+- These checks belong in the **regression suite or a separate recommendation/security suite, never in the smoke suite** and never in the gate of the PR/CI pipeline that validates the app's own code.
+- Reason: a failure here can be a security problem or a broken feature, but the cause is the third-party service, not the code delivered by this application. It must not block or blur the app's build result.
+- Consequences for the tests: tag them (for example `@third-party` / `@recommendation`), run them in their own job so a failure is reported as a third-party issue, and block the tracker (`page.route`) in every other suite, because the popup covers the page and the free-tier host adds latency.
+
+**Delivery forms:**
+
+| Form | Where (observed) | Host element | Items |
+|---|---|---|---|
+| Inline injection: section "Recommends for you" (`rcm_for_you`) | Home 50, Song detail 10, Category 20 | Home `div[class*="recommendSys"]`, Song `div[class*="recommendSongDetails"]`, Category `div[class*="recommendCategoryDetails"]`; cards in an open shadow root | each page asks for its own `NumberItems` |
+| Popup "Recommendations just for you" | configured for `/song`, `/category`, `/genres`, `/charts`, `/favorites`, `/search`; observed on Song detail, Category, Genres, Charts. Not on Home, Artist, Auth; `/search` and logged-in `/favorites` not observed | `[id^="recsys-popup-host"]` (open shadow root), close `button.recsys-close` | 50 |
+
+**Evidence:**
+- `C:../index.html` (`window.__RECSYS_DOMAIN_KEY__`, tracker loader), `C:pages/HomePage/HomePage.jsx`, `C:pages/SongViewPage/SongViewPage.jsx`, `C:pages/CategoryPage/CategoryPage.jsx`: empty host containers under the `rcm_for_you` heading
+- Runtime: `docs/exploration/browser/recommendations.md` (§1-§7 first pass, §8 third pass and review), `api-inventory.md`, `user-flows.md`, `business-rules.md` F-2, `evidence/psmusic-recsys-popup.png`
+
+**Acceptance Criteria:**
+
+*Presence and visibility on every page*
+
+- US-022-AC-01 - **CONFIRMED** (Home 50, Song 10, Category 20 cards; each with image, title and artist)
+  - Given a guest or signed-in user opens a page with a "Recommends for you" section (Home `/`, `/song/:id`, `/category/:id`)
+  - When `POST …/recommendation` returns items
+  - Then the section shows at least one card with a visible image, title and artist, and no card is blank or has a broken image
+  - Caveat: right after clearing storage, the first visits showed no calls and no cards for 6 s on every route (§8.1). Wait for the `/recommendation` response instead of using a fixed delay, and treat a missing response as a third-party outage.
+- US-022-AC-02 - **CONFIRMED**
+  - Given a user opens Song detail, Category, Genres or Charts
+  - Then the popup "Recommendations just for you" shows 50 cards with the same visible parts as AC-01, and it can be closed with `button.recsys-close`
+  - And the popup does **not** appear on Home, Artist or Auth (no configuration, no `/recommendation` call on Artist and Auth). The tracker configures a popup for `/favorites` and `/search` too, but it was **not observed** there (no `/recommendation` call on `/search`; a guest is redirected from `/favorites`, a logged-in user was not verified). That gap is UNKNOWN.
+- US-022-AC-03 - **CONFIRMED**
+  - Given the user moves between pages (full load and in-app navigation)
+  - Then recommendations stay present on each page that hosts them. The card count is not asserted, because it differs per page and entry path (F-R2, §8.1).
+- US-022-AC-04 - **CONFIRMED for a blocked call; HTTP 500 and empty list confirmed on Home only**
+  - Given `…/recommendation` fails, returns 500 or returns an empty `item` list
+  - Then the page content still loads, no page error occurs, the heading stays and the section is empty (no error message, no popup)
+  - Note: results already cached in `sessionStorage` keep showing after a later failure, so clear it before this test.
+- US-022-AC-05 - **RESOLVED**: the popup and sections appear only where AC-01/AC-02 say; Artist, Search and Auth make no recommendation call.
+- US-022-AC-06 - **RESOLVED (cause not proven)**: Home is filled (50 cards) once the tracker responds. The empty guest Home seen in the first session matches the slow first-visit behavior in AC-01's caveat.
+
+*Card content matches the destination*
+
+- US-022-AC-07 - **CONFIRMED on Home (all 50 cards)**; Song, Category and popup use the same markup but were not compared card by card
+  - Given a card at position `n` (1-based) in an inline section or the popup
+  - Then its title equals `item[n-1].Title`, its artist line equals `item[n-1].Artist` and its image source equals `item[n-1].ImageUrl` of the `…/recommendation` response that fed that list
+- US-022-AC-08 - **CONFIRMED for Home cards 1, 25, 50 and (first pass) popup card 3**
+  - Given the user clicks that card
+  - Then the app navigates in the same tab to `/song/{item[n-1].DomainItemId}`
+  - And the song page h1 equals the card title, every artist on the card appears on the page and the card image is used on the page (the page has more artists and images, so compare by containment, not equality)
+  - And `POST …/evaluation` is sent with `Rank = n` and no item id
+- US-022-AC-09 - **PARTIALLY-CONFIRMED**: run AC-07/AC-08 for the first, a middle and the last card in the inline section (Home done) and in the popup (only card 3 done). Song and Category inline sections are not done.
+
+*Privacy of the data sent to the recommendation service*
+
+- US-022-AC-10 - **CONFIRMED for login, browsing and search-page load; not for UI sign-up, rating, review and UI logout**
+  - Given all traffic to the recommendation service (`recsys-tracker-module-*.onrender.com`) is captured during the session
+  - Then no URL, header or body contains the user's password, email address, phone number, the PSMusic access or refresh token or the `X-App-Service-Key` value. No `Authorization` or `Cookie` header is sent.
+  - Test hint: log in with a canary password and email, then search all captured traffic for those exact values. Do not use a generic phone-number regex on the body: a numeric username (`psmusicqa_priv<13 digits>`) triggers false matches.
+- US-022-AC-11 - **CONFIRMED**: when consent is granted, user identity appears only as `UserId` (username) and `AnonymousId`. Both are acceptable in that state.
+- US-022-AC-12 - **CONFIRMED (corrected)**: the search keyword typed in the header search bar and submitted with Enter **is** sent (`POST /recommendation/push-keyword { UserId, AnonymousId, DomainKey, Keyword }`) when consent is granted. Opening `/search?q=…` directly sends nothing. Search text is user behavior: allowed only after consent (AC-14). The keyword is free text typed by the user, and sending it to the third party after consent is **accepted** (stakeholder decision).
+- US-022-AC-13 - **CONFIRMED for the covered flows**: the tracker calls are `POST /recommendation`, `POST /evaluation` `{ Rank }`, `POST /event` `{ Timestamp, EventTypeId, ActionType, TrackingRuleId, DomainKey, AnonymousId, UserId, ItemId }` and `POST /recommendation/push-keyword`. `/event` is a `sendBeacon` call. The rule set comes from `GET /rule/domain/<key>` (`browser/recommendations.md` §8.7) and can change without a code change here. Rating and review events were not exercised.
+
+*Behavior collection only on song-card interaction (after consent)*
+
+- US-022-AC-16 - **PARTIALLY-CONFIRMED**
+  - Given consent is granted
+  - Then user behavior is sent only when the user interacts (click, rating, review) with a song card, and **not** by browsing, page load or scrolling
+  - And every song-card type triggers the expected event. There are several card types with different selectors; the matrix is in `recommendations.md` §8.8. The tracker rules (§8.7) fire on the app's request (`GET /api/song/:id/player`, `POST /api/song/:id/favorite-toggle`, `POST /api/rating/:id/add-review`) or on the page URL, so a click that only navigates sends no event.
+    - confirmed to send `/event` View: song card play overlay (genres, category; rule 169), song row `sr-song-tab` (charts, artist, other songs; rule 170), chart dual-column row when its blank area is clicked (rule 171), song page Play (rule 172). A click on the title link or an artist name in a dual-column row navigates and sends nothing.
+    - confirmed to send `/event`: song page Download (rule 168; two events for one click) and the player-bar heart (`AddToFavorite`, rule 167)
+    - confirmed to send `/evaluation` `{ Rank }`: recommendation card (inline and popup)
+    - the song-page action-bar heart does not call the favorite API and sends nothing
+    - **UNKNOWN**: search-result song cards (the search index returns "No results found" for every keyword in this environment, U-01, so their selectors are not identified); rating and review (`.submit-rating-btn`, rules 165 and 166, write data, not exercised; the review text `comment` is part of rule 166)
+  - And no behavior is sent for non-song cards (Home trending artist card sent nothing)
+
+*Decline: receive only*
+
+- US-022-AC-14 - **CONFIRMED DEFECT (expected to fail today)**
+  - Given the user clicks **Decline** on the privacy banner (`recsys_consent_status` = `denied`)
+  - Then no behavior data is sent: no `POST …/evaluation` on a recommendation-card click, no `POST …/recommendation/push-keyword` after a search, no `POST …/event` for song-card, rating or review interaction
+  - And recommendations are still requested and displayed (default results), and clicking a card still opens its song page
+  - Observed (`recommendations.md` §8.5, §8.8): `/event` was correctly not sent for any song-card click, but `/evaluation` (card click) and `/recommendation/push-keyword` (search) **were still sent**. Rating and review were not exercised, so they are unchecked, not passing.
+- US-022-AC-15 - **CONFIRMED DEFECT (expected to fail today)**
+  - Given the user has clicked Decline
+  - Then requests to the recommendation service carry **no identity**: no `AnonymousId` and no `UserId`, so the service can only return default results
+  - Observed: after Decline `POST /recommendation` still carried `AnonymousId` and, for a logged-in user, `UserId`, and returned the same list, in the same order, as after Accept all. This is unintended and must be rejected.
+  - Both defects belong to the third-party service or its integration. Report them to the owning team, keep the tests in the recommendation suite (not in the app's CI gate).
+
+**Business Rules:**
+- BR-34 Card -> song mapping is `DomainItemId` -> `/song/{DomainItemId}`. The card's `data-id` is the recsys id, not the song id (RUNTIME-OBSERVED, `recommendations.md` §2 and §4).
+- BR-35 The service may receive only the username (as `UserId`) and the anonymous id as user identity. Credentials and contact data (password, email, phone) must never be sent (stakeholder requirement).
+- BR-36 Continuing to send the previous username after logout is an accepted feature (stakeholder decision).
+- BR-37 After Decline nothing may be sent to the recommendation service (no behavior and no identity such as `AnonymousId`/`UserId`); the app may only receive and show default recommendations (stakeholder decision). Currently violated (AC-14, AC-15).
+- BR-38 Behavior (click, rating, review) is sent only when the user interacts with a song card, and only after consent (stakeholder decision). Every song-card type must be checked (AC-16).
+
+**Browser Validation Needed:** the `/search` popup and the logged-in `/favorites` popup (configured, not observed; AC-02); search-result song cards (the search index is empty in this environment, U-01) and their selectors (AC-16); the unstable no-render state seen with the logged-in test user (`recommendations.md` §8.9); rating and review events, which write data and need an approved test account and song (AC-16); logged-in `/favorites`; UI sign-up and UI logout in the privacy capture (AC-10); card-by-card comparison for Song, Category and popup (AC-07); popup card positions in AC-09; HTTP 500 and empty list on Song and Category; why first visits with empty storage show nothing (AC-01 caveat).
+
+**Open Questions:**
+- What is allowed before the user has chosen anything on the privacy banner? Observed: `/recommendation` with `UserId`/`AnonymousId` is already sent. The Decline rule (nothing is sent) suggests the same should hold until the user accepts, but the stakeholder has not said so.
+- Should song-page recommendations relate to the viewed song? Observed: the same list on every song page (F-R3); the expectation is UNKNOWN.
+- Can the other team provide a test/staging instance or stable data? The free-tier host adds latency and non-determinism.
+
+---
+
 ## 4. Technical Behaviors Supporting User Stories
 
 | ID | Technical Behavior | Evidence | Related User Story |
@@ -934,6 +1051,7 @@ Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Sear
 | TB-14 | Unused/unfinished server surface: `Playlist`, `SongPlaylist` entities and DB sets exist but no controller/service/UI; `GET /api/user/{id}` (any signed-in user can read any user's profile, incl. email) and client `userService.getUserById` | `S:Models/Entities/Playlist.cs`, `S:UserController.cs`, `C:services/userService.js` | U-06, U-09 |
 | TB-15 | DB: PostgreSQL via EF Core; unique indexes User.Email, User.Username; Favorite PK (UserId, SongId); Rating cascade delete on Song; Song.Name, Artist.Name, Category.Name required | `S:Data/DBContext.cs` | US-001, US-015, US-017 |
 | TB-16 | Server-side user-facing messages are hard-coded in Vietnamese | `S:Controllers`, `S:AuthService.cs` | US-002, US-015, US-017, US-018 |
+| TB-17 | A third-party recsys tracker (loaded from `index.html` with `__RECSYS_DOMAIN_KEY__`) calls `recsys-tracker-module-*.onrender.com` (`/recommendation`, `/evaluation`, config calls). It renders cards into shadow roots of the app's empty `recommend*` containers and a popup, and stores `recsys_anon_id` / `recsys_cached_user_info` in localStorage | `C:../index.html`, `C:HomePage.jsx`, `C:SongViewPage.jsx`, `C:CategoryPage.jsx`; runtime `browser/recommendations.md` | US-005, US-022 |
 
 ---
 
@@ -972,6 +1090,10 @@ Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Sear
 | BR-31 | Theme stored per browser (localStorage `selectedTheme`) | `SettingsDropdown.jsx` | US-019 | REPOSITORY-CONFIRMED |
 | BR-32 | Stream counted once per playback after 20 s, signed-in only | `PlayerContext.jsx` | US-021 | REPOSITORY-CONFIRMED |
 | BR-33 | Popularity window 7 days UTC | `*Repository` | US-021 | REPOSITORY-CONFIRMED |
+| BR-34 | Recommendation card opens `/song/{DomainItemId}` (not `data-id`) | `browser/recommendations.md` §4 | US-022 | RUNTIME-OBSERVED |
+| BR-35 | Only the username (`UserId`) and anonymous id may be sent to the recommendation service; never password, email or phone | Stakeholder requirement (2026-09-30) | US-022 | STAKEHOLDER-CONFIRMED |
+| BR-36 | Sending the previous username after logout is accepted | Stakeholder decision (2026-09-30) | US-022 | STAKEHOLDER-CONFIRMED |
+| BR-37 | After Decline nothing is sent (no behavior, no identity); recommendations are still shown with default results (currently violated: `/evaluation`, `push-keyword`, identity) | Stakeholder decision; `browser/recommendations.md` §8.5 | US-022 | STAKEHOLDER-CONFIRMED / DEFECT |
 
 (BR-23, BR-30 are minor and captured in the story text.)
 
@@ -986,7 +1108,7 @@ Capabilities: Authentication (US-001..004), Discovery/Browse (US-005..009), Sear
 | U-03 | Gmail-only sign-up and external email-reputation dependency (server accepts any valid email) | CONFLICTING between client and server; blocks/complicates sign-up in test env | Try non-Gmail emails; check whether the validation service is reachable/mocked; test the API directly |
 | U-04 | How songs get indexed into Elasticsearch; whether PostgreSQL ILIKE search is a fallback | Search reliability and freshness of new songs | Observe runtime; search newly added data |
 | U-05 | Server-side rating rules (range 1-5, one per user, comment length) - none found | Data integrity risk; client-only protection | Send direct API calls with value 0/99/duplicate; observe |
-| U-06 | Placeholder features: "Recommended for you", `/recent`, playlists (entities only), profile page | Determines what is in scope for coverage | Confirm with product owner / runtime |
+| U-06 | Placeholder features: `/recent`, playlists (entities only), profile page. (Resolved for recommendations: a third-party feature in scope as US-022.) | Determines what is in scope for coverage | Confirm with product owner / runtime |
 | U-07 | Whether favorites ordering should persist; `Favorite` has no order column | Expected outcome after reload | Reorder, reload, compare |
 | U-08 | Inconsistent "has lyrics" filter across queries (commented out for category songs) | May show songs that cannot be played/searched in some lists | Compare lists at runtime |
 | U-09 | Authorization on `GET /api/user/{id}` (any signed-in user can read any profile incl. email) | Security/privacy concern | API test with two accounts |
@@ -1009,19 +1131,20 @@ Priority is by dependency and risk.
 3. **Members-only gating (US-014, US-015, US-017):** sign-in modal from the sidebar and player; favorite toggle and counters; rating modal rules and duplicates.
 4. **Discovery and navigation (US-005..009, US-020):** home, genres, charts, category page, artist page (pagination, empty states, invalid ids, layout).
 5. **Search (US-010):** suggestion thresholds, top result, tabs, pagination, no-result messages, special characters.
-6. **Playback (US-013, US-021):** player controls, queue, shuffle/repeat, stream call at 20 s, lyric highlight.
-7. **Song page (US-011, US-012):** detail elements, lyrics states, related songs toggle, download.
-8. **Favorites playlist (US-016):** empty vs. filled, play all, reorder + reload, download.
-9. **Preferences (US-018, US-019):** language switching/persistence, themes/persistence.
-10. **API-level exploration (probe with Postman/curl):** validation gaps (U-05, U-09, U-11), status codes vs. bodies (TB-04), header requirement (TB-01), pagination minimums (TB-08).
+6. **Recommendations (US-022):** third-party; run in the regression/recommendation suite, not in smoke or the app's CI gate. Remaining: logged-in `/favorites`, card comparison on Song/Category/popup, privacy capture for sign-up, favorite, rating, playback and logout.
+7. **Playback (US-013, US-021):** player controls, queue, shuffle/repeat, stream call at 20 s, lyric highlight.
+8. **Song page (US-011, US-012):** detail elements, lyrics states, related songs toggle, download.
+9. **Favorites playlist (US-016):** empty vs. filled, play all, reorder + reload, download.
+10. **Preferences (US-018, US-019):** language switching/persistence, themes/persistence.
+11. **API-level exploration (probe with Postman/curl):** validation gaps (U-05, U-09, U-11), status codes vs. bodies (TB-04), header requirement (TB-01), pagination minimums (TB-08).
 
-Repository functionality worth exploring that has no clean story: heartbeat/active-user stats (TB-12), `playlist` data model (TB-14), `GET /api/user/{id}`, unused ILIKE search, "Recommended for you" placeholder, `/recent` route.
+Repository functionality worth exploring that has no clean story: heartbeat/active-user stats (TB-12), `playlist` data model (TB-14), `GET /api/user/{id}`, unused ILIKE search, `/recent` route.
 
 ---
 
 ## 8. Coverage Summary
 
-- **Number of user stories:** 21 (US-001 ... US-021).
+- **Number of user stories:** 22 (US-001 ... US-022).
 - **By capability:**
   - Authentication: 4 (US-001..004)
   - Discovery/browse: 5 (US-005..009)
@@ -1030,12 +1153,14 @@ Repository functionality worth exploring that has no clean story: heartbeat/acti
   - Playback: 2 (US-013, US-021 popularity counting)
   - Personalization: 4 (US-014..017)
   - Preferences / layout: 3 (US-018..020)
+  - Recommendations (third-party): 1 (US-022)
 - **By confidence:**
   - REPOSITORY-CONFIRMED: 13 (US-002, 003, 005, 006, 007, 009, 011, 013, 014, 015, 018, 019, 020)
   - REPOSITORY-INFERRED: 2 (US-012, US-021)
   - PARTIALLY-CONFIRMED: 5 (US-001, 004, 008, 016, 017)
+  - RUNTIME-CONFIRMED: 1 (US-022, third-party feature, two defects AC-14 and AC-15)
   - REPOSITORY-CONFIRMED with runtime-dependent behavior: 1 (US-010)
   - UNKNOWN: 0; CONFLICTING: 0 at story level (the client/server Gmail conflict is preserved as U-03 within US-001)
-- **Stories requiring browser validation:** all 21 (every story lists validation items; the highest-uncertainty ones are US-001, 008, 010, 012, 013, 016, 017).
+- **Stories requiring browser validation:** all 22 (every story lists validation items; the highest-uncertainty ones are US-001, 008, 010, 012, 013, 016, 017).
 - **Unsupported/inconclusive areas:** actual data (seed/Elastic), audio/lyrics hosting, download mechanics, cache timing, exact UI text under each language, behavior on invalid ids, responsive layout.
-- **Potential missing functionality (not found in repo; do not assume it exists):** playlists (only entities), recently played (placeholder route), recommendations (placeholder section), forgot/reset password (commented-out link), profile/avatar editing, review edit/delete, admin/content management, account deletion, server-side persistence of favorites order, roles/permissions.
+- **Potential missing functionality (not found in repo; do not assume it exists):** playlists (only entities), recently played (placeholder route), forgot/reset password (commented-out link), profile/avatar editing, review edit/delete, admin/content management, account deletion, server-side persistence of favorites order, roles/permissions.
