@@ -54,4 +54,5 @@ Questions that browser exploration on 2026-09-30 could not answer. They are targ
 ## U-5 Documentation alignment to check
 - Repository docs expect logout to navigate to `/`; runtime landed on `/auth` (from `/favorites`). Reconcile with U-3.11.
 - Repository docs describe the Gmail-only rule. Runtime showed only the "mailbox does not exist" branch; the API accepts non-Gmail.
-- Requirements in `docs/requirements/user-stories.md` were not cross-checked against these observations in this task.
+- Requirements in `docs/requirements/user-stories.md` were not cross-checked against these observations in this task. The cross-check is now in `../exploration-validation.md` (2026-09-30).
+- U-3.11 source check (2026-09-30): `AuthContext.logout()` calls `navigate("/")`, so landing on `/auth` from `/favorites` stays a repository/runtime conflict (cause INFERRED: the `/favorites` route guard fires on `user = null` before or after that navigation). Logout from a public page is still NOT TESTED.

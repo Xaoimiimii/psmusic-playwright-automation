@@ -65,6 +65,7 @@ Format: title / flow / steps / observed / expected (if known) / evidence / sever
 
 **F-7 Inconsistent review date format** - OBSERVATION
 - A newly submitted review shows "30/9/2026" (client-side), older and reloaded reviews show "2026-09-30" (server).
+- Cause (REPOSITORY-CONFIRMED 2026-09-30): `RatingModal.jsx` builds the new review locally with `new Date().toLocaleDateString("vi-VN")`, while `RatingRepository` formats `yyyy-MM-dd`. Whether the difference is intended: UNKNOWN.
 
 **F-8 Localization gaps** - OBSERVATION
 - Server messages always Vietnamese; the rating modal and the `/recent` title are hard-coded Vietnamese; missing i18n key `genre_category` on category pages (console); `/locales/en-US/translation.json` returns non-JSON (200). Severity: low.

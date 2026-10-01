@@ -71,7 +71,7 @@ Secret values (the `X-App-Service-Key` value, JWTs, cookie values, recsys domain
 
 | # | Method + path | Trigger | Response (relevant) | Auth |
 |---|---|---|---|---|
-| 3.1 | `GET /api/artist/popular` (Home, no params) / `?page=1&size=10` (Charts) | Home "Trending Artists"; Charts page (**fetched but not rendered**, PURPOSE-UNKNOWN on Charts) | Paged `{ id, name, avatarUrl }`; 9 items observed | public |
+| 3.1 | `GET /api/artist/popular` (Home, no params) / `?page=1&size=10` (Charts) | Home "Trending Artists"; Charts page (**fetched but not rendered**. Validation 2026-09-30: REPOSITORY-CONFIRMED that `TopChartsPage.jsx` stores `popularArtists` in state/cache but never renders it, so the call is unused on Charts) | Paged `{ id, name, avatarUrl }`; 9 items observed | public |
 | 3.2 | `GET /api/category/popular?page=1&size=50` | Home / Genres tiles | Paged `{ id, avatarUrl, name }`; 4 items: 10 Nhạc Việt, 2 Nhạc Trẻ, 1 Pop, 26 Âu Mỹ (UI shows translated names) | public |
 | 3.3 | `GET /api/category/{id}` | Category page | Unknown id: **204** No Content (UI renders a blank page) | public |
 | 3.4 | `GET /api/artist/category/{id}?id={id}&page=1&size=10` | Category "Featured Artists" | Paged. Unknown category: 200 | public |
@@ -79,7 +79,7 @@ Secret values (the `X-App-Service-Key` value, JWTs, cookie values, recsys domain
 | 3.6 | `GET /api/artist/related/{id}` | Artist page | Unknown id: 200 | public |
 | 3.7 | `GET /api/artist/{songId}/artists` | Song page "Artists" list (**path param is a song id**) | Array `{ id, name, avatarUrl }` | public |
 | 3.8 | `GET /api/rating/{songId}/reviews` | Opening the rating modal | Array `{ id, user (display name), rating, comment, date "yyyy-MM-dd" }`, newest first | public |
-| 3.9 | `POST /api/rating/{songId}/add-review` | Rating modal submit | Request `{"rating":3,"comment":"...","user":"<displayName>"}` (client also sends `user`). Response `200 {"message":"Đánh giá thành công!"}` | token |
+| 3.9 | `POST /api/rating/{songId}/add-review` | Rating modal submit | Request `{"rating":3,"comment":"...","user":"<username>"}` (client also sends `user`. Validation 2026-09-30: the source sends `user: user?.username`, not the display name. The observed value was the test username, which equals its display name, and the server DTO `CreateRatingDTO` has no `user` field, so the server ignores it). Response `200 {"message":"Đánh giá thành công!"}` | token |
 | 3.10 | `POST /api/stats/heartbeat` | Right after login, then periodically while logged in | 200, empty | token |
 | 3.11 | `GET /api/stats/active-users` | Manual probe only (not called by the SPA in explored flows) | `200 { activeUsers, windowSeconds:120, timestamp }` | public (service key) |
 
