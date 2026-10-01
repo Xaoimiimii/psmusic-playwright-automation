@@ -92,7 +92,7 @@ Not present in the repository (no flows can be described): checkout/payment/orde
 
 ## F-13 Rate and review a song
 - **Start:** signed-in user, song in player, star button (`data-tooltip="Rate Song"`).
-- **Steps:** open `RatingModal` -> `GET /rating/{songId}/reviews` -> if the user has not reviewed: choose 1-5 stars (click; hover preview), optional comment -> submit -> `POST /rating/{songId}/add-review {rating, comment}` (comment defaults to `(Không có bình luận)` when empty) -> prepend synthesized review, reset form; player `reviews` +1 and `isReviewed` true.
+- **Steps:** open `RatingModal` -> `GET /rating/{songId}/reviews` -> if the user has not reviewed: choose 1-5 stars (click; hover preview), optional comment -> submit -> `POST /rating/{songId}/add-review {rating, comment, user}` (`user` = `user?.username`; corrected 2026-09-30 from `{rating, comment}` after rereading `RatingModal.jsx` lines 112-116 and the runtime request body. The server DTO ignores `user`) (comment defaults to `(Không có bình luận)` when empty) -> prepend synthesized review, reset form; player `reviews` +1 and `isReviewed` true.
 - **Alternatives:** already reviewed -> only the list is shown; server/network error -> toast "Không thể gửi đánh giá. Vui lòng thử lại."; guest -> AuthModal.
 - **Rules:** duplicate prevention client-only; server has none.
 
@@ -107,4 +107,5 @@ Not present in the repository (no flows can be described): checkout/payment/orde
 - Persistence of language: default `i18next-browser-languagedetector` order/caching (localStorage `i18nextLng` by library default - not in source, INFERRED).
 
 ## F-16 Recently played / Recommendations (not implemented)
-- `/recent` renders a placeholder; "Recommends for you" sections are empty containers; external tracking SDK is loaded but no consumer code was found. No flow can be established.
+- `/recent` renders a placeholder; "Recommends for you" sections are empty containers; external tracking SDK is loaded but no consumer code was found. No flow can be established **from the repository**.
+- Validation note (2026-09-30): at runtime the third-party tracker fills these containers and shows a popup (`../browser/recommendations.md`, user story US-022). "Not implemented" is true only of this repository. The feature exists at runtime and is delivered by another team's service.

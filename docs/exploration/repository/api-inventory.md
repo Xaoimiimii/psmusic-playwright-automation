@@ -116,7 +116,7 @@ Returns `RelatedSongDTO[]`: `{ id, title, imageUrl, mp3Url, duration, artist, ar
 
 | # | Method & path | Auth | Purpose / response | Client |
 |---|---|---|---|---|
-| 3.1 | `GET /api/artist/popular?page=1&size=10` | Public | artists with streams in the last 7 days ordered by 7-day streams desc; `PagedResult<ArtistDTO{id,name,avatarUrl}>` (no min/max correction) | Home, TopCharts |
+| 3.1 | `GET /api/artist/popular?page=1&size=10` | Public | artists with streams in the last 7 days ordered by 7-day streams desc; `PagedResult<ArtistDTO{id,name,avatarUrl}>` (no min/max correction) | Home, TopCharts (on TopCharts the result is fetched and cached but **never rendered**; confirmed 2026-09-30 by grep and at runtime) |
 | 3.2 | `GET /api/artist/{id:int}` | Public | `ArtistDTO`; unknown id -> `Ok(null)` -> 204 (INFERRED) | ArtistPage |
 | 3.3 | `GET /api/artist/related/{id:int}` | Public | artists sharing the artist's *main category*, excluding self; returns plain array (not paged); `Ok()` empty 200 when artist has no category | ArtistPage |
 | 3.4 | `GET /api/artist/{id}/artists` | Public | **`id` is a SONG id** (route is misleading): artists of a song (`SongArtist` join) -> `ArtistDTO[]` | SongViewPage (`/artist/${songId}/artists`) |
@@ -137,7 +137,7 @@ Route ambiguity: `GET /api/artist/{id:int}` vs `GET /api/artist/{id}/artists` an
 | # | Method & path | Auth | Behavior |
 |---|---|---|---|
 | 5.1 | `GET /api/rating/{songId}/reviews` | Public | `200 RatingDTO[]` `{ id, user (DisplayName), rating, comment, date "yyyy-MM-dd" }` ordered by `CreatedAt` desc. Unknown song -> empty array |
-| 5.2 | `POST /api/rating/{id}/add-review` | `[Authorize]` | Body `CreateRatingDTO { rating:int, comment:string }` (`userId`,`songId` overwritten from token/route). `200 { message:"Đánh giá thành công!" }`; `400 { message: ex.Message }` on exception or invalid `UserId` (`UserId không hợp lệ`). |
+| 5.2 | `POST /api/rating/{id}/add-review` | `[Authorize]` | Body `CreateRatingDTO { rating:int, comment:string }` (`userId`,`songId` overwritten from token/route). The client also sends `user` (username). The DTO has no such property, so it is ignored (runtime body confirmed, 2026-09-30). `200 { message:"Đánh giá thành công!" }`; `400 { message: ex.Message }` on exception or invalid `UserId` (`UserId không hợp lệ`). |
 **Validation: none server-side** for rating range, comment length, duplicates (one review per user per song enforced only in the UI). Response does not contain the new review (client synthesizes it). Unknown song id -> FK error -> 400 with exception message (INFERRED). `Rating.Review` non-null string (empty comment ok).
 
 ## 6. Stats - `api/stats` (`S:Controllers/StatsController.cs`)
