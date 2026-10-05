@@ -4,8 +4,8 @@
 |---|---|
 | Source of test cases | `docs/test-strategy/test-scenarios.md` (117 scenarios, `TS-AREA-nn`) |
 | Automation classification | `docs/test-strategy/automation-analysis.md` §3 |
-| Code inspected | `tests/`, `playwright.config.ts`, all local branches (`main`, `feature/auth`, `docs/exploration`, `docs/test-design`) |
-| Last reviewed | 2026-10-05 (branch `main`, commit `34831b0`) |
+| Code inspected | `tests/`, `src/`, `playwright.config.ts` on branch `feature/auth` |
+| Last reviewed | 2026-10-05 (branch `feature/auth`, AUTH implementation) |
 
 ## Status basis
 
@@ -13,7 +13,7 @@
 - **Partial**: an automated test exists but covers only part of the scenario.
 - **No**: the scenario is defined but no automated test covers it.
 
-**Current finding:** the only spec file is `tests/example.spec.ts`, the default Playwright scaffold. Its two tests (`has title`, `get started link`) open `https://playwright.dev/` and do not exercise PSMusic. There are no page objects, API clients, fixtures or test data yet, and no local branch has unmerged test code. Every scenario is therefore **No**.
+**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Every other area is still **No**. Run results and open findings are listed under "Authentication and Session".
 
 Scenario names and objectives are taken from `test-scenarios.md`. Priorities are the scenario priorities defined there.
 
@@ -36,17 +36,37 @@ Scenario names and objectives are taken from `test-scenarios.md`. Priorities are
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-AUTH-01 | Valid login creates a session | Correct credentials sign the user in. | P1 | No |
-| TS-AUTH-02 | Login client validation | Empty fields and short passwords are caught before any request. | P3 | No |
-| TS-AUTH-03 | Unknown username and wrong password | Login failures return the agreed distinct messages. | P1 | No |
-| TS-AUTH-04 | Password visibility toggle and panel switch | Form helpers behave as agreed. | P3 | No |
-| TS-AUTH-05 | Reload restores the session | A signed-in user stays signed in after a full reload. | P1 | No |
-| TS-AUTH-06 | No refresh cookie means guest | Without a cookie the app treats the user as a guest. | P1 | No |
-| TS-AUTH-07 | Expired access token triggers one refresh and a retry | An expired token is renewed silently. | P1 | No |
-| TS-AUTH-08 | Failed refresh logs the user out cleanly | When the token cannot be renewed, the app logs out instead of staying half signed in. | P1 | No |
-| TS-AUTH-09 | Each refresh issues a new refresh token | Refresh rotates the refresh token. | P1 | No |
-| TS-AUTH-10 | Logout lands on `/` from every page | Logout always ends on Home with the Login button. | P2 | No |
-| TS-AUTH-11 | Logout clears the session | After logout the browser has no session left. | P2 | No |
+| TS-AUTH-01 | Valid login creates a session | Correct credentials sign the user in. | P1 | Yes |
+| TS-AUTH-02 | Login client validation | Empty fields and short passwords are caught before any request. | P3 | Yes |
+| TS-AUTH-03 | Unknown username and wrong password | Login failures return the agreed distinct messages. | P1 | Yes |
+| TS-AUTH-04 | Password visibility toggle and panel switch | Form helpers behave as agreed. | P3 | Yes |
+| TS-AUTH-05 | Reload restores the session | A signed-in user stays signed in after a full reload. | P1 | Yes |
+| TS-AUTH-06 | No refresh cookie means guest | Without a cookie the app treats the user as a guest. | P1 | Yes |
+| TS-AUTH-07 | Expired access token triggers one refresh and a retry | An expired token is renewed silently. | P1 | Partial |
+| TS-AUTH-08 | Failed refresh logs the user out cleanly | When the token cannot be renewed, the app logs out instead of staying half signed in. | P1 | Partial |
+| TS-AUTH-09 | Each refresh re-issues the refresh token | Refresh re-issues the refresh token with a renewed lifetime. | P1 | Partial |
+| TS-AUTH-10 | Logout lands on `/` from every page | Logout always ends on Home with the Login button. | P2 | Yes |
+| TS-AUTH-11 | Logout clears the session | After logout the browser has no session left. | P2 | Yes |
+
+**Implementation notes (2026-10-05).** Run: `npx playwright test tests/auth` against the local dev build (UI `https://localhost:5174`, API `https://localhost:7215`), Chromium, run 3 times in parallel. All 12 tests give the expected result every run (two of them are known-defect expected failures). No flaky results.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-AUTH-01 | `login.spec.ts` | Pass | API contract from the captured login response; cookie flags and 7-day expiry from the browser cookie jar; token absent from script-readable storage |
+| TS-AUTH-02 | `login.spec.ts` | Pass | Request capture proves no login call for the three rejected inputs; 8 characters sends the call |
+| TS-AUTH-03 | `login.spec.ts` | Pass | Both messages at API level (`Tài khoản không tồn tại`, `Sai mật khẩu`), no cookie; wrong password checked in the UI |
+| TS-AUTH-04 | `login.spec.ts` | Pass | Also checks the eye state is reset by the panel switch |
+| TS-AUTH-05 | `session.spec.ts` | Pass | Session seeded through `context.request` login (no UI login) |
+| TS-AUTH-06 | `session.spec.ts` | Pass | `/favorites` redirect left to TS-AUTHZ-06 (analysis §6) |
+| TS-AUTH-07 | `session.spec.ts` | Pass | **Partial:** client 401 → one refresh → retry, with the first favorites call answered 401 in the browser. Real token expiry deferred (D-TOK, TR-09) |
+| TS-AUTH-08 | `session.spec.ts` | Expected fail (known defect) | **Partial:** controlled 401 + invalid refresh cookie; real expiry deferred (D-TOK). Logout itself works; landing is `/auth`, not `/`. "Cached data cleared" is not asserted: the cache is React state (`DataCacheContext`) with no visible signal of its own. **New finding**, recorded as known defect `US-003-AC-05` (exploration A-7). Needs confirmation as a defect |
+| TS-AUTH-09 | `session.spec.ts` | Pass | **Partial:** each refresh accepts the last token and re-issues one for the same user with a renewed 7-day expiry (read from the token claims); reuse of an old token waits for U-2.4. Rule clarified 2026-10-05: identical tokens within one second (A-9) accepted, a different value per call is not required |
+| TS-AUTH-10 | `logout.spec.ts` | Public page: pass. `/favorites`: expected fail (known defect) | Known defect US-004-AC-01 reconfirmed (lands on `/auth`). Public-page case observed for the first time: lands on `/` |
+| TS-AUTH-11 | `logout.spec.ts` | Pass | Logout message `Đăng xuất thành công`, cookie removed, guest after reload |
+
+**CI:** the GitHub Actions workflow cannot run these tests yet (no app or `.env` in CI). Running the app in CI is planned for a later phase.
+
+Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called right before the assertion the defect breaks, so earlier failures are still reported and a fix shows up as an unexpected pass.
 
 # Authorization and Gating
 
@@ -223,10 +243,10 @@ Scenario names and objectives are taken from `test-scenarios.md`. Priorities are
 | Metric           | Count |
 | ---------------- | ----: |
 | Total Test Cases | 117 |
-| Implemented | 0 |
-| Partial | 0 |
-| Not Implemented | 117 |
-| Progress | 0.0% |
+| Implemented | 8 |
+| Partial | 3 |
+| Not Implemented | 106 |
+| Progress | 8.1% |
 
 Progress = (Implemented + 0.5 × Partial) / Total × 100
 
@@ -235,7 +255,7 @@ Progress = (Implemented + 0.5 × Partial) / Total × 100
 | Feature | Total | Implemented | Partial | Not Implemented | Progress |
 | ------- | ----: | ----------: | ------: | --------------: | -------: |
 | Registration | 8 | 0 | 0 | 8 | 0.0% |
-| Authentication and Session | 11 | 0 | 0 | 11 | 0.0% |
+| Authentication and Session | 11 | 8 | 3 | 0 | 86.4% |
 | Authorization and Gating | 8 | 0 | 0 | 8 | 0.0% |
 | Discovery | 12 | 0 | 0 | 12 | 0.0% |
 | Search | 9 | 0 | 0 | 9 | 0.0% |
@@ -250,7 +270,7 @@ Progress = (Implemented + 0.5 × Partial) / Total × 100
 | Recommendations | 16 | 0 | 0 | 16 | 0.0% |
 | Cross-cutting API Behavior | 2 | 0 | 0 | 2 | 0.0% |
 | Journeys | 2 | 0 | 0 | 2 | 0.0% |
-| **Total** | **117** | **0** | **0** | **117** | **0.0%** |
+| **Total** | **117** | **8** | **3** | **106** | **8.1%** |
 
 ### Context
 

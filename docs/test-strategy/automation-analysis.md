@@ -156,7 +156,7 @@ Candidate: **Y** yes, **P** partial, **N** no. Layers: API, UI, INT (integration
 | TS-AUTH-06 | P1 | PR-07 | No cookie → guest | CI+SYS | ST, N | Y | API, UI | AUTOMATE — MULTI-LAYER | API: 200 + `isSuccess:false` contract; UI: guest header. Redirect part moved to TS-AUTHZ-06 (section 6) | D-UI | T-0 | R-SYNC | M-LOW |
 | TS-AUTH-07 | P1 | PR-07, TR-09 | 401 → one refresh → retry | SYS | ST, EH | P | UI (+INT controlled) | AUTOMATE — UI | **Client** retry logic testable now by answering the first protected call with 401; **server** expiry deferred to D-TOK | D-UI, D-RC; later D-TOK | T-U | R-SYNC | M-FIX |
 | TS-AUTH-08 | P1 | PR-07, TR-09 | Failed refresh → clean logout | SYS | ST, EH | P | UI (+INT controlled) | AUTOMATE — UI | As above: 401 followed by a failing refresh response, controlled in the browser; real expiry deferred | D-UI, D-RC; later D-TOK | T-U | R-SYNC | M-FIX |
-| TS-AUTH-09 | P1 | PR-07 | Refresh rotates the token | CI | ST, SEC | P | API | AUTOMATE — API | Rotation automatable now; reuse of an old token waits for a decision (U-2.4) | D-API | T-U | — | M-DEC |
+| TS-AUTH-09 | P1 | PR-07 | Refresh re-issues the token | CI | ST, SEC | P | API | AUTOMATE — API | Re-issue (same user, renewed 7-day expiry) automatable now; reuse of an old token waits for a decision (U-2.4). Rule clarified 2026-10-05: a different value per call is not required (A-9) | D-API | T-U | — | M-DEC |
 | TS-AUTH-10 | P2 | PR-09 | Logout lands on `/` | SYS | ST | Y | UI | AUTOMATE — UI | Navigation is the requirement; known defect | D-UI | T-U | R-SYNC (guard redirect race) | M-KD |
 | TS-AUTH-11 | P2 | PR-09 | Logout clears the session | CI+SYS | ST, SEC | Y | API, UI | AUTOMATE — MULTI-LAYER | API: cookie deletion + message; UI: guest after reload | D-UI | T-U | — | M-TXT |
 
@@ -323,7 +323,7 @@ Search UI scenarios run against **controlled** search responses. The real index 
 | TS-AUTHZ-01, TS-AUTHZ-02 | Access control is enforced by the server; many endpoint × credential combinations |
 | TS-PROF-01, TS-PROF-02 | No profile UI exists; the risk is server authorization |
 | TS-REG-03, TS-REG-05, TS-REG-06 | Server rules and response content; the UI path is blocked by the email check |
-| TS-AUTH-09 | Cookie rotation is invisible in the UI |
+| TS-AUTH-09 | Cookie re-issue is invisible in the UI |
 | TS-FAV-04, TS-FAV-06 | Record reuse and invalid ids are server behavior; repeated toggles are cheaper through the API |
 | TS-STRM-04 | No UI exists |
 | TS-API-01 | Contract shape |
@@ -497,7 +497,7 @@ Exploratory scenarios (section 5.2) become automation candidates once their expe
 | Scenario | Automated now | Deferred part | Blocked by |
 |---|---|---|---|
 | TS-AUTH-07, TS-AUTH-08 | Client retry / logout with controlled responses | Real token expiry | D-TOK |
-| TS-AUTH-09 | Rotation | Reuse of old token | Decision (U-2.4) |
+| TS-AUTH-09 | Re-issue with renewed expiry | Reuse of old token | Decision (U-2.4) |
 | TS-REG-05 | API | UI message display | D-EM |
 | TS-REV-02 | UI behavior | Persistence in the review list | D-WR |
 | TS-REV-04 | Rendering of the rated state | Real flag after a real review | D-WR |
