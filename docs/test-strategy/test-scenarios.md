@@ -174,7 +174,7 @@ Shared preconditions, not repeated in each scenario: language pinned to English 
 | TC-PR07-2 | No cookie means guest | PR-07 | TS-AUTH-06 |
 | TC-PR07-3 | Expired token → one refresh + retry | PR-07 | TS-AUTH-07 |
 | TC-PR07-4 | Failed refresh → clean logout | PR-07 | TS-AUTH-08 |
-| TC-US003-1 | Refresh token rotation | PR-07 | TS-AUTH-09 |
+| TC-US003-1 | Refresh token re-issue | PR-07 | TS-AUTH-09 |
 
 #### TS-AUTH-05 Reload restores the session [P1]
 - **Level** SYS · **Layers** UI, API · **Story** US-003-AC-01 · **Risk** PR-07 · **Condition** TC-PR07-1
@@ -212,14 +212,14 @@ Shared preconditions, not repeated in each scenario: language pinned to English 
 - **Data:** Signed-in user. **Rule:** -
 - **Dependencies:** TR-09. **Notes:** -
 
-#### TS-AUTH-09 Each refresh issues a new refresh token [P1]
+#### TS-AUTH-09 Each refresh re-issues the refresh token [P1]
 - **Level** CI · **Layers** API · **Story** US-003 rules · **Risk** PR-07 · **Condition** TC-US003-1
-- **Objective:** Refresh rotates the refresh token.
+- **Objective:** Refresh re-issues the refresh token with a renewed lifetime.
 - **Preconditions:** Signed-in user.
 - **Flow:** Call refresh twice in sequence.
-- **Expected:** Each call sets a new `RefreshToken` cookie value. Whether the previous value still works is **to be confirmed** (U-2.4).
-- **Data:** Signed-in user. **Rule:** Each refresh issues a new refresh token.
-- **Dependencies:** Clarification on reuse. **Notes:** Two concurrent refreshes both succeeded at runtime; whether that is intended is part of the same question.
+- **Expected:** Each call sets a `RefreshToken` cookie holding a refresh token for the same user, expiring about 7 days after that call and never earlier than the token it replaces; the next refresh accepts it. Whether the previous value still works is **to be confirmed** (U-2.4).
+- **Data:** Signed-in user. **Rule:** Each successful refresh re-issues the refresh token with a renewed 7-day lifetime (clarified 2026-10-05, see below).
+- **Dependencies:** Clarification on reuse. **Notes:** Two concurrent refreshes both succeeded at runtime; whether that is intended is part of the same question. **Clarification 2026-10-05:** a different token *value* per call is not required. The token has no unique id, so refreshes within the same second return an identical token (`browser/authentication.md` A-9); this was judged acceptable because both are equally valid and expire together. Rotation has no security effect while earlier tokens are never revoked (A-10), so the real risk is tracked under U-2.4.
 
 ### US-004 Log out
 

@@ -54,3 +54,22 @@ On a **hard reload** of `/song/:id` while logged in, `GET /api/song/{id}/detail`
 
 ## 8. Not tested / unknown
 Token expiry and silent refresh after 60 min; refresh-token lifetime enforcement; multiple tabs; behavior over plain HTTP; account lockout; password reset (no UI observed); role/permission differences (only one role exists in the UI).
+
+## 9. Findings from the AUTH automation run (2026-10-05)
+
+Observed while implementing and running `tests/auth/*.spec.ts` against `https://localhost:5174` / `https://localhost:7215` (dev build). Values of tokens and keys are omitted.
+
+| # | Observation | Evidence |
+|---|---|---|
+| A-1 | Wrong password for an existing user: **400** `{"isSuccess":false,"message":"Sai mật khẩu"}`, no `Set-Cookie`, message shown inline in the login form (closes the NOT TESTED item in §2) | RUNTIME-OBSERVED (TS-AUTH-03) |
+| A-2 | Refresh cookie stored by Chromium after UI login: `HttpOnly`, `Secure`, `SameSite=None`, `Path=/`, expiry 7 days | RUNTIME-OBSERVED (TS-AUTH-01) |
+| A-3 | **Sign-in without the UI works:** `POST /api/auth/login` sent through `browserContext.request` stores the `RefreshToken` cookie in the browser context; the next page load restores the session through `auth/refresh`. This is the auth helper the automation analysis (§9) asked to validate | RUNTIME-OBSERVED |
+| A-4 | Logout: **200** `{"isSuccess":true,"message":"Đăng xuất thành công"}`, cookie removed, reload stays guest | RUNTIME-OBSERVED (TS-AUTH-11) |
+| A-5 | Logout from a public page (`/song/1`) lands on `/` with the Login button (the public-page case of US-004-AC-01, not observed before) | RUNTIME-OBSERVED (TS-AUTH-10) |
+| A-6 | Logout from `/favorites` lands on **`/auth`** (known defect US-004-AC-01, reconfirmed) | RUNTIME-OBSERVED |
+| A-7 | **New: a failed refresh on a protected page lands on `/auth`, not `/`** (US-003-AC-05). With the first `GET /api/song/favorites` answered 401 and an invalid `RefreshToken` cookie, the interceptor's refresh returns `isSuccess:false`, `logout()` runs (cookie removed, user menu gone), and the app ends on `/auth`. Source: `logout()` clears `user` while `/favorites` is mounted, so `PrivateRoute` renders `<Navigate to="/auth">`; same mechanism as A-6 | RUNTIME-OBSERVED (controlled 401) + source |
+| A-8 | 401 → refresh → retry works on the client: after a controlled 401 on `GET /api/song/favorites`, exactly one `auth/refresh` is issued and the call is retried with 200. The dev build sends the favorites call twice (StrictMode), so the page can render from the duplicate before the retry completes | RUNTIME-OBSERVED (TS-AUTH-07) |
+| A-9 | **New: refresh tokens are not unique within one second.** The refresh JWT has no `jti`/nonce (claims `sub`, `name`, `email`, `token_type`, `nbf`, `exp`, `iat`; `TokenGenerator.GenerateRefreshToken`). A refresh in the same second as the login (or previous refresh) returns a **byte-identical** `RefreshToken`; one 1.1 s later returns a different value. This conflicts with the rule "each refresh issues a new refresh token" (TS-AUTH-09). The two concurrent refreshes on every page load (F-4) therefore usually receive the same token | RUNTIME-OBSERVED (API probe + TS-AUTH-09) + source |
+| A-10 | A previous refresh token is still accepted after rotation (`isSuccess:true`). Matches the source ("no server store, no reuse detection"); expected behavior is the open decision U-2.4 | RUNTIME-OBSERVED (API probe, observation only) |
+
+**Decision on A-9 (2026-10-05): accepted, not a defect.** Identical tokens within one second are equally valid and expire together, so nothing breaks; rotation has no security effect anyway while earlier tokens stay valid (A-10, open as U-2.4). TS-AUTH-09 was reworded to "each refresh re-issues the refresh token with a renewed 7-day lifetime". The user story rule (US-003 "each refresh issues a new refresh token") still has the original wording. A-7 should be confirmed as a defect against US-003-AC-05 (it shares the A-6 root cause).

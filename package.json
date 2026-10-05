@@ -2,7 +2,12 @@
   "name": "psmusic-playwright-automation",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "test:auth": "playwright test tests/auth",
+    "test:smoke": "playwright test --grep @smoke"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -10,6 +15,7 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.63.0",
-    "@types/node": "^26.6.3"
+    "@types/node": "^26.6.3",
+    "typescript": "^5.9.3"
   }
 }

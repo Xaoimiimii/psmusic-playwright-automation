@@ -33,7 +33,7 @@ The README API description is outdated (G-01 to G-04). Swagger at `https://local
 |---|---|
 | `X-App-Service-Key` missing or wrong → 401 `{"message":"Unauthorized Access"}` | "Technical behaviors", X-1 |
 | Protected endpoints → 401 with an empty body without a valid bearer; invalid bearer on a public endpoint → served as guest (200) | "Technical behaviors", X-7 |
-| Auth contract: register (no token returned, password never returned), login (token + user + `RefreshToken` cookie with its flags), refresh (200 with `isSuccess:false` on failure; new refresh token each time), logout (cookie deleted, message), `GET /api/auth/me` | US-001-AC-04/05/06/07, US-002-AC-03/04/05, US-003-AC-02, US-004-AC-02 |
+| Auth contract: register (no token returned, password never returned), login (token + user + `RefreshToken` cookie with its flags), refresh (200 with `isSuccess:false` on failure; refresh token re-issued with a renewed 7-day expiry each time), logout (cookie deleted, message), `GET /api/auth/me` | US-001-AC-04/05/06/07, US-002-AC-03/04/05, US-003-AC-02, US-004-AC-02 |
 | Paged shape `{ items, page, limit, totalItems, totalPages }`, camelCase | "Technical behaviors", X-4, X-8 |
 | Page-size clamp (search size below 10 raised to 10) | US-010-AC-09 (runs once search is unblocked) |
 | Status codes for unknown ids: song 404; category and artist **404 agreed** (today 204, DEFECT) | US-007-AC-05, US-009-AC-05, US-011-AC-02, SD-4 |

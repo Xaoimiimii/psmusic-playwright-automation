@@ -74,3 +74,6 @@ Invalid ids used for negative checks: `99999999` for song (404), artist (204), c
 
 ## 6. Browser storage keys observed
 `localStorage`: `i18nextLng`, `selectedTheme`, `recsys_anon_id`, `recsys_consent_status`, `recsys_tracker_queue`, `recsys_cached_user_info` (after login). `sessionStorage`: `recsys_tracker_session`, `recsys-cache-<domainKey>`. Cookies: `RefreshToken` only (HttpOnly).
+
+## 7. Accounts created by the automated suite (2026-10-05)
+Every run of `tests/auth` registers about 10 fresh users through `POST /api/auth/register` in the shared remote database: username `pwqa_<base36 time><6 hex>` (unknown-user probes use `pwqa_none_…` and are never registered), email `<username>@example.com`, random password not stored. **No cleanup is possible through the API:** no controller has a delete action (`UserController` only exposes `GET /api/user/{id}`). Database owners can purge them by the `pwqa_` prefix. The suite does not create favorites, reviews or streams.
