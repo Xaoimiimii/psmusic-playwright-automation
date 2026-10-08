@@ -8,14 +8,22 @@ export default defineConfig({
   globalSetup: require.resolve('./src/global-setup'),
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
+  // At most one retry in CI; a test that passes on retry is reported as flaky (test-strategy.md §11.3).
+  retries: isCI ? 1 : 0,
+  // Sequential in CI: tests share the remote database and song counters (test-strategy.md §7.4).
   workers: isCI ? 1 : undefined,
-  reporter: isCI ? [['github'], ['html', { open: 'never' }]] : [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    isCI ? ['github'] : ['list'],
+    ['html', { open: 'never' }],
+    ['allure-playwright', { resultsDir: 'allure-results' }],
+  ],
   use: {
     baseURL: env.uiBaseUrl,
     // The local UI and API run on mkcert / ASP.NET dev certificates.
     ignoreHTTPSErrors: true,
-    trace: isCI ? 'on-first-retry' : 'retain-on-failure',
+    // No traces in CI: a trace records request headers and bodies (service key, cookies,
+    // tokens, passwords) and CI uploads its evidence as artifacts (test-strategy.md §11.5).
+    trace: isCI ? 'off' : 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
   // Non-Chromium browsers are out of scope for the system level (docs/test-strategy/levels/system.md §3).
