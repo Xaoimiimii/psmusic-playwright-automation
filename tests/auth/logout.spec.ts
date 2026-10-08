@@ -5,7 +5,7 @@ import { catalog } from '../../src/data/catalog';
 import { serverMessage } from '../../src/data/messages';
 import { knownDefect } from '../../src/support/known-defect';
 import { nextApiResponse } from '../../src/support/network';
-import { refreshCookie } from '../../src/support/session';
+import { hasRefreshCookie } from '../../src/support/session';
 
 test.describe('US-004 Log out', () => {
   test.describe('TS-AUTH-10 logout lands on Home from every page', () => {
@@ -14,7 +14,7 @@ test.describe('US-004 Log out', () => {
       await expect(favoritesPage.content).toBeVisible();
 
       await header.logout();
-      await expect.poll(() => refreshCookie(context), { message: 'signed out' }).toBeUndefined();
+      await expect.poll(() => hasRefreshCookie(context), { message: 'signed out' }).toBe(false);
 
       knownDefect('US-004-AC-01', 'logout from /favorites lands on /auth instead of /');
       await expect(page).toHaveURL(appUrl('/'));
@@ -43,7 +43,7 @@ test.describe('US-004 Log out', () => {
       const response = await logoutResponse;
       expect(response.status()).toBe(200);
       expect(await response.json()).toEqual({ isSuccess: true, message: serverMessage.logoutSuccess });
-      await expect.poll(() => refreshCookie(context), { message: 'RefreshToken cookie removed' }).toBeUndefined();
+      await expect.poll(() => hasRefreshCookie(context), { message: 'RefreshToken cookie removed' }).toBe(false);
     });
 
     await test.step('UI: still a guest after a reload', async () => {

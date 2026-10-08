@@ -25,6 +25,20 @@ export async function refreshCookie(context: BrowserContext): Promise<Cookie | u
   return (await context.cookies()).find((cookie) => cookie.name === REFRESH_COOKIE);
 }
 
+/**
+ * Whether the browser holds the refresh cookie. Assert on this instead of on the
+ * cookie itself, so a failure message never prints the token value.
+ */
+export async function hasRefreshCookie(context: BrowserContext): Promise<boolean> {
+  return (await refreshCookie(context)) !== undefined;
+}
+
+/** The cookie without its value, for assertions whose failure output is uploaded by CI. */
+export function cookieAttributes(cookie: Cookie): Omit<Cookie, 'value'> {
+  const { value: _value, ...attributes } = cookie;
+  return attributes;
+}
+
 /** Replaces the value of the stored refresh cookie, keeping its attributes. */
 export async function replaceRefreshCookieValue(context: BrowserContext, value: string): Promise<void> {
   const cookie = await refreshCookie(context);

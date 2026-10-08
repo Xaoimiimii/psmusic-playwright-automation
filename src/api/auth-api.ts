@@ -31,6 +31,17 @@ export async function authBody(response: { json(): Promise<unknown> }): Promise<
   return (await response.json()) as AuthResponseBody;
 }
 
+/** Stands in for the access token in `withoutToken()`. */
+export const REDACTED_TOKEN = '<redacted>';
+
+/**
+ * The body with the access token replaced by `REDACTED_TOKEN`. Match against this
+ * instead of the raw body, so a failure message never prints the token.
+ */
+export function withoutToken(body: AuthResponseBody): AuthResponseBody {
+  return body.token === undefined ? body : { ...body, token: REDACTED_TOKEN };
+}
+
 /**
  * Client for `/api/auth/*`. Every call carries the `X-App-Service-Key` header.
  * Cookies (the HttpOnly `RefreshToken`) live in the jar of the request context

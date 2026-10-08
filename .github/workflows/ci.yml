@@ -72,6 +72,10 @@ jobs:
         run: npm run test:smoke
 
       # The steps below run even when the tests failed, so the evidence is kept.
+      - name: Write results to the run summary
+        if: ${{ !cancelled() }}
+        run: node scripts/write-ci-summary.mjs "Smoke tests"
+
       - name: Generate Allure report
         if: ${{ !cancelled() }}
         run: npm run allure:generate

@@ -16,6 +16,8 @@ export default defineConfig({
     isCI ? ['github'] : ['list'],
     ['html', { open: 'never' }],
     ['allure-playwright', { resultsDir: 'allure-results' }],
+    // Read by scripts/write-ci-summary.mjs for the summary on the GitHub Actions run page.
+    ['json', { outputFile: 'test-results.json' }],
   ],
   use: {
     baseURL: env.uiBaseUrl,

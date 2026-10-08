@@ -1,11 +1,19 @@
-import { authBody, authRoutes } from '../../src/api/auth-api';
+import { authBody, authRoutes, REDACTED_TOKEN, withoutToken } from '../../src/api/auth-api';
 import { appUrl } from '../../src/config/env';
 import { test, expect } from '../../src/fixtures/test';
 import { clientRejectedLogins, shortestAcceptedLogin, tooShortPasswordLogin } from '../../src/data/login-cases';
 import { serverMessage, uiText } from '../../src/data/messages';
 import { unknownUsername } from '../../src/data/users';
 import { isApiRequest, nextApiResponse } from '../../src/support/network';
-import { EXPIRY_TOLERANCE_S, REFRESH_COOKIE, REFRESH_LIFETIME_S, refreshCookie, scriptReadableStorage } from '../../src/support/session';
+import {
+  cookieAttributes,
+  EXPIRY_TOLERANCE_S,
+  hasRefreshCookie,
+  REFRESH_COOKIE,
+  REFRESH_LIFETIME_S,
+  refreshCookie,
+  scriptReadableStorage,
+} from '../../src/support/session';
 import { setCookies } from '../../src/support/set-cookie';
 
 test.describe('US-002 Log in', () => {
@@ -35,10 +43,10 @@ test.describe('US-002 Log in', () => {
 
     await test.step('API: token, user and refresh cookie', async () => {
       expect(response.status()).toBe(200);
-      expect(body).toMatchObject({
+      expect(withoutToken(body)).toMatchObject({
         isSuccess: true,
         message: serverMessage.loginSuccess,
-        token: expect.any(String),
+        token: REDACTED_TOKEN,
         user: {
           id: expect.any(Number),
           username: registeredUser.username,
@@ -49,13 +57,14 @@ test.describe('US-002 Log in', () => {
 
       const cookie = await refreshCookie(context);
       expect(cookie, 'RefreshToken cookie stored by the browser').toBeDefined();
-      expect(cookie).toMatchObject({ httpOnly: true, secure: true, sameSite: 'None', path: '/' });
+      expect(cookieAttributes(cookie!)).toMatchObject({ httpOnly: true, secure: true, sameSite: 'None', path: '/' });
       const lifetime = cookie!.expires - Date.now() / 1000;
       expect(Math.abs(lifetime - REFRESH_LIFETIME_S)).toBeLessThan(EXPIRY_TOLERANCE_S);
     });
 
     await test.step('access token is not readable from script storage', async () => {
-      expect(await scriptReadableStorage(page)).not.toContain(body.token!);
+      const storage = await scriptReadableStorage(page);
+      expect(storage.includes(body.token!), 'access token found in localStorage, sessionStorage or document.cookie').toBe(false);
     });
   });
 
@@ -108,7 +117,7 @@ test.describe('US-002 Log in', () => {
       await authPage.login({ username: registeredUser.username, password: `${registeredUser.password}x` });
       await expect(authPage.loginMessage).toHaveText(serverMessage.wrongPassword);
       await expect(page).toHaveURL(appUrl(authPage.path));
-      expect(await refreshCookie(context)).toBeUndefined();
+      expect(await hasRefreshCookie(context), 'no RefreshToken cookie').toBe(false);
     });
   });
 

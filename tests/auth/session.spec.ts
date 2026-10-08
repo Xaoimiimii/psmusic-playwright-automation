@@ -1,5 +1,5 @@
 import type { APIResponse, Page } from '@playwright/test';
-import { authBody, authRoutes } from '../../src/api/auth-api';
+import { authBody, authRoutes, REDACTED_TOKEN, withoutToken } from '../../src/api/auth-api';
 import { appUrl, env } from '../../src/config/env';
 import { test, expect } from '../../src/fixtures/test';
 import { serverMessage } from '../../src/data/messages';
@@ -8,9 +8,9 @@ import { knownDefect } from '../../src/support/known-defect';
 import { decodeJwtPayload, type RefreshTokenClaims } from '../../src/support/jwt';
 import {
   EXPIRY_TOLERANCE_S,
+  hasRefreshCookie,
   REFRESH_COOKIE,
   REFRESH_LIFETIME_S,
-  refreshCookie,
   replaceRefreshCookieValue,
 } from '../../src/support/session';
 import { setCookies } from '../../src/support/set-cookie';
@@ -32,7 +32,7 @@ test.describe('US-003 Stay signed in', () => {
       const refreshResponse = nextApiResponse(page, 'POST', authRoutes.refresh);
       await page.reload();
       const body = await authBody(await refreshResponse);
-      expect(body).toMatchObject({ isSuccess: true, token: expect.any(String), user: { username: member.username } });
+      expect(withoutToken(body)).toMatchObject({ isSuccess: true, token: REDACTED_TOKEN, user: { username: member.username } });
       await expect(header.userMenuButton).toBeVisible();
       await expect(header.loginButton).toBeHidden();
     });
@@ -52,7 +52,7 @@ test.describe('US-003 Stay signed in', () => {
       expect(response.status()).toBe(200);
       const body = await authBody(response);
       expect(body.isSuccess).toBe(false);
-      expect(body.token).toBeUndefined();
+      expect(withoutToken(body).token, 'no access token issued').toBeUndefined();
       expect(body.user).toBeUndefined();
     });
 
@@ -124,7 +124,7 @@ test.describe('US-003 Stay signed in', () => {
 
     await test.step('refresh is refused and the session is ended', async () => {
       expect((await authBody(await refreshResponse)).isSuccess).toBe(false);
-      await expect.poll(() => refreshCookie(context), { message: 'refresh cookie removed by logout' }).toBeUndefined();
+      await expect.poll(() => hasRefreshCookie(context), { message: 'refresh cookie removed by logout' }).toBe(false);
       await expect(header.userMenuButton).toBeHidden();
     });
 

@@ -31,7 +31,7 @@ environment whose URLs come from configuration (section 4).
 | Push to `main` (a merged PR) | CI (smoke) | Check that `main` still works |
 | Manual (`workflow_dispatch`) | CI (smoke) | Re-run smoke on any branch, for example after the environment was fixed |
 | Manual (`workflow_dispatch`) | Regression (all tests) | Before a release or demo, or to investigate. Actions tab → **Regression** → **Run workflow** → choose the branch |
-| Scheduled | None yet | A nightly run only makes sense once a dedicated test environment exists (section 4.3). To add it, put `schedule: - cron: '0 1 * * *'` under `on:` in `regression.yml` |
+| Scheduled | None yet | Worth adding once Regression is green on the CI environment (A-11 fixed, section 4.3); until then a nightly run would fail every night for a known reason. To add it, put `schedule: - cron: '0 1 * * *'` under `on:` in `regression.yml` |
 
 A new push to the same PR or branch cancels the CI run that is still in progress (`concurrency` in `ci.yml`).
 
@@ -62,7 +62,7 @@ GitHub sets `CI=true`. `playwright.config.ts` then uses:
 | Trace | kept on failure | off | A trace records request headers and bodies (service key, cookies, tokens). CI uploads evidence as artifacts, so no traces there |
 | Screenshot | on failure | on failure | Main UI evidence |
 | `test.only` | allowed | fails the run (`forbidOnly`) | Stops a focused test from being merged |
-| Reporters | list, HTML, Allure | GitHub annotations, HTML, Allure | |
+| Reporters | list, HTML, Allure, JSON | GitHub annotations, HTML, Allure, JSON | JSON (`test-results.json`) feeds the run summary (section 6) |
 
 ## 4. Configuration
 
@@ -89,25 +89,38 @@ Secrets handling:
 ### 4.2 When the variables are missing
 
 - **CI:** the `smoke-tests` job is **skipped** (shown grey, not green), and the `build` job adds the warning
-  *"Smoke tests skipped"* to the run summary. This is deliberate: there is no CI environment yet (4.3), and a
-  pipeline that is always red would be ignored.
+  *"Smoke tests skipped"* to the run summary. This keeps the build job useful for forks and for a
+  repository copy without an environment. The CI environment is in section 4.3.
 - **Regression:** the run **fails** with `Missing environment variable PSMUSIC_UI_URL`. A manual run means someone
   wants results, so a missing configuration is an error.
 - **Variables set but the app is down:** `src/global-setup.ts` checks the UI and the API before any test runs and
   fails the run with one clear message (`PSMusic UI is not reachable at ...`). It does not skip.
 
-### 4.3 Test environment: open item
+### 4.3 Test environment used by CI
 
-PSMusic currently runs only on a developer machine (`https://localhost:5174` and `https://localhost:7215`), and a
-GitHub runner cannot reach `localhost` on your machine. **Until a reachable environment is configured, CI runs the
-build job only.** Options, for the team to decide (strategy §8.5):
+A GitHub runner cannot reach `localhost` on a developer machine, so CI runs against the deployed environment:
 
-1. **A dedicated, reachable test environment** (preferred). Set the two variables and the secret, and CI starts running tests.
-2. **The public deployment** (`https://psmusic.netlify.app`, which calls `https://psmusic-5zfx.onrender.com/api`).
-   Not verified: whether it accepts the same service key and runs the same version as local. Note that every run
-   registers new users in that deployment's database, and the free hosting tier may need about a minute to wake up.
-3. **Start PSMusic inside the CI job.** The application repository is private and needs its own database and
-   Elasticsearch settings. That is significant extra setup and is left out on purpose for now.
+| | Local | CI (configured 2026-10-08) |
+|---|---|---|
+| UI | `https://localhost:5174` (Vite dev build) | `https://psmusic.netlify.app` (production build) |
+| API | `https://localhost:7215` | `https://psmusic-5zfx.onrender.com` |
+| Service key | `.env` | `PSMUSIC_SERVICE_KEY` secret (the same value works in both) |
+
+Things to know about the deployed environment:
+
+- **Every run registers new test users** in its database. Never point CI at an environment where that is not acceptable.
+- The free hosting tier can be slow to answer the first requests. A test that fails once and passes on retry is
+  reported as flaky (TS-AUTH-01 was seen flaky this way).
+- **Logout does not remove the refresh cookie there** (application defect A-11 in
+  `exploration/browser/authentication.md` §10). TS-AUTH-08, TS-AUTH-10 (`/favorites`) and TS-AUTH-11 fail on the
+  deployed environment and pass locally. They are not in smoke, so CI stays green; a **Regression** run is red until
+  the SUT team fixes it.
+- To run the suite locally against the deployed environment, put its URLs in `.env`, or override them for one run:
+  `PSMUSIC_UI_URL=https://psmusic.netlify.app PSMUSIC_API_URL=https://psmusic-5zfx.onrender.com npm run test:smoke`.
+  Variables set in the shell take precedence over `.env`.
+
+Alternative, not implemented: start PSMusic inside the CI job, as the Foodly project does. The application repository
+is private and the API needs database and Elasticsearch settings, so that is significant extra setup.
 
 ## 5. Local vs CI execution
 
@@ -139,9 +152,16 @@ before a run when you want a clean report. In CI every run starts from an empty 
 
 ## 6. Failure investigation
 
-1. **Open the failed run** (Actions tab, or the red check on the PR). The failed step shows the Playwright error, and
-   failed tests are also listed as annotations on the run summary page.
-2. **Download the artifacts** at the bottom of the run summary page. They are uploaded even when tests fail and are
+1. **Open the run** (Actions tab, or **Details** next to the check on the PR). The run summary page shows, without
+   downloading anything:
+   - a results table (total, passed, failed, flaky, skipped, duration),
+   - each failed test with its file, line and error message (click to expand),
+   - each flaky test with the error of its first attempt,
+   - known-defect tests in the run.
+
+   This summary is written by `scripts/write-ci-summary.mjs` from Playwright's `test-results.json`. Tokens (JWTs) in
+   error messages are masked. Failed tests are also listed as annotations, and the failed step's log shows the full error.
+2. **For screenshots and step details, download the artifacts** at the bottom of the run summary page. They are uploaded even when tests fail and are
    kept for 14 days.
 
 | Artifact | Contents | How to open |
@@ -174,16 +194,16 @@ do not include headers, tokens, cookies or passwords.
 
 - Each test registers its own user with a unique name (`pwqa_<time><random>`), so CI needs no prepared accounts and no local files.
 - There is no cleanup step: the PSMusic API has no endpoint to delete users, and the tests have no database access.
-  Test users stay in the environment's database. That is acceptable for a test environment, and it is the main reason to
-  check option 2 in section 4.3 with the team first.
+  Test users stay in the environment's database. That is acceptable for a test environment, and the reason CI must never
+  point at an environment holding real users (section 4.3).
 - Because nothing is cleaned up, a cleanup failure cannot hide a test failure. If a cleanup step is added later, put it in a
   fixture teardown, so Playwright reports both the test failure and the teardown failure.
 
 ## 8. Next improvements (in this order)
 
-1. **Provide a test environment** (section 4.3). Until then, the pipeline proves the build only.
+1. **Get A-11 fixed** (logout on the deployed environment, section 4.3), so Regression is green there.
 2. **Add ESLint** to the build job (strategy §11.1 lists it; it is not installed yet).
-3. **Run `@critical` on push to `main`**, once the environment exists. The whole suite takes about a minute today, so this is cheap.
-4. **Nightly scheduled regression** in `regression.yml` (section 2), when there is an environment to run it against.
+3. **Run `@critical` on push to `main`.** The whole suite takes about a minute locally (about two against the deployed environment), so this is cheap.
+4. **Nightly scheduled regression** in `regression.yml` (section 2), once it is green.
 5. **Parallel workers in CI**, after checking that no tests touch the same song counters at the same time (strategy §7.4).
 6. **Separate API and UI jobs or tags**, and an Allure history or published report, when the suite grows.
