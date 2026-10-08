@@ -7,6 +7,17 @@ export const uiText = {
   loginSuccess: 'Login successful',
   fillAllFields: 'Please fill in all information',
   passwordTooShort: 'Password must be at least 8 characters',
+  songNotFound: 'Song not found',
+  /** `no_lyrics_yet`: shown when a song has no lyric file, and also when the file cannot be fetched or parsed. */
+  noLyrics: 'No lyrics available :(',
+  showMore: 'Show More',
+  showLess: 'Show Less',
+  viewMore: 'View More',
+  play: 'Play',
+  pause: 'Pause',
+  download: 'Download',
+  artists: 'Artists',
+  otherSongsBy: 'Other songs by',
 } as const;
 
 export const serverMessage = {
@@ -15,4 +26,5 @@ export const serverMessage = {
   wrongPassword: 'Sai mật khẩu',
   refreshSuccess: 'Refresh thành công',
   logoutSuccess: 'Đăng xuất thành công',
+  songNotFound: 'Không tìm thấy bài hát',
 } as const;

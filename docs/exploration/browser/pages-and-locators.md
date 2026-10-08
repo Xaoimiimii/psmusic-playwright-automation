@@ -189,3 +189,18 @@ Both forms are **always in the DOM**, and both count as "visible" by bounding bo
 | Switch to Login | overlay button | overlay "Welcome!" panel `Login` button | F | |
 | Inline message | tag in form | `loginForm.locator('small')` | M | Used for client validation, server errors and the success text; persists (>15 s) |
 | Language | role | `getByRole('button', { name: 'Language' })` | M | Only header control on `/auth` |
+
+## 15. Findings from the Song Details automation run (2026-10-06)
+
+Observed while implementing and running `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts` against `https://localhost:5174` / `https://localhost:7215` (dev build), and in `SongViewPage.jsx`. Locators used are in `src/pages/song.page.ts`.
+
+| # | Observation | Evidence |
+|---|---|---|
+| S-1 | The no-lyrics text is **"No lyrics available :("** (`no_lyrics_yet`), not "no lyrics yet" as written in TS-SONG-03 | RUNTIME-OBSERVED (song 933) + `translation.json` |
+| S-2 | When the LRC request fails, the page shows the same "No lyrics available :(" message; title, artists and Play keep working, and Play starts playback. This answers the open question of US-011-AC-08 with the current behavior (pending decision) | RUNTIME-OBSERVED (TS-SONG-07, aborted LRC) + source (`.catch(() => [])`) |
+| S-3 | Artist names under the title are `span[class*="artist-link"]` with an onClick handler: no `href`, no link role. The artist names and the Artists rows come from `GET /api/artist/{songId}/artists`; `detail.artist` is the same names joined with ", " | RUNTIME-OBSERVED (TS-SONG-01) + source |
+| S-4 | Collapsed lyrics and "Other songs" lists keep every row in the DOM (CSS `max-height`), so `toBeVisible()` cannot tell collapsed from expanded. The state is read from the container class (`lyrics-collapsed`/`lyrics-expanded`, `songs-collapsed`/`songs-expanded`) and the list height | RUNTIME-OBSERVED (TS-SONG-03, TS-SONG-05) |
+| S-5 | Other-song rows: one `button[class*="sr-title-songtab"]` per row holds the title. The related list has no defined order, so tests compare titles as sets. View More appears only for more than 4 rows (song 1129 with 4 shows none); with 0 rows the section is not rendered (song 1349) | RUNTIME-OBSERVED (TS-SONG-05) |
+| S-6 | The page heart and star have no click handler: clicking them sends no `favorite-toggle` or `add-review` request (US-011-AC-07 holds) | RUNTIME-OBSERVED (TS-SONG-01) |
+| S-7 | F-5 reconfirmed for the heart: after in-app navigation from `/favorites` the heart is filled (`svg fill="white"`); after a hard reload it is empty while `/player` returns `isFavorited:true` (known defect US-011-AC-06) | RUNTIME-OBSERVED (TS-SONG-06) |
+| S-8 | Unknown song: `GET /api/song/99999999/detail` returns **404** `{"message":"Không tìm thấy bài hát"}`; `/song/99999999` shows "Song not found" | RUNTIME-OBSERVED (TS-SONG-02) |

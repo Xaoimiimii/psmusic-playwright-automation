@@ -21,6 +21,21 @@ export async function nextApiResponse(page: Page, method: string, route: string)
   return response;
 }
 
+/**
+ * Returns once a marker request, sent by the page after this call, has been seen.
+ * The browser reports requests in the order they are issued, so a request
+ * triggered by an earlier click is already reported when this returns. Used to
+ * prove "no request was sent" without a fixed wait.
+ */
+export async function requestBarrier(page: Page): Promise<void> {
+  const marker = `/__barrier__/${Date.now()}`;
+  const seen = page.waitForRequest((request) => new URL(request.url()).pathname === marker);
+  await page.evaluate((path) => {
+    void fetch(path).catch(() => undefined);
+  }, marker);
+  await seen;
+}
+
 export interface ApiCall {
   method: string;
   path: string;
