@@ -19,7 +19,7 @@ PSMusic has no formal requirements. These stories started as repository-derived 
 
 | # | Decision |
 |---|---|
-| 1 | Search: the repository behavior is the expected behavior. Empty results today are caused by an outdated Elasticsearch API key (environment issue) |
+| 1 | Search: the repository behavior is the expected behavior. The empty results seen until 2026-10-08 were caused by an outdated Elasticsearch API key (environment issue). **Update 2026-10-08:** the key has been renewed and search is no longer deferred |
 | 2 | Charts do not show popular artists; there is no favorite on charts |
 | 3 | Logout lands on `/` from every page |
 | 4 | Unknown category, unknown artist and unknown route show a visible not-found state; the category and artist APIs return 404 |
@@ -155,7 +155,7 @@ Rules: the main artist of a song is the first-linked artist. Related artists sha
 
 ## US-010 Search for songs and artists
 
-**Status:** BLOCKED (outdated Elasticsearch API key). The repository behavior below is the expected behavior; retest after the key is renewed. After renewal also check that the suggestion box shows "No suitable suggestions" for an empty result (it was not seen).
+**Status:** UNBLOCKED; confirmed through the API on 2026-10-08 (AC-08, AC-09 and the empty result; `docs/exploration/browser/search.md`), browser not yet re-run. The Elasticsearch API key was renewed on 2026-10-08 (stakeholder), and the SUT now fills the `songs` and `artists` indices from PostgreSQL at API startup (`ElasticSeeder`, SUT commit `d1a3c44`). The repository behavior below is the expected behavior. Still to observe in the browser: the suggestion and results UI with real data, and the suggestion box showing "No suitable suggestions" for an empty result (it was not seen while the key was outdated).
 
 > As a listener, I want to search by song or artist name and see suggestions as I type, so that I can find something to listen to.
 
@@ -170,7 +170,7 @@ Rules: the main artist of a song is the first-linked artist. Related artists sha
 - AC-09: The server raises a page size below 10 to 10.
 - AC-10: Fuzzy matching and Vietnamese diacritics follow Elasticsearch behavior (open).
 
-Rules: artists are listed before songs. Only songs present in the Elasticsearch `songs` index are searchable (what fills that index is unknown).
+Rules: artists are listed before songs. Only songs and artists present in the Elasticsearch `songs` and `artists` indices are searchable. Both indices are filled from PostgreSQL every time the API starts (`ElasticSeeder`); a song added after startup is not searchable until the next restart, and a song deleted from the database stays in the index.
 
 ## US-011 View song details
 
@@ -387,7 +387,7 @@ Open: which endpoint is the profile endpoint (README says `/api/user/profile`, t
 
 ## Open items
 
-- Renew the Elasticsearch API key, then verify US-010.
+- Verify US-010 at runtime now that the Elasticsearch key is renewed (2026-10-08), and list known indexed titles for test data.
 - Decide the comment length limit and the status code for rejected reviews (US-017).
 - Define the profile endpoint and UI (US-023).
 - Choose how UI sign-up is tested (real mailbox or an approved mock of the external check).

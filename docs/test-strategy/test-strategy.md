@@ -5,7 +5,7 @@
 | SUT | PSMusic (React SPA `psmusic.client` + ASP.NET Core API `PSMusic.Server`), repository `D:\Study\PSMusic`, read-only |
 | Automation repository | `psmusic-playwright-automation` (this repository) |
 | Stack | Playwright Test + TypeScript, `APIRequestContext` for API, Allure, GitHub Actions (`CLAUDE.md`) |
-| Status | Draft 1, 2026-10-01 |
+| Status | Draft 1, 2026-10-01. Updated 2026-10-08 (search unblocked) |
 | Inputs | `docs/requirements/user-stories.md` (agreed expectation, stakeholder decisions 2026-10-01), `docs/exploration/exploration-validation.md`, `docs/exploration/{browser,repository,documentation}/`, `CLAUDE.md`, `.claude/skills/` |
 | Risk register | `risk-register.md` |
 | Level documents | `levels/component-integration.md`, `levels/system.md`, `levels/system-integration.md` (includes the recommendation feature, US-022), `levels/acceptance.md` |
@@ -53,7 +53,7 @@ These risks drive the rest of the strategy. Each one is grounded in evidence. Li
 | QR-06 | Wrong user-specific state shown (heart/star, counters, review date) | US-011-AC-06, US-015-AC-01, US-017-AC-05 DEFECTS, F-5/F-6/F-7 |
 | QR-07 | Missing error and not-found handling leaves blank pages | US-007-AC-05, US-009-AC-05, US-020-AC-05 DEFECTS |
 | QR-08 | Popularity data (charts, trending) does not reflect real listening, or stream counting is wrong | US-021, BR-P1 (single run), `R:repository-unknowns.md` UNK-03 |
-| QR-09 | External dependencies (Elasticsearch, S3 media, Abstract email API, recsys tracker) make features unusable or tests unstable | US-010 BLOCKED, US-001 BLOCKED, F-2, `B:application-overview.md` §5 |
+| QR-09 | External dependencies (Elasticsearch, S3 media, Abstract email API, recsys tracker) make features unusable or tests unstable | US-010 BLOCKED until 2026-10-08 (Elasticsearch key), US-001 BLOCKED, F-2, `B:application-overview.md` §5 |
 | QR-10 | Test writes pollute a shared database that cannot be cleaned | `user-stories.md` "Technical behaviors", `B:test-data.md` §1 |
 | QR-11 | UI changes break automation: no test ids, hashed classes, duplicated player controls, language-dependent names | EV §7, F-3, R-2, R-3 |
 
@@ -90,7 +90,7 @@ The stakeholder ranked US-022 as Critical, and the README lists five features. N
 | Login, session restore, logout | US-002, US-003, US-004 | AC-04/05 of US-003 need a short token lifetime |
 | Guest gating and protected routes | US-014, US-016-AC-07, US-020-AC-04 | |
 | Discovery pages: Home, Genres, Category, Charts, Artist | US-005 to US-009 | Data-dependent (7-day streams) |
-| Search | US-010 | BLOCKED until the Elasticsearch key is renewed (SD-1). Designed now, executed later |
+| Search | US-010 | Unblocked 2026-10-08: Elasticsearch key renewed (SD-1). Real results confirmed through the API (`B:search.md`); browser pass pending |
 | Song details, lyrics, download | US-011, US-012 | |
 | Player | US-013 | Controls rendered 2-3 times (F-3) |
 | Favorites and favorites playlist | US-015, US-016 | |
@@ -130,7 +130,7 @@ Only areas that exist in PSMusic. There is no cart, checkout, payment or order l
 | FA-02 | Authentication and session | US-002, US-003, US-004 | Login messages, token + `RefreshToken` cookie, restore on reload, refresh contract, logout → `/` | Token in memory only; refresh fires twice in the dev build |
 | FA-03 | Authorization and gating | US-014, US-016-AC-07, US-020-AC-04, US-023 | Sign-in modal, `/favorites` and `/recent` redirects, 401 on protected endpoints, own-profile only | `GET /api/user/{id}` defect |
 | FA-04 | Discovery (Home, Genres, Category, Charts, Artist) | US-005 to US-009 | Section limits, paging, ordering by streams, not-found states, links | Ordering depends on 7-day stream data |
-| FA-05 | Search | US-010 | Suggestion threshold and debounce, results tabs, Top result, empty state, size clamp | BLOCKED (Elasticsearch key) |
+| FA-05 | Search | US-010 | Suggestion threshold and debounce, results tabs, Top result, empty state, size clamp | Results depend on index state: indices are filled only at API startup (TR-05) |
 | FA-06 | Song details and lyrics | US-011 | Detail content, lyric display and highlight, other songs, 404 | Hard-reload race (F-5) |
 | FA-07 | Download | US-012 | File name sanitizing, error toast, guest allowed | Cross-origin S3 download |
 | FA-08 | Player | US-013 | Play/pause/next/previous/repeat/shuffle/volume, auto-advance, title link | Headless audio, random next batch, duplicated controls |
@@ -214,7 +214,7 @@ Effort is set per area from the factors below. Each factor is taken from evidenc
 | User exposure | Guest browse/play paths are used by everyone; member paths by fewer users; profile has no UI | Roles table |
 | Failure consequence | Permanent data (reviews, streams) and privacy issues cannot be undone. UI glitches can | QR-03, QR-10 |
 | Integration dependencies | Elasticsearch, S3, Abstract API, recsys tracker, remote PostgreSQL | `B:application-overview.md` §5 |
-| Observed instability | Recsys cold start and "no render" episodes, search empty, duplicate requests in the dev build | `B:recommendations.md` §8.1/8.9, F-1, F-4 |
+| Observed instability | Recsys cold start and "no render" episodes, search empty until the key renewal on 2026-10-08, duplicate requests in the dev build | `B:recommendations.md` §8.1/8.9, F-1, F-4 |
 
 **How this changes effort:**
 1. **Areas with a known defect or a privacy/authorization impact** (QR-01, QR-02, QR-03, US-004-AC-01) get explicit negative tests at the API or network level and a regression test that stays until the fix is verified.
@@ -240,7 +240,7 @@ Effort is set per area from the factors below. Each factor is taken from evidenc
 | Song with MP3 and lyrics | Song 1 is known to work | Shared, read-only for playback |
 | Song **without** lyrics | Not identified yet | Open (needed for US-011-AC-03) |
 | Unknown ids | `99999999` for song, artist, category | Shared |
-| Search keywords that exist in the index | Unknown until the Elasticsearch key is renewed | Open |
+| Search keywords that exist in the index | `Binz` (artist 27), `Chờ Anh Nhé` (song 1), `Em` (song 1176, more than 10 matches), `Dương Domic` (artist 13); no-match `xyzqwvzz`. Valid while they exist in PostgreSQL when the API starts | Shared, read-only (`B:search.md` §5) |
 | Recommendation fixtures | Recorded tracker configuration and responses, redacted | `levels/system-integration.md` §3.10 |
 
 Existing accounts `psmusicqa_browser01`, `psmusicqa_7193372` and `psmusicqa_priv…` have no stored passwords (`B:test-data.md` §1). Automation must not depend on them.
@@ -315,7 +315,7 @@ Existing accounts `psmusicqa_browser01`, `psmusicqa_7193372` and `psmusicqa_priv
 | Dependency | Used by | Strategy |
 |---|---|---|
 | Remote PostgreSQL (Neon) | All data | Shared. Read-only tests are safe; write rules in section 7.4 |
-| Elasticsearch (cloud) | Search | Blocked by an outdated key (SD-1). API fails to start without valid config (`R:automation-considerations.md` §1) |
+| Elasticsearch (cloud) | Search | Real behind the API. Key renewed 2026-10-08 (SD-1); indices refilled from PostgreSQL at every API startup. API fails to start without valid config (`R:automation-considerations.md` §1) |
 | S3 (`psmusic.s3…`) | MP3, lyrics | Real in all suites (core playback). Lyric failure tested by blocking the request in the browser |
 | Image CDNs | Covers | Real. Not asserted pixel-wise |
 | Abstract email API | UI sign-up | Never called from automation. Mocked in the browser for the UI success path, if the product team approves (open item) |
@@ -333,7 +333,6 @@ Only two roles exist: guest and registered user (no admin). Users are created th
 
 | Limitation | Blocks | Entry condition to unblock |
 |---|---|---|
-| Outdated Elasticsearch key | US-010, search-result recommendation cards | Key renewed and a list of known indexed titles |
 | UI sign-up needs a real mailbox | US-001-AC-03 (UI) | Product decision: real mailbox or approved mock |
 | 60-minute token lifetime | US-003-AC-04/05 | Environment with a short token lifetime |
 | Shared database, permanent writes | US-017 write paths, US-021 | Approved write environment or cleanup plan |
@@ -373,7 +372,7 @@ Goal: in a few minutes, show that the build is usable. Third-party hosts are blo
 - Guest is gated from `/favorites` (US-016-AC-07).
 - API health: one public endpoint with the key, and 401 without it ("Technical behaviors").
 
-Not in smoke: search (blocked), recommendations (US-022 placement), anything that writes permanent data.
+Not in smoke: search (results depend on index state, TR-05), recommendations (US-022 placement), anything that writes permanent data.
 
 ### 10.2 Critical regression
 
@@ -387,7 +386,7 @@ Smoke plus the high-risk rules:
 
 ### 10.3 Broader regression
 
-Critical regression plus: discovery details and paging (US-005 to US-009), player controls (US-013), download (US-012), language and theme (US-018, US-019), stream recording (US-021, approved environment), search (US-010, once unblocked), and the external-dependency integration checks.
+Critical regression plus: discovery details and paging (US-005 to US-009), player controls (US-013), download (US-012), language and theme (US-018, US-019), stream recording (US-021, approved environment), search (US-010), and the external-dependency integration checks.
 
 ### 10.4 Frequency and triggers
 
@@ -493,7 +492,7 @@ Retries: at most 1 in CI (the current config has 2). A test that passes on retry
 | Assert the story, not current behavior, for known defects | EV §9 |
 | Recommendation tests never in smoke or the app gate; tracker blocked elsewhere | US-022 "Test placement" (stakeholder) |
 | Do not test recommendation relevance | US-022 scope |
-| Search designed but not executed | SD-1, US-010 BLOCKED |
+| Search executed against the real index (unblocked 2026-10-08) | SD-1 update, TR-05 |
 | UI sign-up success not automated against the real email check | US-001 BLOCKED, `B:authentication.md` §3, R-1 |
 | Users created through the API | `B:test-data.md` §2, AC-6 |
 | Permanent writes only in an approved environment | "Technical behaviors", `B:test-data.md` §1, EV §6 |
@@ -517,7 +516,7 @@ Component level is owned by the SUT developers and is not listed. Acceptance cov
 | US-003 | ● (refresh contract) | ● | | | AC-04/05 need short token |
 | US-004 | ● (logout contract) | ● | | | DEFECT AC-01 |
 | US-005 to US-009 | ● (paging, 404) | ● | | | DEFECTS US-007/009-AC-05 |
-| US-010 | ● | ● | ● (Elasticsearch) | | BLOCKED |
+| US-010 | ● | ● | ● (Elasticsearch) | | Unblocked 2026-10-08; API confirmed, browser pending |
 | US-011 | ● | ● | ● (S3 lyrics) | | DEFECT AC-06 |
 | US-012 | | ● | ● (S3 media) | ● | |
 | US-013 | ● (player, next-batch) | ● | ● (S3 audio) | ● (audio quality) | |
@@ -538,7 +537,7 @@ Component level is owned by the SUT developers and is not listed. Acceptance cov
 2. Approved write environment or cleanup process for reviews, streams and users.
 3. A pre-provisioned test account with a known password.
 4. Supported browsers.
-5. Elasticsearch key renewal and known indexed titles.
+5. ~~Elasticsearch key renewal and known indexed titles~~ (done 2026-10-08, `B:search.md`).
 6. UI sign-up approach (real mailbox or approved mock).
 7. Short token lifetime environment.
 8. Profile endpoint and UI (US-023).
@@ -555,3 +554,4 @@ Component level is owned by the SUT developers and is not listed. Acceptance cov
 | 2026-10-01 | Draft 1 from user stories (stakeholder decisions 2026-10-01) and exploration validation |
 | 2026-10-01 | Level details moved to `levels/`; recommendation strategy merged into `levels/system-integration.md`; §4 reduced to a summary |
 | 2026-10-01 | Section 4 and 13.2 reorganized by ISTQB test level (component, component integration, system, system integration, acceptance) |
+| 2026-10-08 | Search (US-010, FA-05) unblocked: Elasticsearch key renewed; SUT seeds the `songs` and `artists` indices at API startup (`d1a3c44`). Limitation row removed from §8.5. Real search confirmed through the API; known titles added to §7.1 |

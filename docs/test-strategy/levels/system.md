@@ -17,7 +17,7 @@ The complete PSMusic application, used the way users use it, with every external
 |---|---|
 | Recsys tracker (loader + service) | **Blocked** (Mode 0, §4) |
 | Abstract email check | Not called. UI sign-up success is not tested here |
-| Elasticsearch | Real behind the API, but search is BLOCKED (SD-1). Search UI logic uses fulfilled `GET /api/song/search` responses in the browser |
+| Elasticsearch | Real behind the API (key renewed 2026-10-08, SD-1). Search UI logic still uses fulfilled `GET /api/song/search` responses in the browser so it does not depend on index content; real results are checked at system integration |
 | S3 media | **Real**. Playback is core product value and S3 is not known to be unstable. An S3 failure is classified as availability (`../test-strategy.md` §11.3) |
 
 ## 2. Test basis
@@ -101,10 +101,11 @@ Per `../test-strategy.md` §7 and §8: Chromium; per-test users created through 
 
 ## 10. Story coverage
 
-All stories US-001 to US-023 have at least one system-level check, except where blocked: US-001-AC-03 (UI sign-up success), US-003-AC-04/05 (token expiry), US-010 real results. US-022 is covered here only for the absence of the tracker.
+All stories US-001 to US-023 have at least one system-level check, except where blocked: US-001-AC-03 (UI sign-up success), US-003-AC-04/05 (token expiry). US-010 real results are checked at system integration (`system-integration.md` §4). US-022 is covered here only for the absence of the tracker.
 
 ## Revision history
 
 | Date | Change |
 |---|---|
 | 2026-10-01 | Created from `../test-strategy.md` §4 (system row) and the Mode 0 rule of the former recommendation strategy |
+| 2026-10-08 | Elasticsearch no longer blocked (key renewed) |

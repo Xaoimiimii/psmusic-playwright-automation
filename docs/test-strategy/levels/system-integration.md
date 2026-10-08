@@ -74,7 +74,7 @@ Nightly triage rule: run the same scenario in controlled and real mode and compa
 - The PSMusic environment is reachable (UI and API URLs and the service key are configured).
 - For controlled mode: the fixtures for that interface are recorded, redacted and approved.
 - For real mode: the preflight passes. For the recsys tracker, see open question 8 in §3.13 (test domain key).
-- For search: the Elasticsearch key is renewed and known indexed titles are listed (SD-1).
+- For search: the preflight search for a known indexed title succeeds (key renewed 2026-10-08, SD-1).
 
 ### 2.5 Exit criteria
 
@@ -419,13 +419,13 @@ These are listed with owners in `acceptance.md` §5 (A-Q1 to A-Q14 map to Q1 to 
 
 | Item | Strategy |
 |---|---|
-| Interface | API server ↔ Elasticsearch `songs` index. Not visible to the browser; reached through `GET /api/song/search` |
-| Status | **BLOCKED.** Outdated API key; every search returns `total: 0` (SD-1, F-1). The API fails to start without valid Elasticsearch config (`R:automation-considerations.md` §1) |
+| Interface | API server ↔ Elasticsearch `songs` and `artists` indices. Not visible to the browser; reached through `GET /api/song/search`. Both indices are filled from PostgreSQL by `ElasticSeeder` at every API startup (SUT commit `d1a3c44`; documents keyed by id, so a restart overwrites rather than duplicates) |
+| Status | **Unblocked 2026-10-08.** The API key has been renewed (until then every search returned `total: 0`, SD-1, F-1). Real results confirmed through the API on 2026-10-08 (`B:search.md`). The API fails to start without valid Elasticsearch config (`R:automation-considerations.md` §1) |
 | Controlled mode | Not available from this repository: the double would have to replace Elasticsearch behind the server. PSMusic's search UI logic (debounce, 2-char threshold, tabs, empty state) is tested at **system level** by fulfilling `GET /api/song/search` in the browser with recorded responses |
-| Real mode | After the key renewal: preflight = one search for a known indexed title. Checks: known titles are found (US-010-AC-03/05), "Top result" for an exact name (AC-08), size clamp to 10 (AC-09), empty result message (AC-06) |
-| Not tested | Fuzzy matching and diacritic behavior beyond the ACs (AC-10, open), index freshness and who fills the index (unknown) |
-| Failure classes | Search error or 5xx with a healthy API → availability or contract; empty results for known titles → environment issue until the index content is confirmed |
-| Entry criterion | Key renewed + list of known indexed titles from the SUT team |
+| Real mode | Preflight = one search for a known indexed title. Checks: known titles are found (US-010-AC-03/05), "Top result" for an exact name (AC-08), size clamp to 10 (AC-09), empty result message (AC-06) |
+| Not tested | Fuzzy matching and diacritic behavior beyond the ACs (AC-10, open); index freshness between restarts (songs added after startup are not indexed, deleted songs are not removed) |
+| Failure classes | Search error or 5xx with a healthy API → availability or contract; empty results for known titles → environment (stale index or failed seeding, which is only logged on the server) until the index content is confirmed |
+| Entry criterion | Met for the key (renewed 2026-10-08). Known titles: songs and artists present in PostgreSQL before the API starts, confirmed by the preflight |
 | Suite | `sit-live` (`@search-live`), nightly |
 
 ## 5. S3 media and image CDNs (US-011, US-012, US-013)
@@ -464,7 +464,7 @@ The database is reached only through the PSMusic API. It is shared and cannot be
 | No relevance testing | US-022 scope |
 | Approved allowlist instead of observed payload | US-022-AC-10/11, SD-9, REC §8.6 |
 | Privacy defects asserted as known defects | `exploration-validation.md` §2 (AC-14/15/17) |
-| Search real mode only after key renewal | SD-1, US-010 BLOCKED |
+| Search real mode runs now that the key is renewed | SD-1 update (2026-10-08) |
 | No real Abstract API calls from automation | US-001 BLOCKED, `B:authentication.md` §3, `B:test-data.md` §1 (quota) |
 | Lyric failure handled | US-011-AC-08 |
 
@@ -473,3 +473,4 @@ The database is reached only through the PSMusic API. It is shared and cannot be
 | Date | Change |
 |---|---|
 | 2026-10-01 | Created from `recommendation-test-strategy.md` (now merged here) and the system-integration part of `test-strategy.md` §4. Mode A reclassified from system to system integration. Sections for Elasticsearch, S3 and Abstract API added |
+| 2026-10-08 | §4 Elasticsearch unblocked: key renewed; indices seeded at API startup (`ElasticSeeder`) |

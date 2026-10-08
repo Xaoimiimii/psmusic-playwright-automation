@@ -5,7 +5,7 @@ Questions that browser exploration on 2026-09-30 could not answer. They are targ
 ## U-1 Backend / data
 | # | Question | Why unknown from the browser | Suggested source |
 |---|---|---|---|
-| U-1.1 | Why does `/api/song/search` return 0 results for every query? (Empty `songs` index, wrong index name, ES unreachable with the error swallowed, or a query bug?) | Response is 200 with an empty body; no error surfaced | Server logs, `SongService` search code, Elasticsearch index |
+| U-1.1 | Why does `/api/song/search` return 0 results for every query? (Empty `songs` index, wrong index name, ES unreachable with the error swallowed, or a query bug?) | Response is 200 with an empty body; no error surfaced | **Answered 2026-10-08:** outdated Elasticsearch API key (stakeholder); key renewed. The SUT now also seeds both indices at startup (`ElasticSeeder` (SUT commit `d1a3c44`, 2026-10-08)). Real results confirmed through the API on 2026-10-08 (`search.md`) |
 | U-1.2 | Is the remote Neon database shared with other environments (Netlify dev/prod)? Who else is affected by test writes? | Not visible in traffic | SUT team / config owner |
 | U-1.3 | How catalog data (songs, artists, categories) is created and refreshed | No admin UI observed | Repository / team |
 | U-1.4 | Does un-favoriting delete the Favorite row or keep `IsFavorite=false`? | Only API state visible | Repository (`FavoriteRepository`) / DB |

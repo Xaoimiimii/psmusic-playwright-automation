@@ -515,7 +515,7 @@ Shared preconditions, not repeated in each scenario: language pinned to English 
 
 ### US-010 Search for songs and artists
 
-All scenarios except TS-SRCH-08 can be designed against controlled search responses in the browser. Real results are **blocked** until the Elasticsearch key is renewed (TR-05).
+All scenarios except TS-SRCH-07 and TS-SRCH-08 can be designed against controlled search responses in the browser. Real results are available since the Elasticsearch key was renewed on 2026-10-08; the indices are filled from PostgreSQL at every API startup, so real-result scenarios use titles that exist before the API starts (TR-05).
 
 | Condition | Description | Risk | Scenarios |
 |---|---|---|---|
@@ -592,15 +592,15 @@ All scenarios except TS-SRCH-08 can be designed against controlled search respon
 - **Flow:** Search with sizes 5, 9 and 10.
 - **Expected:** At most 10 results on the first page in all three cases.
 - **Data:** Keyword with many matches. **Rule:** Minimum size 10.
-- **Dependencies:** TR-05 (needs real results). **Notes:** The header requests size 5 (CNF-08).
+- **Dependencies:** TR-05 (needs real results; keyword `Em` has more than 10 matches, `B:search.md` §5). **Notes:** The header requests size 5 (CNF-08).
 
-#### TS-SRCH-08 Real search finds indexed songs and artists [P2] — Blocked
+#### TS-SRCH-08 Real search finds indexed songs and artists [P2]
 - **Level** SIT · **Layers** API, UI, Integration · **Story** US-010, SD-1 · **Risk** PR-16, TR-05 · **Condition** TC-PR16-real
 - **Objective:** Search works against the real index.
-- **Preconditions:** Elasticsearch key renewed; list of known indexed titles.
+- **Preconditions:** API started after the song and artist exist in PostgreSQL (indexed by `ElasticSeeder`); a preflight search for a known title succeeds.
 - **Flow:** Search known song and artist names (exact, different case, partial).
 - **Expected:** The known items appear; exact name → Top result.
-- **Data:** Known titles from the SUT team. **Rule:** Only indexed songs are searchable.
+- **Data:** `Binz` (artist 27), `Chờ Anh Nhé` (song 1), `Dương Domic` (artist 13) (`B:search.md` §5). **Rule:** Only indexed songs and artists are searchable; the index is refilled at API startup.
 - **Dependencies:** TR-05. **Notes:** Fuzzy matching and diacritics are not asserted (AC-10 open).
 
 #### TS-SRCH-09 Missing or empty keyword [P3]
@@ -1344,7 +1344,7 @@ Level and modes follow `levels/system-integration.md` §3: Mode A = controlled (
   - `ItemId` = the song acted on.
   - A title or artist click that only navigates sends no event.
 - **Data:** Catalog songs. **Rule:** Behavior only for song-card interactions.
-- **Dependencies:** TR-11. **Notes:** Search-result cards are not checkable until search works (TR-05).
+- **Dependencies:** TR-11. **Notes:** Search-result cards became checkable when search was unblocked on 2026-10-08 (TR-05); not yet captured.
 
 #### TS-REC-12 No behavior without interaction [P1]
 - **Level** SIT (Mode B) · **Layers** Integration · **Story** US-022-AC-16 · **Risk** PR-06 · **Condition** TC-PR06-4
@@ -1535,7 +1535,7 @@ Every P1 product risk has scenarios. The following P1 coverage **cannot run toda
 | PR-04, PR-05 | TS-REC-09, TS-REC-10 | Executable, but the oracle needs A-Q1 |
 | PR-01 | TS-PROF-01 | Profile endpoint not decided (A-Q16); assumed `auth/me` |
 
-P2 coverage blocked: search with real data (TS-SRCH-07, 08; TR-05), stream writes (TS-STRM-01, 03; TR-01), UI sign-up success (TS-REG-04; TR-06).
+P2 coverage blocked: stream writes (TS-STRM-01, 03; TR-01), UI sign-up success (TS-REG-04; TR-06).
 
 ### 15.4 Unresolved assumptions
 
@@ -1583,3 +1583,4 @@ Not scenarios, because the expected result is not known yet:
 | Date | Change |
 |---|---|
 | 2026-10-01 | Draft 1 |
+| 2026-10-08 | Search with real data (TS-SRCH-07, TS-SRCH-08) no longer blocked: Elasticsearch key renewed |

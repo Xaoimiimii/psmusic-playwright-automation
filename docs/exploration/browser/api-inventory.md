@@ -59,7 +59,7 @@ Secret values (the `X-App-Service-Key` value, JWTs, cookie values, recsys domain
 | 2.4 | `GET /api/song/{id}/related` | Song page | Array of `{ id, title, imageUrl, mp3Url, ... }` (up to 30 rows rendered) | public |
 | 2.5 | `GET /api/song/{id}/player` | Playback start / next / prev / Play All | `{ id, title, artist, coverUrl, singerUrl, likes, reviews, isFavorited, isReviewed, audioUrl, lyricUrl, duration }` | optional user |
 | 2.6 | `GET /api/song/next-batch` | First playback start (queue fill) | Array of `{ id, title, artistNames[], coverUrl, singerUrl, ... }`; random-looking content | public |
-| 2.7 | `GET /api/song/search?keyword=<q>&page=1&size=5` | Typing in the header search (suggestions) | `{ topResult, results, total, totalPages }`, **always `total:0`** in this session | public |
+| 2.7 | `GET /api/song/search?keyword=<q>&page=1&size=5` | Typing in the header search (suggestions) | `{ topResult, results, total, totalPages }`, **always `total:0`** in this session (2026-09-30). Real results since the key renewal: `search.md` | public |
 | 2.8 | `GET /api/song/search?keyword=<q>&page=1&size=12` | `/search?q=` page (sent x2) | Same shape, always empty | public |
 | 2.9 | `GET /api/song/favorites` | `/favorites` page load; refetch after un-favoriting | Array of `{ id, title, imageUrl, lyricUrl, audioUrl, duration, artists:[{id,name,avatarUrl:""}] }` (not paged) | **token required**, 401 without |
 | 2.10 | `POST /api/song/{id}/favorite-toggle` | Player heart click | `200 {"message":"Đã thêm vào yêu thích","isFavorited":true}` / `{"message":"Đã bỏ yêu thích","isFavorited":false}`; no request body | token |

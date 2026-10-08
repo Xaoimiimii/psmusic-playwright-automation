@@ -37,11 +37,11 @@
 
 Format: title / flow / steps / observed / expected (if known) / evidence / severity / further investigation.
 
-**F-1 Search always returns nothing** - OBSERVATION - EXPECTATION UNKNOWN (likely defect or environment issue)
+**F-1 Search always returns nothing** - OBSERVATION - RESOLVED AS ENVIRONMENT ISSUE (outdated Elasticsearch key, stakeholder 2026-10-01; key renewed 2026-10-08)
 - Flow: UF-06. Steps: type any term in the header search, press Enter.
 - Observed: `GET /api/song/search` -> 200 `{"topResult":null,"results":[],"total":0,"totalPages":0}` for every term, including exact catalog titles.
 - Expected: README lists search as a feature, so results for existing titles would be expected. Intended behavior per environment is UNKNOWN.
-- Evidence: network bodies. Severity: high functional impact (the feature is unusable here). Further investigation: **yes**. Check the Elasticsearch index contents and connectivity from the local server (backend-only, see `browser-unknowns.md`).
+- Evidence: network bodies. Severity: high functional impact (the feature is unusable here). Further investigation: done through the API on 2026-10-08, search returns real results (`search.md`); browser re-run pending. See `browser-unknowns.md` U-1.1.
 
 **F-2 Third-party recommendation popup blocks UI interaction** - OBSERVATION
 - Flow: UF-03/UF-04/UF-13. Steps: open `/song/:id`, wait a few seconds.

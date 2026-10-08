@@ -4,7 +4,7 @@
 |---|---|
 | Inputs | `test-scenarios.md` (117 scenarios), `risk-register.md`, `test-strategy.md`, `levels/*.md`, `docs/requirements/user-stories.md`, `docs/exploration/` |
 | Stack (fixed by `CLAUDE.md`) | Playwright Test + TypeScript; `APIRequestContext` for API; Allure; GitHub Actions |
-| Status | Draft 1, 2026-10-01 |
+| Status | Draft 1, 2026-10-01. Updated 2026-10-08: TS-SRCH-07 and TS-SRCH-08 moved from DEFER to AUTOMATE (Elasticsearch key renewed) |
 | Feeds | Automated Test Design, Manual Test Design, Automation Implementation |
 
 This document decides **how** each scenario should be validated: which layer, whether to automate, and what it needs. It contains no code. Nothing here requires a change to the SUT.
@@ -21,10 +21,10 @@ This document decides **how** each scenario should be validated: which layer, wh
    - empty states;
    - search UI.
 
-   The **server** half of those scenarios stays deferred until the write environment, short-token environment or Elasticsearch key exists. This split is the main lever. Without it, TS-AUTH-07, TS-AUTH-08, TS-REV-02, TS-REV-04 and TS-STRM-01 would wait for an environment. It also lets TS-REV-03, TS-REV-05 and TS-REV-06 run without writing permanent reviews.
+   The **server** half of those scenarios stays deferred until the write environment or short-token environment exists (the Elasticsearch key, the third blocker, was renewed on 2026-10-08). This split is the main lever. Without it, TS-AUTH-07, TS-AUTH-08, TS-REV-02, TS-REV-04 and TS-STRM-01 would wait for an environment. It also lets TS-REV-03, TS-REV-05 and TS-REV-06 run without writing permanent reviews.
 3. **Third parties never in the app gate.** The recsys tracker is blocked in every non-SIT test. Recommendation scenarios are automated as system integration, Mode A (controlled) or Mode B (real, capture only), in their own jobs.
 4. **Few journeys.** Two E2E journeys plus one real-service recommendation journey. Edge cases stay in focused tests.
-5. **Manual and exploratory where judgement or an unknown oracle is involved.** Four scenarios are manual and five are exploratory. A further 9 are deferred, mostly blocked by the environment or a pending decision rather than by low value.
+5. **Manual and exploratory where judgement or an unknown oracle is involved.** Four scenarios are manual and five are exploratory. A further 7 are deferred, mostly blocked by the environment or a pending decision rather than by low value.
 
 ### 1.1 Classification totals
 
@@ -32,17 +32,17 @@ Computed from the tables in section 3.
 
 | Classification | Count |
 |---|---|
-| AUTOMATE — API | 12 |
+| AUTOMATE — API | 13 |
 | AUTOMATE — UI | 57 |
-| AUTOMATE — INTEGRATION | 16 |
+| AUTOMATE — INTEGRATION | 17 |
 | AUTOMATE — E2E | 3 |
 | AUTOMATE — MULTI-LAYER | 11 |
 | MANUAL | 4 |
 | EXPLORATORY | 5 |
-| DEFER | 9 |
+| DEFER | 7 |
 | **Total** | **117** |
 
-**99 automation candidates** (85%): 83 full and 16 partial. In a partial scenario one part is automated now and the rest waits for a dependency (section 10.2). 18 scenarios are not automated for now.
+**101 automation candidates** (86%): 85 full and 16 partial. In a partial scenario one part is automated now and the rest waits for a dependency (section 10.2). 16 scenarios are not automated for now.
 
 The UI count is high because most user stories describe client behavior: gating, player, rendering, client validation, controlled search. It does not mean server rules are tested through the UI. Every server rule is classified API or MULTI-LAYER.
 
@@ -51,9 +51,9 @@ The UI count is high because most user stories describe client behavior: gating,
 | Priority | Scenarios | Automated (full or partial) | Manual / exploratory | Deferred |
 |---|---|---|---|---|
 | P1 | 32 | 29 | 0 | 3: TS-PLAY-10, TS-REV-07, TS-REV-08 |
-| P2 | 36 | 32 | 1: TS-STRM-03 | 3: TS-DISC-02, TS-SRCH-07, TS-SRCH-08 |
+| P2 | 36 | 34 | 1: TS-STRM-03 | 1: TS-DISC-02 |
 | P3 | 49 | 38 | 8 | 3: TS-REG-04, TS-REG-08, TS-DISC-06 |
-| **Total** | **117** | **99** | **9** | **9** |
+| **Total** | **117** | **101** | **9** | **7** |
 
 All three deferred P1 scenarios are blocked by an environment or a decision, not by automation cost.
 
@@ -76,7 +76,7 @@ To keep 117 rows readable, dependencies, data, reliability and maintenance are g
 | D-RC | Browser response control for PSMusic API or S3 (fulfil, abort, delay) |
 | D-WR | Approved write environment (TR-01) |
 | D-TOK | Short token lifetime environment (TR-09) |
-| D-ES | Elasticsearch key renewed + known titles (TR-05) |
+| D-ES | Real Elasticsearch index (key renewed 2026-10-08; indices refilled at API startup) + known titles (`B:search.md` §5) (TR-05) |
 | D-EM | Approval to mock the email check (A-Q17) |
 | D-DEC(x) | Pending decision x (A-Q numbers in `levels/acceptance.md`) |
 
@@ -192,7 +192,7 @@ Candidate: **Y** yes, **P** partial, **N** no. Layers: API, UI, INT (integration
 
 ### 3.5 Search
 
-Search UI scenarios run against **controlled** search responses. The real index is empty today (TR-05).
+Search UI scenarios run against **controlled** search responses. Server-side and real-result scenarios (TS-SRCH-07, TS-SRCH-08) run against the real index, available since the key renewal on 2026-10-08 (TR-05).
 
 | ID | P | Risk | Objective | Level | Type | Cand. | Layers | Classification | Reason | Deps | Data | Rel. | Maint. |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -202,11 +202,11 @@ Search UI scenarios run against **controlled** search responses. The real index 
 | TS-SRCH-04 | P2 | PR-16 | Results tabs and limits | SYS | F, B | Y | UI | AUTOMATE — UI | Rendering of grouped results | D-UI, D-RC | T-FIX | — | M-FIX |
 | TS-SRCH-05 | P2 | PR-16 | No results message | SYS | N | Y | UI | AUTOMATE — UI | Can run today; controlled empty response so it stays deterministic after the key renewal | D-UI, D-RC | T-FIX | — | M-LOW |
 | TS-SRCH-06 | P2 | PR-16 | Clear button | SYS | F | Y | UI | AUTOMATE — UI | Cheap | D-UI, D-RC | T-FIX | — | M-LOC |
-| TS-SRCH-07 | P2 | PR-16 | Size raised to 10 | CI | B, CON | N | API | DEFER | Needs more than 10 real matches | D-ES | T-CAT | — | M-LOW |
-| TS-SRCH-08 | P2 | PR-16, TR-05 | Real search results | SIT | F, CON | N | API, UI, INT | DEFER | Blocked by the Elasticsearch key; then nightly integration | D-ES | Known titles | R-3P | M-FIX |
+| TS-SRCH-07 | P2 | PR-16 | Size raised to 10 | CI | B, CON | Y | API | AUTOMATE — API | Server clamp; needs a keyword with more than 10 real matches | D-API, D-ES | Known titles | R-3P (index state) | M-LOW |
+| TS-SRCH-08 | P2 | PR-16, TR-05 | Real search results | SIT | F, CON | Y | API, UI, INT | AUTOMATE — INTEGRATION | Nightly integration against the real index; preflight search for a known title, failure classified as environment | D-UI, D-ES | Known titles | R-3P | M-FIX |
 | TS-SRCH-09 | P3 | PR-26 | Missing keyword | CI | ROB | N | API | EXPLORATORY | Expected result not agreed; probe and record | D-API | T-0 | — | M-DEC |
 
-**Contract warning for controlled search responses:** the search item shape has never been seen at runtime (every response was empty). Fixtures must be built from the repository DTOs (`R:api-inventory.md`) and checked against the first real responses after the key renewal. A wrong fixture would make the UI tests pass against a contract that does not exist.
+**Contract for controlled search responses:** the real item shape was observed on 2026-10-08 (`B:search.md` §2). Build fixtures from those responses, not only from the repository DTOs, and keep TS-SRCH-08 as the check that they still match. Note that `total` is the number of items in the response, not the number of hits. A wrong fixture would make the UI tests pass against a contract that does not exist.
 
 ### 3.6 Song details, download and player
 
@@ -327,7 +327,7 @@ Search UI scenarios run against **controlled** search responses. The real index 
 | TS-FAV-04, TS-FAV-06 | Record reuse and invalid ids are server behavior; repeated toggles are cheaper through the API |
 | TS-STRM-04 | No UI exists |
 | TS-API-01 | Contract shape |
-| TS-REV-07, TS-REV-08, TS-SRCH-07 (deferred) | Server rules; the UI cannot even reach a second review |
+| TS-REV-07, TS-REV-08 (deferred), TS-SRCH-07 | Server rules; the UI cannot even reach a second review, and the page-size clamp is invisible in the UI |
 
 ### 4.2 Decided for UI although an API exists
 
@@ -346,7 +346,7 @@ TS-AUTH-01, TS-AUTH-03, TS-AUTH-06, TS-AUTH-11, TS-DISC-07, TS-DISC-12, TS-SONG-
 
 ### 4.4 Integration because the external interaction is the risk
 
-All recommendation scenarios except TS-REC-01, plus TS-SONG-07, TS-DL-02 (S3 failures) and, later, TS-SRCH-08, TS-REG-04, TS-REG-08 and TS-PLAY-10.
+All recommendation scenarios except TS-REC-01, plus TS-SONG-07, TS-DL-02 (S3 failures) TS-SRCH-08 and, later, TS-REG-04, TS-REG-08 and TS-PLAY-10.
 
 ---
 
@@ -484,8 +484,6 @@ To be designed in Automated Test Design. Nothing is implemented here.
 | TS-REV-08 | P1 | D-WR, A-Q15 | AUTOMATE — API |
 | TS-PLAY-10 | P1 | A-Q18 | AUTOMATE — INTEGRATION |
 | TS-DISC-02 | P2 | D-WR (seeded streams) | AUTOMATE — API |
-| TS-SRCH-07 | P2 | D-ES | AUTOMATE — API |
-| TS-SRCH-08 | P2 | D-ES | AUTOMATE — INTEGRATION |
 | TS-DISC-06 | P3 | D-WR, no oracle for placement | AUTOMATE — API (partly) |
 | TS-REG-04 | P3 | D-EM | AUTOMATE — INTEGRATION |
 | TS-REG-08 | P3 | D-EM | AUTOMATE — INTEGRATION |
@@ -521,9 +519,9 @@ Exploratory scenarios (section 5.2) become automation candidates once their expe
 |---|---|---|
 | **1. Foundation** | SUT reachable locally; config and secrets | Environment config, API clients, user factory, auth helper spike, tracker blocker, storage reset |
 | **2. Gate and critical (no blocked dependency)** | Phase 1 | API contracts and security (15 API scenarios); auth and session UI including controlled retry; gating; merged not-found tests; player core; favorites; controlled review UI; journeys |
-| **3. Broader regression** | Phase 2 stable | Discovery, search UI (controlled), song/lyrics/download, stream client checks (nightly, slow), language, theme, navigation |
+| **3. Broader regression** | Phase 2 stable | Discovery, search UI (controlled), search against the real index (TS-SRCH-07, TS-SRCH-08), song/lyrics/download, stream client checks (nightly, slow), language, theme, navigation |
 | **4. Recommendations** | Mode A spike done; canary user; allowlist draft | Mode A suite, then Mode B privacy and live suites |
-| **5. Unblocked items** | D-WR, D-TOK, D-ES, D-EM, decisions | Section 10 |
+| **5. Unblocked items** | D-WR, D-TOK, D-EM, decisions | Section 10 |
 
 ### 11.2 Suite placement (proposal for Automated Test Design)
 
@@ -533,7 +531,7 @@ Exploratory scenarios (section 5.2) become automation candidates once their expe
 | `@critical` (merge to main) | All P1 and P2 scenarios classified AUTOMATE that use D-UI/D-API only (not D-TA/D-TB), plus known-defect tests |
 | `@regression` (nightly) | Remaining AUTOMATE scenarios; slow stream tests |
 | `sit-controlled` | TS-SONG-07, TS-DL-02, TS-REC-02 to 08, TS-REC-11 (Mode A) |
-| `sit-privacy` / `sit-live` (nightly) | TS-REC-09, 10, 12, 13, 14, 15, 11 (Mode B); TS-REC-16 |
+| `sit-privacy` / `sit-live` (nightly) | TS-REC-09, 10, 12, 13, 14, 15, 11 (Mode B); TS-REC-16; TS-SRCH-08 (real Elasticsearch) |
 | Manual checklist (release) | Section 5.1 |
 
 ---
@@ -587,8 +585,8 @@ Exploratory scenarios (section 5.2) become automation candidates once their expe
 | TS-SRCH-04 | US-010-AC-05, AC-08 | PR-16 | AUTOMATE — UI |
 | TS-SRCH-05 | US-010-AC-06 | PR-16 | AUTOMATE — UI |
 | TS-SRCH-06 | US-010-AC-07 | PR-16 | AUTOMATE — UI |
-| TS-SRCH-07 | US-010-AC-09 | PR-16 | DEFER |
-| TS-SRCH-08 | US-010, SD-1 | PR-16, TR-05 | DEFER |
+| TS-SRCH-07 | US-010-AC-09 | PR-16 | AUTOMATE — API |
+| TS-SRCH-08 | US-010, SD-1 | PR-16, TR-05 | AUTOMATE — INTEGRATION |
 | TS-SRCH-09 | Technical behaviors | PR-26 | EXPLORATORY |
 | TS-SONG-01 | US-011-AC-01, AC-07 | PR-08 | AUTOMATE — MULTI-LAYER |
 | TS-SONG-02 | US-011-AC-02 | PR-14 | AUTOMATE — MULTI-LAYER |
@@ -674,3 +672,4 @@ The totals in section 1 were computed from the section 3 tables. A cross-check c
 | Date | Change |
 |---|---|
 | 2026-10-01 | Draft 1 |
+| 2026-10-08 | Elasticsearch key renewed: TS-SRCH-07 → AUTOMATE — API, TS-SRCH-08 → AUTOMATE — INTEGRATION; totals recomputed from section 3 (DEFER 9 → 7, candidates 99 → 101) |

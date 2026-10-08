@@ -54,7 +54,7 @@ Security note: the repo contains committed credential-like values (`ROOT:docker-
 | Component | Evidence | Notes |
 |---|---|---|
 | PostgreSQL | `Npgsql.EntityFrameworkCore.PostgreSQL`, `UseNpgsql(ConnectionStrings:DBConnection)`; queries use `EF.Functions.ILike` and `Unaccent` (requires Postgres `unaccent` extension) | Connection string in git-ignored `appsettings.Development.json`/env `DB_CONNECTION`; server location UNKNOWN. CONFIRMED |
-| Elasticsearch (cloud) | `Program.cs` builds `ElasticsearchClient` from `Elasticsearch:Uri/DefaultIndex/ApiKey`; **throws at startup if section missing** | Indices `songs` (read) and `artists` (auto-filled). CONFIRMED |
+| Elasticsearch (cloud) | `Program.cs` builds `ElasticsearchClient` from `Elasticsearch:Uri/DefaultIndex/ApiKey`; **throws at startup if section missing** | Indices `songs` and `artists`. Both are filled from PostgreSQL by the hosted service `ElasticSeeder` (SUT commit `d1a3c44`, 2026-10-08) at every API startup (bulk index keyed by id; seeding errors are only logged, startup is not stopped). Before that commit, `songs` was written by nobody in the repo and `artists` was filled on the first search. CONFIRMED (source) |
 | In-memory active-user tracker | `S:Services/Implementations/ActiveUserTracker.cs` (singleton `ConcurrentDictionary`) | Not persisted; resets on restart. CONFIRMED |
 | Output cache | `AddOutputCache()`/`UseOutputCache()`; used on `GET /api/song/popular` (600 s, vary by `page,size`) | CONFIRMED |
 | Media/asset hosting | URLs stored in DB columns `Mp3Url`, `LrcUrl`, `AvatarUrl` | Host UNKNOWN |

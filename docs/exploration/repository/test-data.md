@@ -12,7 +12,7 @@ Sources: `S:Models/Entities/*`, `S:Data/DBContext.cs`, `S:Migrations/DBContextMo
 | Ratings/reviews | `Rating` | `POST /api/rating/{id}/add-review` | |
 | Streams | `Stream` | `POST /api/song/stream/{songId}` | |
 | Playlists | `Playlist`, `SongPlaylist` (DbSet `SongPlaylist` not declared in `DBContext` DbSets but configured in `OnModelCreating`) | nothing (no API/UI) | |
-| Search index docs | Elasticsearch index `artists` (auto by first search if empty), index `songs` (**nobody in the repo writes it**) | app / external | `SongService` |
+| Search index docs | Elasticsearch indices `songs` and `artists`, both bulk-indexed from PostgreSQL at API startup | app | `ElasticSeeder` (since `d1a3c44`) |
 | Active users | server memory | heartbeat / authenticated requests | `ActiveUserTracker` |
 | Media files (mp3, lrc, images) | external URLs stored in columns | external | |
 | Browser storage | `localStorage`: `selectedTheme`, (i18next language, library default); no token storage | client | `SettingsDropdown.jsx` |
@@ -75,7 +75,7 @@ Defined but unused.
 
 ## 5. Stale-data / consistency risks
 1. Reviews and favorites accumulate; no API to delete -> counters (likes, reviews) monotonic; tests that assert absolute counts are fragile; assert relative deltas.
-2. Elasticsearch `songs` index may be out of sync with PostgreSQL (no sync code). A song visible in the DB may not be searchable and vice versa.
+2. Elasticsearch indices are synced with PostgreSQL only at API startup (`ElasticSeeder`). A song added after startup is not searchable until the next restart; a deleted song stays searchable (the seeder never removes documents).
 3. Popular lists change as streams are added; ordering assertions unstable.
 4. `size` minimums differ by endpoint (10 for many; 1 for category songs); counts/paging depend on this.
 5. Unaccent/ILIKE search functions exist in code but are unused by API; Elasticsearch behavior (fuzziness) may return loosely related items.

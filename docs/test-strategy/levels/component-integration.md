@@ -35,7 +35,7 @@ The README API description is outdated (G-01 to G-04). Swagger at `https://local
 | Protected endpoints → 401 with an empty body without a valid bearer; invalid bearer on a public endpoint → served as guest (200) | "Technical behaviors", X-7 |
 | Auth contract: register (no token returned, password never returned), login (token + user + `RefreshToken` cookie with its flags), refresh (200 with `isSuccess:false` on failure; refresh token re-issued with a renewed 7-day expiry each time), logout (cookie deleted, message), `GET /api/auth/me` | US-001-AC-04/05/06/07, US-002-AC-03/04/05, US-003-AC-02, US-004-AC-02 |
 | Paged shape `{ items, page, limit, totalItems, totalPages }`, camelCase | "Technical behaviors", X-4, X-8 |
-| Page-size clamp (search size below 10 raised to 10) | US-010-AC-09 (runs once search is unblocked) |
+| Page-size clamp (search size below 10 raised to 10) | US-010-AC-09 (search unblocked 2026-10-08) |
 | Status codes for unknown ids: song 404; category and artist **404 agreed** (today 204, DEFECT) | US-007-AC-05, US-009-AC-05, US-011-AC-02, SD-4 |
 | Write → read consistency: favorite toggle → `/player` and `/song/favorites`; review → `/rating/{id}/reviews`; login → `/auth/me` | US-015-AC-01/02/04, US-017-AC-02 |
 | SPA → API request shape for actions: player heart sends `POST /favorite-toggle` with no body; rating submit sends `{rating, comment}` (and an ignored `user`) | `B:api-inventory.md` 2.10, 3.9 |
@@ -104,3 +104,4 @@ Component integration tests are the fastest UI-free checks. They run first in ev
 | Date | Change |
 |---|---|
 | 2026-10-01 | Created from `../test-strategy.md` §4 (component integration row) |
+| 2026-10-08 | Search page-size clamp no longer waits for the Elasticsearch key |

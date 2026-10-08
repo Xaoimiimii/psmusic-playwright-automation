@@ -4,7 +4,7 @@
 |---|---|
 | SUT | PSMusic (React SPA + ASP.NET Core API), read-only |
 | Inputs | `docs/requirements/user-stories.md` (agreed expectation, stakeholder decisions 2026-10-01), `docs/exploration/exploration-validation.md`, `docs/exploration/{browser,repository,documentation}/`, `test-strategy.md`, `levels/*.md` |
-| Status | Draft 1, 2026-10-01 |
+| Status | Draft 1, 2026-10-01. Updated 2026-10-08: TR-05 reclassified after the Elasticsearch key renewal |
 | Feeds | Test Scenario Design, Automation Analysis, Manual Test Design |
 
 This register lists the risks that should drive test coverage and effort. It contains test **conditions** (what must be checked), not test scenarios or cases. Reference abbreviations follow `test-strategy.md` ("How to read the references"). Functional areas `FA-nn` are defined in `test-strategy.md` §3.
@@ -95,7 +95,7 @@ Financial impact is not applicable: PSMusic has no payments.
 | TR-02 | Environment | No CI environment for the SUT (URLs, certificate, secrets) | High | High | **P1** |
 | TR-03 | Automation reliability | Fragile locators: no test ids, hashed classes, duplicated player controls, language-dependent names | High | High | **P1** |
 | TR-04 | Third-party dependency | Recsys free-tier host is unstable and overlays block clicks in every suite | High | High | **P1** |
-| TR-05 | Third-party dependency | Elasticsearch key outdated: search cannot be tested | High | High | **P1** |
+| TR-05 | Third-party dependency | Search index filled only at API startup (key renewed 2026-10-08; search confirmed working) | Medium | Medium | P3 |
 | TR-06 | Test data | No test account with a known password; UI sign-up needs a real mailbox | High | Medium | P2 |
 | TR-07 | Automation reliability | Async timing: session restore, route content swap, duplicate requests, audio buffering | High | Medium | P2 |
 | TR-08 | Test data | Shared counters, random queues and time-dependent popularity make assertions unstable | High | Medium | P2 |
@@ -312,9 +312,9 @@ Financial impact is not applicable: PSMusic has no payments.
 ### PR-16 Search logic wrong once the index works
 | Field | Value |
 |---|---|
-| Evidence | US-010 BLOCKED; repository behavior is the expected behavior (SD-1); suggestion empty state never seen |
+| Evidence | US-010 unblocked 2026-10-08; API search confirmed (Top result, size clamp, empty result, `B:search.md`); repository behavior is the expected behavior (SD-1); suggestion empty state never seen in the browser; artists repeat on every results page (observation) |
 | L / S / P | **Medium** (never observed working; debounce, blur timing, ES dependency) / **High** (README feature) / **P2** |
-| Detection | System (UI with fulfilled responses); SIT real mode after renewal (TR-05) |
+| Detection | System (UI with fulfilled responses); SIT real mode, now runnable (TR-05) |
 | Stories | US-010 |
 | Candidate conditions | TC-PR16-1 no request under 2 chars; TC-PR16-2 suggestions after 300 ms with loading and empty states; TC-PR16-3 Enter opens `/search?q=<trimmed>`; TC-PR16-4 tabs and limits; TC-PR16-5 Top result on exact match; TC-PR16-6 empty message; TC-PR16-7 clear button; TC-PR16-8 size clamp |
 
@@ -416,7 +416,7 @@ Financial impact is not applicable: PSMusic has no payments.
 | TR-02 | No CI environment for the SUT | No URLs, certificate or secrets in CI; app repo cannot trigger this repo yet | No automated feedback at all in CI | `.github/workflows/playwright.yml`; `test-strategy.md` §8.5 | High | High | **P1** | Ask the SUT team; first CI milestone is lint/type-check plus a reachability check that skips with a reason | All |
 | TR-03 | Fragile locators | No test ids; hashed CSS-module classes; icon buttons without names; player controls 2-3 times; names change with language | Tests break on harmless UI changes; false failures | EV §7; F-3; R-2; R-3 | High | High | **P1** | Pin language; prefer `href`/role/heading; scope player to its wrapper; request test ids from the SUT team | PR-08, PR-10, PR-12, PR-13 |
 | TR-04 | Recsys tracker unstable and intrusive | Free-tier host; cold starts; "no render" periods; banner and popup intercept clicks | Random failures in any UI suite | F-2; REC §8.1, §8.9 | High | High | **P1** | Block the tracker outside SIT (`levels/system.md` §4); SIT preflight and classification | All UI; PR-04 to PR-06, PR-17, PR-18 |
-| TR-05 | Search untestable | Outdated Elasticsearch key (environment) | README feature without runtime evidence; PR-16 unverified | US-010 BLOCKED; SD-1; F-1 | High | High | **P1** | Key renewal + list of indexed titles; until then test UI logic with fulfilled responses | PR-16 |
+| TR-05 | Search results depend on index state | Until 2026-10-08 the Elasticsearch key was outdated and every search was empty (SD-1, F-1). The key is now renewed and `ElasticSeeder` (SUT commit `d1a3c44`) copies all songs and artists from PostgreSQL into the indices at every API startup. Songs added after startup are missing and deleted songs stay until the next restart; seeding errors are only logged | Real-result assertions can fail when the index is stale or seeding failed; PR-16 confirmed through the API, browser pending | User-stories SD-1 update; `R:application-overview.md` §2.3; `B:search.md` | Medium | Medium | P3 | Pick test titles from songs that exist before the API starts; a preflight search for a known title before real-mode tests, classified as environment on failure; UI logic still also tested with fulfilled responses | PR-16 |
 | TR-06 | No usable test accounts | Existing QA accounts have no stored password; UI sign-up needs a real Gmail mailbox and uses third-party quota | Smoke login depends on the register API; UI sign-up success untestable | `B:test-data.md` §1-2; US-001 BLOCKED | High | Medium | P2 | Create users through the API; one provisioned account in CI secrets; decision on a sign-up mock (A-Q17) | PR-07, PR-22 |
 | TR-07 | Async timing | Refresh fires twice; route changes before content; duplicate dev requests; audio buffers ~4 s | Flaky waits | `B:automation-considerations.md` AC-5; F-4 | High | Medium | P2 | Web-first assertions, response waits, `expect.poll`; never count calls | PR-07, PR-08, PR-12 |
 | TR-08 | Unstable data | Shared counters changed by others; random next batch and shuffle; popularity depends on time | Assertions on absolute values fail randomly | `B:test-data.md` §4; R-4; R-5 | High | Medium | P2 | Delta assertions; invariants instead of specific songs; check data presence first | PR-13, PR-15, PR-21 |
@@ -442,7 +442,7 @@ Levels follow `test-strategy.md` §4: CI = component integration, SYS = system, 
 | PR-06 | All tracker endpoints | TC-PR06-1 to 5 | SIT (real mode), ACC (allowlist approval) | Yes: after each rule change; sign-up and logout capture not covered yet |
 | PR-07 | Login, reload, refresh, 401 retry, failed refresh | TC-PR07-1 to 4 | CI, SYS | Yes: multiple tabs, expiry, rotation reuse |
 | PR-08 | Player controls, song page Play | TC-PR08-1 to 8 | SYS, SIT (S3 failures), ACC (audio quality) | Yes: controls not yet run, duplicated control behavior |
-| TR-01 to TR-05 | Not product functionality. Each is an entry condition in `test-strategy.md` §8.5; the P1 product risks above that depend on them stay **designed but not executed** until solved | - | - | - |
+| TR-01 to TR-04 | Not product functionality. Each is an entry condition in `test-strategy.md` §8.5; the P1 product risks above that depend on them stay **designed but not executed** until solved. TR-05 (search) is no longer an entry blocker since the key renewal on 2026-10-08 | - | - | - |
 
 ---
 

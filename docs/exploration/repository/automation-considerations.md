@@ -11,7 +11,7 @@ Inputs: the other files in `docs/exploration/repository/`. This document is anal
 | Running API | Docker: `http://localhost:7215/api`; VS: `https://localhost:7215` / `http://localhost:5006`. Client is built against a fixed `VITE_API_BASE_URL` -> the UI and API pair must match |
 | App key header | `X-App-Service-Key` with the environment's secret for any direct API call (obtain via team channel; do not commit) |
 | PostgreSQL | with `unaccent` extension (used by unused-but-compiled queries; extension absence only matters if those queries run - they are not routed) |
-| Elasticsearch | reachable cluster + `songs` index populated; without valid `Elasticsearch` config the API **fails to start** |
+| Elasticsearch | reachable cluster with a valid key (renewed 2026-10-08); indices are populated by `ElasticSeeder` at API startup. Without valid `Elasticsearch` config the API **fails to start** |
 | Media hosts | mp3/lrc/image URLs reachable from the browser |
 | External email API | needed for UI sign-up (see risk R-1) |
 | Test browser | Chromium first (audio, cookies). Note existing template `playwright.config.ts` also lists Firefox/WebKit and has no `baseURL`/`webServer` yet |
@@ -28,7 +28,7 @@ Test-level guide: **UI** (Playwright browser), **API** (APIRequestContext), **Hy
 | Guest gating (modal/redirect) | yes | 401 checks | - | UI | none | modal focus/scroll lock | none | |
 | Home / Genres / Charts | yes | yes (popular endpoints) | 7-day stream data | UI smoke + API contract | **recent streams must exist** | empty-state vs populated depends on time; 15-min client cache | may need stream seeding via API | data availability |
 | Category / Artist pages | yes | yes | main/collab and related rules | UI + API | catalog data | colour extraction via canvas (CORS), pagination | stable ids | data ids |
-| Search (suggest + results) | yes | yes | ES index | UI + API | Elasticsearch, index sync | debounce 300 ms, blur closes box in 150 ms, mousedown navigation, fuzzy results non-deterministic | needs known searchable titles | index population |
+| Search (suggest + results) | yes | yes | ES index | UI + API | Elasticsearch, index sync | debounce 300 ms, blur closes box in 150 ms, mousedown navigation, fuzzy results non-deterministic | needs known searchable titles | index refreshed only at API startup |
 | Song detail / lyrics | yes | yes (detail, related, player) | counts | UI + API | LRC fetch/CORS | lyric highlight tied to audio clock | | |
 | Player controls | yes | player/next-batch API | - | UI | audio playback; queue randomness | **autoplay policy, headless audio, random next-batch**; duplicate player bar | song with reachable mp3 | audio in Chromium |
 | Stream counting (>= 20 s) | yes (network assertion) | yes (direct POST) | `Stream` row | API for rule, UI for trigger | 20 s of playback time | slow test; real-time dependent (may use Playwright clock only if audio time is controllable - UNKNOWN) | permanent rows | |

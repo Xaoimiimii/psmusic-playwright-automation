@@ -7,7 +7,7 @@ Result of reconciling the three exploration sources (repository, browser/runtime
 - **Status: PARTIALLY VERIFIED.** All 23 user stories have exploration evidence, but none is fully verified. The stories now hold the agreed expectation. Evidence per story is in `docs/exploration/browser/`, `repository/` and `documentation/`.
 - **Only two requirement sources exist.** The README (thin: 5 features, 3 endpoints) and the stakeholder's answers. Everything else describes current behavior, not a requirement.
 - **Browser limits.** One dev build, one role, a single observation for many flows, one writing session. A new browser pass was not possible in this reconciliation (the browser profile was locked).
-- **Readiness.** Test strategy and scenario design can start. Search design can start from the repository and runs once the Elasticsearch key is renewed. UI sign-up, session expiry (US-003 AC-04/05) and the source-only defects need the open items in section 6.
+- **Readiness.** Test strategy and scenario design can start. Search design can start from the repository; it can run since the Elasticsearch key was renewed on 2026-10-08. UI sign-up, session expiry (US-003 AC-04/05) and the source-only defects need the open items in section 6.
 
 ## 2. Defects against the agreed stories
 
@@ -26,7 +26,7 @@ Result of reconciling the three exploration sources (repository, browser/runtime
 | US-022-AC-15 | After Decline no identity is sent | `AnonymousId` and `UserId` still sent | Runtime |
 | US-022-AC-17 | Before any choice nothing is sent | `/recommendation` with identity sent while the banner is shown | Runtime |
 | US-023-AC-03 | A user cannot read another user's profile | `GET /api/user/{id}` returns any user, with email | Source only |
-| US-010 (blocked, not a defect) | Search returns results | Empty for every keyword | Outdated Elasticsearch key (stakeholder) |
+| US-010 (was blocked, not a defect) | Search returns results | Empty for every keyword until 2026-10-08 | Outdated Elasticsearch key (stakeholder); key renewed 2026-10-08; search confirmed through the API (`browser/search.md`) |
 
 US-022 defects belong to the third-party service or its integration. Report them to the owning team and keep the tests in the recommendation suite.
 
@@ -68,8 +68,8 @@ Each correction keeps the original text and adds a dated note.
 
 | Item | Why it matters | Source |
 |---|---|---|
-| Renewed Elasticsearch key; content of the `songs` index | Search (US-010) and search-result cards (US-022-AC-16) | SUT team, then browser |
-| Suggestion dropdown: an empty result should show "No suitable suggestions" but nothing was seen | US-010-AC-02 | Browser, after the key is renewed |
+| Content of the `songs` and `artists` indices (key renewed 2026-10-08; both filled from PostgreSQL at API startup by `ElasticSeeder` (SUT commit `d1a3c44`, 2026-10-08)) | Search (US-010) and search-result cards (US-022-AC-16) | Browser / API search |
+| Suggestion dropdown: an empty result should show "No suitable suggestions" but nothing was seen | US-010-AC-02 | Browser (key renewed 2026-10-08) |
 | Test environment, accounts and a plan for permanent writes (reviews, streams) | All write tests; no usable password exists for the existing QA accounts | SUT team |
 | UI sign-up: external email check needs a real mailbox | US-001-AC-03 | Product/SUT team: real mailbox or approved mock |
 | Token expiry, 401 retry, refresh reuse, token after logout | US-003, US-004 | API, with a short token lifetime |

@@ -40,7 +40,7 @@ All labels (including accessible names) change with `i18nextLng`. Seed `localSto
 ## AC-7 Data-sensitive assertions
 - Counters, chart order, trending artists, recommendations, and next-batch are shared or random. Assert structure and deltas, not absolute values or order, unless the environment is seeded.
 - A user can review a song only once in the UI. Use a fresh user or a not-yet-reviewed song per rating test.
-- Search currently returns nothing (F-1). Search tests will fail or be meaningless until the backend/index issue is understood.
+- Search returned nothing until 2026-10-08 (F-1, outdated Elasticsearch key). The key is renewed and the API returns real results (`search.md`); the browser UI has not been re-run yet. The index is filled only at API startup, so pick search titles from songs that existed before the API started.
 
 ## AC-8 Negative/edge coverage available at runtime
 Unknown song -> "Song not found" (404); unknown artist/category -> 204 + blank page; unknown route -> blank; missing service key -> 401 JSON; missing bearer on protected endpoints -> 401 empty body; invalid bearer on public endpoints -> 200.

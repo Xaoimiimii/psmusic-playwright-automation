@@ -80,7 +80,7 @@ Owners: PO = product owner, SUT = PSMusic team, RS = recsys team, QA = QA lead.
 | A-Q17 | UI sign-up approach: real mailbox or approved mock | PO | US-001-AC-03 |
 | A-Q18 | MP3 failure behavior in the player | PO | `system-integration.md` §5 |
 
-Environment questions (CI environment, write environment, test account, browsers, Elasticsearch key, short token lifetime, test ids) are listed in `../test-strategy.md` §13.3.
+Environment questions (CI environment, write environment, test account, browsers, known indexed search titles, short token lifetime, test ids) are listed in `../test-strategy.md` §13.3.
 
 ## 6. Entry criteria
 

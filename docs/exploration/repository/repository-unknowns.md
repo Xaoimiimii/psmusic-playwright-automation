@@ -10,7 +10,7 @@ Confidence codes follow the other docs (UNKNOWN / CONFLICTING).
 | UNK-01 | Which environment is the test target (Docker `localhost:5173/7215`, VS dev, Netlify/production) and its actual base URLs | repo lists several; CORS/SPA-proxy ports disagree (`51743` SPA proxy vs `5173` CORS) | DOC |
 | UNK-02 | Actual catalog content: existing songs, artists, categories, ids, names | data lives in PostgreSQL; no seed/import code in repo | BE, DB |
 | UNK-03 | Whether recent (7-day) streams exist so Home/Genres/Charts are non-empty | time-dependent data | BE, API |
-| UNK-04 | Elasticsearch `songs` index existence, mapping, and sync with DB; who populates it | only reads/`artists` indexing in code | API (search calls), DOC |
+| UNK-04 | Elasticsearch `songs` index mapping and current content | **Partly answered 2026-10-08:** `ElasticSeeder` (SUT commit `d1a3c44`, 2026-10-08) populates `songs` and `artists` from PostgreSQL at every API startup (no sync between restarts). Mapping (e.g. `name.keyword` used by the exact-match query) is created by Elasticsearch, not by the repo | API (search calls) |
 | UNK-05 | Media URL hosts (mp3/lrc/images), availability and CORS headers | stored in DB columns | BE, DB |
 | UNK-06 | Pre-existing test accounts / credentials | none in repo | DOC |
 | UNK-07 | Value of app secret header for the target environment | environment config, not to be committed | DOC |
