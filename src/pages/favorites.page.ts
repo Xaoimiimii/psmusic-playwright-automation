@@ -22,4 +22,9 @@ export class FavoritesPage {
   async open(): Promise<void> {
     await this.page.goto(this.path);
   }
+
+  /** Opens a song page by clicking its title in the playlist (in-app navigation, no page load). */
+  async openSong(title: string): Promise<void> {
+    await this.page.getByRole('main').getByRole('button', { name: title, exact: true }).first().click();
+  }
 }

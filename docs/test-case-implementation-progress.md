@@ -4,8 +4,8 @@
 |---|---|
 | Source of test cases | `docs/test-strategy/test-scenarios.md` (117 scenarios, `TS-AREA-nn`) |
 | Automation classification | `docs/test-strategy/automation-analysis.md` §3 |
-| Code inspected | `tests/`, `src/`, `playwright.config.ts` on branch `feature/auth` |
-| Last reviewed | 2026-10-05 (branch `feature/auth`, AUTH implementation) |
+| Code inspected | `tests/`, `src/`, `playwright.config.ts` on branch `feature/song-details` |
+| Last reviewed | 2026-10-06 (branch `feature/song-details`, Song Details implementation) |
 
 ## Status basis
 
@@ -13,7 +13,7 @@
 - **Partial**: an automated test exists but covers only part of the scenario.
 - **No**: the scenario is defined but no automated test covers it.
 
-**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Every other area is still **No**. Run results and open findings are listed under "Authentication and Session".
+**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Every other area is still **No**. Run results and open findings are listed under each area.
 
 Scenario names and objectives are taken from `test-scenarios.md`. Priorities are the scenario priorities defined there.
 
@@ -116,13 +116,25 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-SONG-01 | Song page content | The song page shows everything agreed, consistent with the API. | P1 | No |
-| TS-SONG-02 | Unknown song | An unknown song is reported. | P2 | No |
-| TS-SONG-03 | Lyrics display | Lyrics are shown when they exist, otherwise a message. | P3 | No |
+| TS-SONG-01 | Song page content | The song page shows everything agreed, consistent with the API. | P1 | Yes |
+| TS-SONG-02 | Unknown song | An unknown song is reported. | P2 | Yes |
+| TS-SONG-03 | Lyrics display | Lyrics are shown when they exist, otherwise a message. | P3 | Yes |
 | TS-SONG-04 | Current lyric line highlighted during playback | The lyric line follows playback. | P3 | No |
-| TS-SONG-05 | Other songs by the artist | The list is limited and expandable. | P3 | No |
-| TS-SONG-06 | Heart and star state after reload and navigation | A signed-in user sees their favorite and review state on the song page. | P2 | No |
-| TS-SONG-07 | Lyric file cannot be fetched | A lyric fetch failure does not break the page. | P3 | No |
+| TS-SONG-05 | Other songs by the artist | The list is limited and expandable. | P3 | Yes |
+| TS-SONG-06 | Heart and star state after reload and navigation | A signed-in user sees their favorite and review state on the song page. | P2 | Partial |
+| TS-SONG-07 | Lyric file cannot be fetched | A lyric fetch failure does not break the page. | P3 | Yes |
+
+**Implementation notes (2026-10-06).** Run: `npx playwright test tests/song tests/shared --repeat-each=3` against the local dev build (UI `https://localhost:5174`, API `https://localhost:7215`), Chromium. All 9 tests give the expected result in all 27 runs (one is a known-defect expected failure). No flaky results. `tests/auth` was run again after the shared changes (`SongPage`, fixtures): 12 passed.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-SONG-01 | `song-details.spec.ts` | Pass | Title, cover, counters and artist names compared with the `detail` and `artists` responses of the same page load (counters are shared). Heart and star clicks send no `favorite-toggle` or `add-review` request, proven with a request barrier, not a fixed wait |
+| TS-SONG-02 | `shared/not-found.spec.ts` | Pass | Data-driven not-found test (analysis §6 #1): API 404 `Không tìm thấy bài hát`, UI "Song not found". TS-DISC-07, TS-DISC-12 and TS-NAV-02 become rows there later |
+| TS-SONG-03 | `song-details.spec.ts` | Pass | Line count equals the time-tagged lines of the LRC file; Show More / Show Less read from the container class. "No lyrics" case uses song 933 (found by API probe). Expected text is "No lyrics available :(", not "no lyrics yet" (exploration S-1) |
+| TS-SONG-04 | — | Not automated | MANUAL by the automation analysis (§5.1): tied to the real audio clock |
+| TS-SONG-05 | `song-details.spec.ts` | Pass | Song 1: 30 rows equal to the related response (as a set), View More / Show Less change class and height. Boundaries: song 1129 (4 rows, no toggle), song 1349 (0 rows, no section) |
+| TS-SONG-06 | `song-details.spec.ts` | Expected fail (known defect) | **Partial:** favorite half only; the star half needs a permanent review (D-WR). In-app navigation from `/favorites` shows a filled heart; after a hard reload it is empty while `/player` says favorited (F-5, known defect `US-011-AC-06`). The favorite is removed in `finally` |
+| TS-SONG-07 | `song-details.spec.ts` | Pass | `@sit-controlled`. The LRC request is aborted in the browser: the page shows "No lyrics available :(", and title, artists and Play still work. Whether a message should be shown is still open (AC-08), so the current behavior is asserted with a `pending-decision` annotation |
 
 # Download
 
@@ -243,10 +255,10 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 | Metric           | Count |
 | ---------------- | ----: |
 | Total Test Cases | 117 |
-| Implemented | 8 |
-| Partial | 3 |
-| Not Implemented | 106 |
-| Progress | 8.1% |
+| Implemented | 13 |
+| Partial | 4 |
+| Not Implemented | 100 |
+| Progress | 12.8% |
 
 Progress = (Implemented + 0.5 × Partial) / Total × 100
 
@@ -259,7 +271,7 @@ Progress = (Implemented + 0.5 × Partial) / Total × 100
 | Authorization and Gating | 8 | 0 | 0 | 8 | 0.0% |
 | Discovery | 12 | 0 | 0 | 12 | 0.0% |
 | Search | 9 | 0 | 0 | 9 | 0.0% |
-| Song Details | 7 | 0 | 0 | 7 | 0.0% |
+| Song Details | 7 | 5 | 1 | 1 | 78.6% |
 | Download | 2 | 0 | 0 | 2 | 0.0% |
 | Player | 10 | 0 | 0 | 10 | 0.0% |
 | Favorites | 11 | 0 | 0 | 11 | 0.0% |
@@ -270,7 +282,7 @@ Progress = (Implemented + 0.5 × Partial) / Total × 100
 | Recommendations | 16 | 0 | 0 | 16 | 0.0% |
 | Cross-cutting API Behavior | 2 | 0 | 0 | 2 | 0.0% |
 | Journeys | 2 | 0 | 0 | 2 | 0.0% |
-| **Total** | **117** | **8** | **3** | **106** | **8.1%** |
+| **Total** | **117** | **13** | **4** | **100** | **12.8%** |
 
 ### Context
 

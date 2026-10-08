@@ -49,6 +49,9 @@ Songs used / seen with ids:
 | 539 | Die For You (Remix) | Multi-artist |
 | 581 | Starboy | Visible in Charts, yet search returns nothing |
 | 1444 | Toosie Slide | Reached through player Next (random queue) |
+| 933 | Million Dollar Boy (16 Typh) | `lyricUrl` is `""`: page shows "No lyrics available :(" (API probe 2026-10-06; also 997, 1001, 1005, 1009, 1013, 1025, 1029, 1033) |
+| 1129 | Halo (Beyoncé) | Exactly 4 other songs: all listed, no View More (API probe 2026-10-06; 2125 also has 4) |
+| 1349 | Good Luck, Babe! (Chappell Roan) | 0 other songs: "Other songs by" section not rendered (API probe 2026-10-06; 1353 has 2) |
 | 3048, 3099, 2577, 1952, 585, 587, 336, 644, 4, 10, 22, 73, 89, 422, 444, 689, 696, 698, 1619, 1622, 1625 | other chart/genre songs | |
 
 Invalid ids used for negative checks: `99999999` for song (404), artist (204), category (204).
@@ -76,4 +79,4 @@ Invalid ids used for negative checks: `99999999` for song (404), artist (204), c
 `localStorage`: `i18nextLng`, `selectedTheme`, `recsys_anon_id`, `recsys_consent_status`, `recsys_tracker_queue`, `recsys_cached_user_info` (after login). `sessionStorage`: `recsys_tracker_session`, `recsys-cache-<domainKey>`. Cookies: `RefreshToken` only (HttpOnly).
 
 ## 7. Accounts created by the automated suite (2026-10-05)
-Every run of `tests/auth` registers about 10 fresh users through `POST /api/auth/register` in the shared remote database: username `pwqa_<base36 time><6 hex>` (unknown-user probes use `pwqa_none_…` and are never registered), email `<username>@example.com`, random password not stored. **No cleanup is possible through the API:** no controller has a delete action (`UserController` only exposes `GET /api/user/{id}`). Database owners can purge them by the `pwqa_` prefix. The suite does not create favorites, reviews or streams.
+Every run of `tests/auth` registers about 10 fresh users through `POST /api/auth/register` in the shared remote database: username `pwqa_<base36 time><6 hex>` (unknown-user probes use `pwqa_none_…` and are never registered), email `<username>@example.com`, random password not stored. **No cleanup is possible through the API:** no controller has a delete action (`UserController` only exposes `GET /api/user/{id}`). Database owners can purge them by the `pwqa_` prefix. `tests/auth` does not create favorites, reviews or streams. Since 2026-10-06, TS-SONG-06 (`tests/song`) favorites song 1 for its own fresh user and removes the favorite in a `finally` block, so the shared favorite counter of song 1 can be +1 for a few seconds during a run.

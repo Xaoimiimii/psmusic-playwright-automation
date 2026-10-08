@@ -1,5 +1,6 @@
 import { test as base, expect, request as playwrightRequest } from '@playwright/test';
 import { AuthApi } from '../api/auth-api';
+import { SongApi } from '../api/song-api';
 import { buildUser, type NewUser } from '../data/users';
 import { AuthPage } from '../pages/auth.page';
 import { Header } from '../pages/components/header';
@@ -13,6 +14,8 @@ import { signInThroughApi } from '../support/session';
 interface Fixtures {
   /** API client on its own cookie jar (no browser). */
   authApi: AuthApi;
+  /** Song API client on its own request context (no browser, no cookies). */
+  songApi: SongApi;
   /** A fresh run-unique account registered through the API; not signed in anywhere. */
   registeredUser: NewUser;
   /** A fresh account whose session is already in the browser context (refresh cookie set, no page loaded yet). */
@@ -36,6 +39,12 @@ export const test = base.extend<Fixtures>({
   authApi: async ({}, use) => {
     const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
     await use(new AuthApi(requestContext));
+    await requestContext.dispose();
+  },
+
+  songApi: async ({}, use) => {
+    const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
+    await use(new SongApi(requestContext));
     await requestContext.dispose();
   },
 
