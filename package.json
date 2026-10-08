@@ -6,7 +6,10 @@
     "typecheck": "tsc --noEmit",
     "test": "playwright test",
     "test:auth": "playwright test tests/auth",
-    "test:smoke": "playwright test --grep @smoke"
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test",
+    "allure:generate": "allure generate allure-results",
+    "allure:open": "allure open allure-report"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +19,8 @@
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.3",
+    "allure": "^3.20.1",
+    "allure-playwright": "^3.13.0",
     "typescript": "^5.9.3"
   }
 }

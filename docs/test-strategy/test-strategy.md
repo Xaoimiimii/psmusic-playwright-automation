@@ -299,7 +299,7 @@ Existing accounts `psmusicqa_browser01`, `psmusicqa_7193372` and `psmusicqa_priv
 | Environment | Purpose | Status |
 |---|---|---|
 | Local developer machine | Writing and debugging tests. UI `https://localhost:5174` (Vite), API `https://localhost:7215/api` | Available. Uses the shared remote PostgreSQL and cloud Elasticsearch |
-| CI environment for the app gate | PR and main-branch suites | **Not available.** The current workflow (`.github/workflows/playwright.yml`) has no running SUT, no base URL and no secrets |
+| CI environment for the app gate | PR and main-branch suites | **Not available.** The workflows (`ci.yml`, `regression.yml`, see `docs/ci-cd.md`) are ready but have no reachable SUT, base URL or secrets yet |
 | Approved write environment | Reviews, streams, mass user creation | **Not available** (EV §6) |
 | Real recommendation service | Scheduled recsys integration suite | Reachable (free-tier host). A test domain key is an open question (`levels/acceptance.md` A-Q8) |
 

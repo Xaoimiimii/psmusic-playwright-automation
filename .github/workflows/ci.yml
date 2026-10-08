@@ -1,0 +1,99 @@
+# Fast feedback: type-check the code, then run the @smoke suite.
+# Details: docs/ci-cd.md
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A new push to the same branch or PR cancels the run that is still going.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build (install + type-check)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      # The test job below is skipped until a PSMusic environment is configured.
+      # This warning makes the skip visible on the run summary instead of silent.
+      - name: Warn when no test environment is configured
+        if: vars.PSMUSIC_UI_URL == '' || vars.PSMUSIC_API_URL == ''
+        run: echo "::warning title=Smoke tests skipped::Repository variables PSMUSIC_UI_URL and PSMUSIC_API_URL are not set, so no tests ran. See docs/ci-cd.md#configuration."
+
+  smoke-tests:
+    name: Smoke tests
+    needs: build
+    if: vars.PSMUSIC_UI_URL != '' && vars.PSMUSIC_API_URL != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PSMUSIC_UI_URL: ${{ vars.PSMUSIC_UI_URL }}
+      PSMUSIC_API_URL: ${{ vars.PSMUSIC_API_URL }}
+      PSMUSIC_SERVICE_KEY: ${{ secrets.PSMUSIC_SERVICE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # CI=true is set by GitHub: headless, 1 worker, 1 retry, no traces (playwright.config.ts).
+      # A failing test fails this step, and therefore the job.
+      - name: Run smoke tests
+        run: npm run test:smoke
+
+      # The steps below run even when the tests failed, so the evidence is kept.
+      - name: Generate Allure report
+        if: ${{ !cancelled() }}
+        run: npm run allure:generate
+
+      - name: Upload Allure report and results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-smoke
+          path: |
+            allure-report/
+            allure-results/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Playwright report and failure screenshots
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
