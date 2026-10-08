@@ -38,6 +38,10 @@ jobs:
       - name: Run regression tests
         run: npm run test:regression
 
+      - name: Write results to the run summary
+        if: ${{ !cancelled() }}
+        run: node scripts/write-ci-summary.mjs "Regression tests"
+
       - name: Generate Allure report
         if: ${{ !cancelled() }}
         run: npm run allure:generate

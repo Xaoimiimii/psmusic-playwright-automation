@@ -73,3 +73,15 @@ Observed while implementing and running `tests/auth/*.spec.ts` against `https://
 | A-10 | A previous refresh token is still accepted after rotation (`isSuccess:true`). Matches the source ("no server store, no reuse detection"); expected behavior is the open decision U-2.4 | RUNTIME-OBSERVED (API probe, observation only) |
 
 **Decision on A-9 (2026-10-05): accepted, not a defect.** Identical tokens within one second are equally valid and expire together, so nothing breaks; rotation has no security effect anyway while earlier tokens stay valid (A-10, open as U-2.4). TS-AUTH-09 was reworded to "each refresh re-issues the refresh token with a renewed 7-day lifetime". The user story rule (US-003 "each refresh issues a new refresh token") still has the original wording. A-7 should be confirmed as a defect against US-003-AC-05 (it shares the A-6 root cause).
+
+## 10. Deployed environment: logout does not remove the refresh cookie (2026-10-08)
+
+Observed while setting up CI against the deployed pair UI `https://psmusic.netlify.app` / API `https://psmusic-5zfx.onrender.com` (production build). Cookie values omitted.
+
+| # | Observation | Evidence |
+|---|---|---|
+| A-11 | **Logout does not sign the browser out on the deployed environment.** `POST /api/auth/logout` answers 200, but its deletion header is `RefreshToken=; expires=Thu, 01 Jan 1970; path=/; samesite=lax; httponly`, **without `Secure` and with `SameSite=Lax`**. Login set the cookie with `Secure; SameSite=None`. The UI and API are on different sites, so Chromium ignores the deletion (a `SameSite=Lax` cookie in a cross-site response is blocked, and a non-`Secure` cookie cannot replace a `Secure` one). The `RefreshToken` cookie stays, and the next page load restores the session. Locally (`https://localhost:7215`) the same call sends `Secure; SameSite=None` and the cookie is removed (A-4). TS-AUTH-10 (`/favorites`), TS-AUTH-11 and TS-AUTH-08 (the client logout after a failed refresh calls the same endpoint) fail on the deployed environment at "cookie removed" | RUNTIME-OBSERVED (API probe of login/logout `Set-Cookie` attributes; TS-AUTH-08/10/11 runs) |
+
+**Likely cause (source, not confirmed with the SUT team):** `AuthController.RemoveRefreshTokenCookie()` sets `Secure = Request.IsHttps` and `SameSite = Request.IsHttps ? None : Lax`, while `SetRefreshTokenCookie()` always uses `Secure = true, SameSite = None`. The deployed API listens on plain HTTP behind the host's TLS proxy (`Dockerfile`: `ASPNETCORE_URLS=http://+:${PORT:-8080}`) and `Program.cs` has no forwarded-headers handling, so `Request.IsHttps` is false there.
+
+**Status:** application defect against US-004 (logout clears the session), environment-specific. Reported here for the SUT team; not worked around in the tests. TS-AUTH-10 (`/favorites`), TS-AUTH-11 and TS-AUTH-08 stay red on the deployed environment until it is fixed. They are not marked `knownDefect()`, because they pass locally.
