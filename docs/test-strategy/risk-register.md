@@ -116,7 +116,7 @@ Financial impact is not applicable: PSMusic has no payments.
 | Risk | A signed-in user calls `GET /api/user/{id}` with another user's id and receives that user's data, including the email |
 | Cause | The endpoint has no ownership check |
 | Potential impact | Personal data of every user exposed to any registered user (ids are sequential integers) |
-| Evidence | US-023-AC-03 DEFECT (source only); `exploration-validation.md` §2; UNK-64 |
+| Evidence | US-023-AC-03 DEFECT (source, confirmed at runtime 2026-10-08: `browser/authorization.md` Z-5); `exploration-validation.md` §2; UNK-64 |
 | Likelihood | **High**: proven by source (no guard exists) |
 | Severity | **Critical**: personal data exposed to other users |
 | Priority | **P1** |

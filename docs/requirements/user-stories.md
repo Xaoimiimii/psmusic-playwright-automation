@@ -362,13 +362,13 @@ Rules: the card id (`data-id`) is the service's id; the song id is `DomainItemId
 
 ## US-023 View my profile
 
-**Status:** PROVISIONAL. DEFECT on AC-03 (source only). No UI and no agreed endpoint exist today.
+**Status:** PROVISIONAL. DEFECT on AC-03 (runtime + source). No UI and no agreed endpoint exist today.
 
 > As a registered user, I want to view my own profile information, so that I can see the account details the application holds for me.
 
 - AC-01: A signed-in user can get their own details (at least username, display name, email; the password is never returned).
 - AC-02: A guest or a request without a valid token is refused (401 observed for `GET /api/auth/me`).
-- AC-03: A signed-in user cannot read another user's profile. **DEFECT (source only):** `GET /api/user/{id}` returns any user's data, including the email, to any signed-in user.
+- AC-03: A signed-in user cannot read another user's profile. **DEFECT:** `GET /api/user/{id}` returns any user's data, including the email, to any signed-in user (source, confirmed at runtime 2026-10-08).
 - AC-04: Where the profile appears in the UI and which fields can be edited is not defined.
 
 Open: which endpoint is the profile endpoint (README says `/api/user/profile`, the code has `/api/auth/me`)? Is a UI page in scope?

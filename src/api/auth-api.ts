@@ -8,6 +8,8 @@ export const authRoutes = {
   register: '/api/auth/register',
   refresh: '/api/auth/refresh',
   logout: '/api/auth/logout',
+  /** `[Authorize]`; no UI caller. Assumed to be the profile endpoint until A-Q16 is decided (README says `/api/user/profile`, which does not exist). */
+  me: '/api/auth/me',
 } as const;
 
 export interface AuthUser {
@@ -16,6 +18,14 @@ export interface AuthUser {
   email: string;
   displayName: string;
   avatarUrl: string | null;
+}
+
+/** Body of `GET /api/auth/me`: the signed-in user, without the avatar. */
+export interface MeBody {
+  id: number;
+  username: string;
+  email: string;
+  displayName: string;
 }
 
 /** Body of login and refresh. `token` and `user` are present only on success. */
@@ -77,6 +87,12 @@ export class AuthApi {
 
   logout(accessToken: string): Promise<APIResponse> {
     return this.request.post(this.url(authRoutes.logout), {
+      headers: this.headers({ Authorization: `Bearer ${accessToken}` }),
+    });
+  }
+
+  me(accessToken: string): Promise<APIResponse> {
+    return this.request.get(this.url(authRoutes.me), {
       headers: this.headers({ Authorization: `Bearer ${accessToken}` }),
     });
   }

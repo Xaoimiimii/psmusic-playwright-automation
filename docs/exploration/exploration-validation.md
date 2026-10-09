@@ -25,7 +25,7 @@ Result of reconciling the three exploration sources (repository, browser/runtime
 | US-022-AC-14 | After Decline nothing is sent | `/evaluation` and `push-keyword` still sent | Runtime |
 | US-022-AC-15 | After Decline no identity is sent | `AnonymousId` and `UserId` still sent | Runtime |
 | US-022-AC-17 | Before any choice nothing is sent | `/recommendation` with identity sent while the banner is shown | Runtime |
-| US-023-AC-03 | A user cannot read another user's profile | `GET /api/user/{id}` returns any user, with email | Source only |
+| US-023-AC-03 | A user cannot read another user's profile | `GET /api/user/{id}` returns any user, with email | Runtime + source (runtime 2026-10-08, `browser/authorization.md` Z-5) |
 | US-010 (was blocked, not a defect) | Search returns results | Empty for every keyword until 2026-10-08 | Outdated Elasticsearch key (stakeholder); key renewed 2026-10-08; search confirmed through the API (`browser/search.md`) |
 
 US-022 defects belong to the third-party service or its integration. Report them to the owning team and keep the tests in the recommendation suite.

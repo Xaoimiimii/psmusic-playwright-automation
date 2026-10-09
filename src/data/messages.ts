@@ -18,6 +18,11 @@ export const uiText = {
   download: 'Download',
   artists: 'Artists',
   otherSongsBy: 'Other songs by',
+  startListening: 'Start Listening',
+  loginNow: 'Login Now',
+  maybeLater: 'Maybe Later',
+  /** `/recent` stub title, hard-coded Vietnamese in `App.jsx` (not translated). */
+  recentPlaceholder: 'Nghe Gần Đây',
 } as const;
 
 export const serverMessage = {

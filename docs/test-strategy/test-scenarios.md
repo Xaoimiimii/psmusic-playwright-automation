@@ -348,7 +348,7 @@ Shared preconditions, not repeated in each scenario: language pinned to English 
 - **Flow:** A requests B's details by id through every endpoint that takes a user id (today `GET /api/user/{id}`).
 - **Expected:** Refused (status to be decided). No field of B, in particular the email, is returned.
 - **Data:** Two API-created users. **Rule:** SD-8.
-- **Dependencies:** None. **Notes:** Source-only defect: any user's data is returned. Exploratory follow-up: look for other endpoints that return another user's data (`risk-register.md` §5).
+- **Dependencies:** None. **Notes:** Defect confirmed at runtime 2026-10-08 (was source-only): any user's data is returned. Exploratory follow-up: look for other endpoints that return another user's data (`risk-register.md` §5).
 
 ---
 
