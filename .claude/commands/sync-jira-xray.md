@@ -18,10 +18,16 @@ Reference: `docs/integrations/capability-matrix.md` (which channel for which ste
 evidence supports it; verify direction and type; record mapping conflicts).
 
 **Status: partially operational.** Jira steps (Epic, Story, Requirement, Risk, Bug issues, `parent`, issue links) run
-through MCP. Xray steps (test type/steps, Test Set/Plan/Execution creation with membership) need the adapter
-`scripts/xray/xray.mjs`, **which does not exist yet**: until it does, mark those entities
-`creationStatus: "skipped"` with reason "Xray adapter not built" and do not create Test Sets/Plans as bare Jira
-issues (they would look complete but have no tests).
+through MCP. Xray steps (test type/steps, Test Set/Plan creation with membership) run through
+`scripts/test-management/sync-xray.mjs` (client: `scripts/xray/xray-client.mjs`). On MSC these are **blocked** since
+2026-10-09 because Xray cannot see or create MSC issues (`project-map.json` `xray.accessBlocker`,
+[troubleshooting](../../docs/integrations/troubleshooting.md#xray-authenticates-but-cannot-see-or-create-jira-issues)):
+while blocked, mark those entities `creationStatus: "skipped"` with the blocker as reason and do not create Tests,
+Test Sets or Test Plans as bare Jira issues (they would look complete but have no type, steps or members).
+
+Helpers: `node scripts/test-management/build-plan.mjs [--approve]` (plan), `issue-map.mjs` (payloads, checkpoints),
+`verify-jira.mjs` (compares MCP read-back with the map). Xray's search resolvers fail on MSC, so `sync-xray.mjs`
+reconciles against `test-management/tmp/existing-index.json`, exported from an MCP JQL search.
 
 ## Prerequisites (stop if any fails — critical configuration)
 

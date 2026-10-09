@@ -12,45 +12,153 @@
     "verifiedBy": "listJiraProjects"
   },
   "issueTypes": {
-    "epic": { "name": "Epic", "id": "10000" },
-    "story": { "name": "Story", "id": "10005" },
-    "requirement": { "name": "Requirement", "id": "10039" },
-    "bug": { "name": "Bug", "id": "10038" },
-    "risk": { "name": "Risk", "id": "10040" },
-    "test": { "name": "Test", "id": "10029" },
-    "testSet": { "name": "Test Set", "id": "10030" },
-    "testPlan": { "name": "Test Plan", "id": "10031" },
-    "testExecution": { "name": "Test Execution", "id": "10032" },
-    "precondition": { "name": "Precondition", "id": "10033" },
+    "epic": {
+      "name": "Epic",
+      "id": "10000"
+    },
+    "story": {
+      "name": "Story",
+      "id": "10005"
+    },
+    "requirement": {
+      "name": "Requirement",
+      "id": "10039"
+    },
+    "bug": {
+      "name": "Bug",
+      "id": "10038"
+    },
+    "risk": {
+      "name": "Risk",
+      "id": "10040"
+    },
+    "test": {
+      "name": "Test",
+      "id": "10029"
+    },
+    "testSet": {
+      "name": "Test Set",
+      "id": "10030"
+    },
+    "testPlan": {
+      "name": "Test Plan",
+      "id": "10031"
+    },
+    "testExecution": {
+      "name": "Test Execution",
+      "id": "10032"
+    },
+    "precondition": {
+      "name": "Precondition",
+      "id": "10033"
+    },
     "verifiedAt": "2026-10-09",
     "verifiedBy": "listJiraProjectIssueTypesMetadata"
   },
   "fields": {
     "$comment": "Every type listed requires only project, issuetype and summary (getJiraIssueTypeMetaWithFields, 2026-10-09). Optional standard fields on Epic, Story, Test, Risk: description, labels, priority, assignee, components, fixVersions, duedate, issuelinks; Story, Test and Risk also have parent, Epic does not. No custom field is written by the sync yet.",
-    "epic": { "required": [], "custom": {} },
-    "story": { "required": [], "custom": {} },
-    "requirement": { "required": [], "custom": {} },
-    "bug": { "required": [], "custom": {} },
-    "risk": { "required": [], "custom": {} },
-    "test": { "required": [], "custom": {} },
-    "testSet": { "required": [], "custom": {} },
-    "testPlan": { "required": [], "custom": {} },
-    "testExecution": { "required": [], "custom": {} },
+    "epic": {
+      "required": [],
+      "custom": {}
+    },
+    "story": {
+      "required": [],
+      "custom": {}
+    },
+    "requirement": {
+      "required": [],
+      "custom": {}
+    },
+    "bug": {
+      "required": [],
+      "custom": {}
+    },
+    "risk": {
+      "required": [],
+      "custom": {}
+    },
+    "test": {
+      "required": [],
+      "custom": {}
+    },
+    "testSet": {
+      "required": [],
+      "custom": {}
+    },
+    "testPlan": {
+      "required": [],
+      "custom": {}
+    },
+    "testExecution": {
+      "required": [],
+      "custom": {}
+    },
     "verifiedAt": "2026-10-09",
     "verifiedBy": "getJiraIssueTypeMetaWithFields"
   },
   "hierarchy": {
-    "$comment": "The Story create screen has a parent field, but MSC has no issues yet, so no Epic -> Story parent has been observed. Set verified=true after the first one is read back.",
-    "storyParent": { "parentType": "epic", "field": "parent", "verified": false },
-    "requirementParent": { "parentType": "epic", "field": "parent", "verified": false }
+    "$comment": "storyParent verified 2026-10-09: MSC-2 (Story) created via MCP with parent MSC-1 (Epic), read back with getJiraIssue. requirementParent unused (TECH has no Epic).",
+    "storyParent": {
+      "parentType": "epic",
+      "field": "parent",
+      "verified": true
+    },
+    "requirementParent": {
+      "parentType": "epic",
+      "field": "parent",
+      "verified": false
+    }
   },
   "relationships": {
     "$comment": "Site link types (listJiraIssueLinkTypes, 2026-10-09): Blocks 10000, Cloners 10001, Duplicate 10002, Relates 10003, Test 10006 (is tested by / tests), Defect 10007 (created by / created). Only Relates is symmetric and its meaning is unambiguous. Test as Xray's coverage link needs Xray getProjectSettings; Defect semantics are undocumented.",
-    "testCoversRequirement": { "linkType": "Test", "linkTypeId": "10006", "outward": "test", "inward": "story", "semanticsVerified": false, "evidence": "Link type exists on the site; not yet confirmed as Xray's coverage link type (getProjectSettings.testCoverageSettings.issueLinkTypeId)" },
-    "riskRelatesToStory": { "linkType": "Relates", "linkTypeId": "10003", "outward": "risk", "inward": "story", "semanticsVerified": true, "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'" },
-    "riskRelatesToEpic": { "linkType": "Relates", "linkTypeId": "10003", "outward": "risk", "inward": "epic", "semanticsVerified": true, "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'" },
-    "bugFoundByTest": { "linkType": null, "linkTypeId": null, "outward": "test", "inward": "bug", "semanticsVerified": false, "evidence": "Defect link type exists but its intended direction/meaning is undocumented; Xray may record defects on test runs instead" },
-    "bugAffectsStory": { "linkType": "Relates", "linkTypeId": "10003", "outward": "bug", "inward": "story", "semanticsVerified": true, "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'" }
+    "testCoversRequirement": {
+      "linkType": "Test",
+      "linkTypeId": "10006",
+      "outward": "test",
+      "inward": "story",
+      "semanticsVerified": true,
+      "evidence": "Pilot 2026-10-09: MCP createJiraIssueLink linkType Test, inwardIssue=MSC-3 (Test), outwardIssue=MSC-2 (Story) -> Xray getTest(MSC-3).coverableIssues = [MSC-2, MSC-1 (epic relation)] and getCoverableIssue(MSC-2).tests = [MSC-3]"
+    },
+    "riskRelatesToStory": {
+      "linkType": "Relates",
+      "linkTypeId": "10003",
+      "outward": "risk",
+      "inward": "story",
+      "semanticsVerified": true,
+      "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'. Created via MCP createJiraIssueLink (inwardIssue=risk, outwardIssue=story) and read back with linkedIssues() JQL, 2026-10-09"
+    },
+    "riskRelatesToEpic": {
+      "linkType": "Relates",
+      "linkTypeId": "10003",
+      "outward": "risk",
+      "inward": "epic",
+      "semanticsVerified": true,
+      "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'. Created via MCP createJiraIssueLink (inwardIssue=risk, outwardIssue=story) and read back with linkedIssues() JQL, 2026-10-09"
+    },
+    "bugFoundByTest": {
+      "linkType": null,
+      "linkTypeId": null,
+      "outward": "test",
+      "inward": "bug",
+      "semanticsVerified": false,
+      "evidence": "Defect link type exists but its intended direction/meaning is undocumented; Xray may record defects on test runs instead"
+    },
+    "bugAffectsStory": {
+      "linkType": "Relates",
+      "linkTypeId": "10003",
+      "outward": "bug",
+      "inward": "story",
+      "semanticsVerified": true,
+      "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'. Created via MCP and read back, 2026-10-09"
+    },
+    "testCoversRisk": {
+      "linkType": "Test",
+      "linkTypeId": "10006",
+      "outward": "test",
+      "inward": "risk",
+      "semanticsVerified": true,
+      "evidence": "Same link type and direction as testCoversRequirement (pilot 2026-10-09); Risk 10040 is coverable per getProjectSettings. First Risk link is read back through Xray coverableIssues before the rest"
+    }
   },
   "xray": {
     "baseUrlEnv": "XRAY_BASE_URL",
@@ -58,26 +166,78 @@
     "clientSecretEnv": "XRAY_CLIENT_SECRET",
     "installed": true,
     "installedEvidence": "Issue types Test, Test Set, Test Plan, Test Execution, Precondition, Sub Test Execution carry Xray's descriptions in MSC",
-    "region": null,
+    "region": "global (https://xray.cloud.getxray.app authenticated)",
     "edition": null,
     "rateLimitPer5Min": null,
     "projectSettings": {
-      "testTypes": [],
-      "defaultTestTypeId": null,
-      "coverableIssueTypeIds": [],
-      "coverageLinkTypeId": null,
-      "coverageLinkDirection": null,
-      "epicIssuesRelation": null,
-      "defectIssueTypes": [],
+      "testTypes": [
+        {
+          "id": "6ac7cd0d5e8119a182d69a43",
+          "name": "Manual",
+          "kind": "Steps"
+        },
+        {
+          "id": "6ac7cd0d5e8119a182d69a44",
+          "name": "Generic",
+          "kind": "Unstructured"
+        },
+        {
+          "id": "6ac7cd0d5e8119a182d69a45",
+          "name": "Cucumber",
+          "kind": "Gherkin"
+        }
+      ],
+      "defaultTestTypeId": "6ac7cd0d5e8119a182d69a43",
+      "coverableIssueTypeIds": [
+        "10000",
+        "10005",
+        "10040",
+        "10036",
+        "10039"
+      ],
+      "coverageLinkTypeId": "10006",
+      "coverageLinkDirection": "Test issue is the inward issue of createJiraIssueLink (reads 'Test tests Requirement'); observed, not returned by getProjectSettings (null)",
+      "epicIssuesRelation": true,
+      "defectIssueTypes": [
+        "10038"
+      ],
       "testEnvironments": []
     },
-    "automatedTestType": null,
-    "manualTestType": null,
-    "verifiedAt": null,
-    "verifiedBy": "getProjectSettings (not run: no Xray credentials or adapter yet)"
+    "automatedTestType": "Generic",
+    "manualTestType": "Manual",
+    "verifiedAt": "2026-10-09",
+    "verifiedBy": "Xray GraphQL getProjectSettings(MSC) via scripts/xray/xray.mjs project-settings",
+    "$comment": "coverableIssueTypeIds = Epic, Story, Risk, Task, Requirement. issueLinkTypeId/direction returned null (Xray default coverage link); the Jira link that Xray reads as coverage is confirmed by the pilot in testCoversRequirement.evidence. Generic is the type for JUnit-imported results; planned Tests are Manual (plan ambiguity AMB-AUTOMATED-TEST-TYPE).",
+    "accessBlocker": {
+      "status": "RESOLVED",
+      "observedAt": "2026-10-09",
+      "evidence": [
+        "POST /api/v2/authenticate: 200 (key valid); getProjectSettings(MSC): OK",
+        "createTest (minimal documented payload, project MSC): GraphQL error \"Create issue failed!\"; nothing created (MCP JQL read-back)",
+        "getTests/getTestSets/getTestPlans (with JQL or projectId): \"Get approximate count for JQL failed!\"",
+        "getTest(issueId 10230 = MSC-3, a Test created through MCP): null for more than 60 s",
+        "Recheck: get-tests \"project = MSC\" -> same JQL error; getTest(MSC-3) -> null; createTest(TS-AUTH-02) -> \"Create issue failed!\" (nothing created, MCP JQL key > MSC-93 empty)",
+        "Jira side is correct: MSC 'Default software scheme' grants BROWSE/CREATE/EDIT/LINK to role atlassian-addons-project-access, and 'Xray - Test Management for Jira' is a member of that role on MSC (REST read 2026-10-09)",
+        "Even JQL without a project (labels = lid_X) fails, so Xray's calls to Jira fail for every query, not only for MSC"
+      ],
+      "likelyCause": "Not the project permission scheme (verified correct). Most likely the user that owns the Xray API key (Xray Global Settings > API Keys) has no Jira product access / no access to MSC, or the Xray app installation needs an admin to accept an update or new scopes in Manage apps. Neither can be read with the current credentials.",
+      "blocks": [
+        "createXrayTest",
+        "updateXrayTestDefinition",
+        "createTestSet",
+        "addTestsToTestSet",
+        "createTestPlan",
+        "addTestsToTestPlan",
+        "readXrayMembership",
+        "coverage verification (Test.coverableIssues)"
+      ],
+      "recheckedAt": "2026-10-09 (after the user added permissions)",
+      "resolvedAt": "2026-10-09",
+      "resolution": "The user replaced the Xray API key (XRAY_CLIENT_ID/SECRET). With the new key getTests, getTest, createTest, addTestStep work on MSC. Root cause: the previous key's user could not act in MSC."
+    }
   },
   "supportedOperations": {
-    "$comment": "mcp = verified in the MCP catalog; xray-graphql / xray-rest = documented Xray operation, adapter not built (scripts/xray/xray.mjs).",
+    "$comment": "mcp = Atlassian Rovo MCP (verified 2026-10-09). xray-graphql = scripts/xray/xray-client.mjs (verified 2026-10-09 with the new API key). importJUnitResults (xray-rest) not built.",
     "createIssue": "mcp",
     "editIssue": "mcp",
     "createIssueLink": "mcp",
@@ -91,7 +251,8 @@
     "addTestsToTestPlan": "xray-graphql",
     "createTestExecution": "xray-graphql",
     "importJUnitResults": "xray-rest",
-    "readXrayMembership": "xray-graphql"
+    "readXrayMembership": "xray-graphql",
+    "createJiraIssueLink": "mcp"
   },
   "verificationPolicy": {
     "dryRunFirst": true,

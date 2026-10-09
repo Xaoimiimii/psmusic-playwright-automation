@@ -11,8 +11,9 @@ Target project: `$ARGUMENTS` (if empty, use `JIRA_PROJECT_KEY` from `.env`; if b
 Reference: `docs/integrations/capability-matrix.md`, `docs/integrations/jira-cloud-rest-api.md` §3,
 `docs/integrations/xray-cloud-rest-api.md` §8. Previous results: `docs/integrations/site-discovery-*.md`.
 
-**Status:** Jira part operational through MCP. Xray part needs `XRAY_CLIENT_ID`/`XRAY_CLIENT_SECRET` **and** the
-not-yet-built adapter `scripts/xray/xray.mjs`; until then report every Xray item as UNVERIFIED.
+**Status:** Jira part operational through MCP. Xray part: `node scripts/xray/xray.mjs auth-check` and
+`project-settings <KEY>` work (2026-10-09); also probe `get-tests "project = <KEY>"`, which fails on MSC while
+Xray cannot access the project (`project-map.json` `xray.accessBlocker`). Report items it cannot read as UNVERIFIED.
 
 ## Prerequisites
 

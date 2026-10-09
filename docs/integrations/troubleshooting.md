@@ -54,6 +54,19 @@ problems. Links point to the reference sections.
   `{"client_id": "…", "client_secret": "…"}`, and try the regional URL. Ask the Jira admin to confirm the Xray
   subscription and the key in Global Settings → API Keys.
 
+## Xray authenticates but cannot see or create Jira issues
+
+- **Symptom:** `auth-check` and `getProjectSettings` work, but `createTest` returns `"Create issue failed!"` even
+  with only `summary` + `project`; `getTests`/`getTestSets`/`getTestPlans` return
+  `"Get approximate count for JQL failed!"` with any JQL or `projectId`; `getTest` returns `null` for a Test that exists.
+  Observed on MSC on 2026-10-09 (`project-map.json` `xray.accessBlocker`).
+- **Cause (likely, not verified):** Xray acts in Jira through its app user and the API key's user. If the project's
+  permission scheme does not give the app (role *atlassian-addons-project-access*) or that user *Browse projects* and
+  *Create issues* in the project, Xray cannot search or create issues there.
+- **Fix:** a Jira admin checks the project's permission scheme and the API key's user. Then re-run
+  `node scripts/xray/xray.mjs get-tests "project = MSC"` and `/sync-jira-xray`. Until then the sync skips Tests, Test
+  Sets and Test Plans; do not create them as bare Jira issues.
+
 ## Invalid Xray payloads
 
 - **Symptom:** GraphQL `errors[]`, non-empty `warnings`, or import `400`.
