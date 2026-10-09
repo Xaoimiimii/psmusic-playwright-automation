@@ -11,6 +11,10 @@ export const songRoutes = {
   related: (songId: number) => `/api/song/${songId}/related`,
   player: (songId: number) => `/api/song/${songId}/player`,
   favoriteToggle: (songId: number) => `/api/song/${songId}/favorite-toggle`,
+  /** `[Authorize]`; the signed-in user's favorite songs (`/favorites` page). */
+  favorites: '/api/song/favorites',
+  /** `[Authorize]`; records one play, sent by the SPA once a member's playback passes 20 s. */
+  stream: (songId: number) => `/api/song/stream/${songId}`,
   addReview: (songId: number) => `/api/rating/${songId}/add-review`,
   /** Takes a SONG id, not an artist id (`ArtistController.GetArtistsBySong`). */
   artistsOfSong: (songId: number) => `/api/artist/${songId}/artists`,

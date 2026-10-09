@@ -5,7 +5,7 @@
 | Source of test cases | `docs/test-strategy/test-scenarios.md` (117 scenarios, `TS-AREA-nn`) |
 | Automation classification | `docs/test-strategy/automation-analysis.md` §3 |
 | Code inspected | `tests/`, `src/`, `playwright.config.ts` on branch `feature/song-details` |
-| Last reviewed | 2026-10-06 (branch `feature/song-details`, Song Details implementation) |
+| Last reviewed | 2026-10-08 (branch `feature/authorization`, Authorization and Gating implementation) |
 
 ## Status basis
 
@@ -13,7 +13,7 @@
 - **Partial**: an automated test exists but covers only part of the scenario.
 - **No**: the scenario is defined but no automated test covers it.
 
-**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Every other area is still **No**. Run results and open findings are listed under each area.
+**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Every other area is still **No**. Run results and open findings are listed under each area.
 
 Scenario names and objectives are taken from `test-scenarios.md`. Priorities are the scenario priorities defined there.
 
@@ -72,14 +72,27 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-AUTHZ-01 | Requests without a valid service key are refused | The service key is required on every `/api/*` call. | P2 | No |
-| TS-AUTHZ-02 | Bearer token enforcement | Protected endpoints need a valid token; public ones treat a bad token as a guest. | P2 | No |
-| TS-AUTHZ-03 | Guest clicking Favorites in the sidebar | The sidebar entry gates guests. | P2 | No |
-| TS-AUTHZ-04 | Guest clicking heart or rate in the player bar | Player-bar member actions gate guests without calling the API. | P2 | No |
-| TS-AUTHZ-05 | Closing the sign-in modal | All close options work and page scrolling is restored. | P2 | No |
-| TS-AUTHZ-06 | Protected routes for guests and members | `/favorites` and `/recent` are for members only. | P2 | No |
-| TS-PROF-01 | A user reads their own profile | A signed-in user gets their own details; a request without a valid token is refused. | P1 | No |
-| TS-PROF-02 | A user cannot read another user's profile | Personal data of other users is not exposed. | P1 | No |
+| TS-AUTHZ-01 | Requests without a valid service key are refused | The service key is required on every `/api/*` call. | P2 | Yes |
+| TS-AUTHZ-02 | Bearer token enforcement | Protected endpoints need a valid token; public ones treat a bad token as a guest. | P2 | Yes |
+| TS-AUTHZ-03 | Guest clicking Favorites in the sidebar | The sidebar entry gates guests. | P2 | Yes |
+| TS-AUTHZ-04 | Guest clicking heart or rate in the player bar | Player-bar member actions gate guests without calling the API. | P2 | Yes |
+| TS-AUTHZ-05 | Closing the sign-in modal | All close options work and page scrolling is restored. | P2 | Yes |
+| TS-AUTHZ-06 | Protected routes for guests and members | `/favorites` and `/recent` are for members only. | P2 | Yes |
+| TS-PROF-01 | A user reads their own profile | A signed-in user gets their own details; a request without a valid token is refused. | P1 | Yes |
+| TS-PROF-02 | A user cannot read another user's profile | Personal data of other users is not exposed. | P1 | Yes |
+
+**Implementation notes (2026-10-08).** Run: `npx playwright test tests/authz tests/profile` against the local dev build (UI `https://localhost:5174`, API `https://localhost:7215`), Chromium, 8 workers, repeated 3 times (`--repeat-each=3`): 48/48 give the expected result (TS-PROF-02 is a known-defect expected failure). The full suite (`npx playwright test`, 37 tests) also passes, as a regression check of the shared fixture and client changes. Endpoints, responses and locators come from source and runtime probes recorded in `docs/exploration/browser/authorization.md` (Z-1 to Z-14).
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-AUTHZ-01 | `api-access.spec.ts` | Pass | One test per endpoint (public song detail, tagged `@smoke`; protected favorites), each without the key and with a wrong key: 401, body exactly `{"message":"Unauthorized Access"}` |
+| TS-AUTHZ-02 | `api-access.spec.ts` | Pass | Six protected endpoints from the scenario, each without a token and with an invalid one: 401, empty body. Public song detail with an invalid token: 200, song served with `isFavorited`/`isReviewed` false. Also owns the 401 of `auth/me` (analysis §6, overlap #3) |
+| TS-AUTHZ-03 | `guest-gating.spec.ts` | Pass | Modal with both buttons; URL stays `/` |
+| TS-AUTHZ-04 | `guest-gating.spec.ts` | Pass | Guest plays song 1 (audio element playing); heart → modal → Maybe Later; Rate → modal → Login Now → `/auth`, audio paused. A request barrier then proves no `favorite-toggle` and no `add-review` was sent. Closes U-3.2. **Fix during the run:** under 8 workers the MP3 took over 5 s to start (R-AUD), so the playback wait uses a documented 20 s budget (`AUDIO_START_TIMEOUT_MS`); the assertion is unchanged |
+| TS-AUTHZ-05 | `guest-gating.spec.ts` | Pass | Maybe Later, X icon and overlay click each close the modal; body `overflow` is `hidden` while open and back to its earlier value after each close |
+| TS-AUTHZ-06 | `protected-routes.spec.ts` | Pass | Guest test (`@smoke`): `/favorites` and `/recent` redirect to `/auth` after the refresh check answers `isSuccess:false`. Member test: favorites page renders (empty state for a fresh user); `/recent` main area is exactly "Nghe Gần Đây" |
+| TS-PROF-01 | `profile.spec.ts` | Pass | `GET /api/auth/me` returns exactly `{ id, username, email, displayName }` of the user; no password-like field and no password value. Endpoint is still an assumption pending A-Q16 (annotated). The 401 case lives in TS-AUTHZ-02 |
+| TS-PROF-02 | `profile.spec.ts` | Expected fail (known defect) | User A reads user B through `GET /api/user/{id}`: **200 with B's email** (Z-5). Defect `US-023-AC-03` is now confirmed at runtime, not just in source. The test expects a refusal (any non-2xx, status not decided) and none of B's fields; it fails at `refused, got 200`. Only endpoint today that takes a user id; the exploratory search for others (`risk-register.md` §5) is still open |
 
 # Discovery
 

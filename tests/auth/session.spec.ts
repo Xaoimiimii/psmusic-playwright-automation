@@ -1,5 +1,6 @@
 import type { APIResponse, Page } from '@playwright/test';
 import { authBody, authRoutes, REDACTED_TOKEN, withoutToken } from '../../src/api/auth-api';
+import { songRoutes } from '../../src/api/song-api';
 import { appUrl, env } from '../../src/config/env';
 import { test, expect } from '../../src/fixtures/test';
 import { serverMessage } from '../../src/data/messages';
@@ -16,7 +17,7 @@ import {
 import { setCookies } from '../../src/support/set-cookie';
 
 /** Protected endpoint behind `/favorites` (`FavoriteSongsPage.jsx`). */
-const FAVORITES_ROUTE = '/api/song/favorites';
+const FAVORITES_ROUTE = songRoutes.favorites;
 
 test.describe('US-003 Stay signed in', () => {
   test('TS-AUTH-05 reload restores the session', { tag: ['@smoke', '@critical'] }, async ({

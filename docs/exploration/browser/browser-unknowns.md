@@ -24,13 +24,13 @@ Questions that browser exploration on 2026-09-30 could not answer. They are targ
 | U-2.4 | Do old refresh tokens stay valid after rotation? Is the access token still valid after logout? | Would require handling token values |
 | U-2.5 | Refresh-cookie behavior over plain HTTP or a non-localhost host (Secure + SameSite=None) | Only HTTPS localhost used |
 | U-2.6 | Whether the `x-app-service-key` differs per environment and how it is provisioned for CI | Only one environment |
-| U-2.7 | `GET /api/user/{id}` ownership check | Not called by the SPA; not probed |
+| U-2.7 | `GET /api/user/{id}` ownership check | **Resolved 2026-10-08:** no check, any signed-in user reads any user (`authorization.md` Z-5) |
 
 ## U-3 Frontend behavior not exercised
 | # | Question |
 |---|---|
 | U-3.1 | Guest playback past 20 s: is a stream call attempted? |
-| U-3.2 | Guest click on the player heart / rate button (expected auth modal per source) |
+| U-3.2 | Guest click on the player heart / rate button (expected auth modal per source). **Resolved 2026-10-08:** modal opens, no request sent (`authorization.md` Z-10) |
 | U-3.3 | Download (song and playlist): mechanism and file naming |
 | U-3.4 | Drag-and-drop reorder on Favorites: persisted or local only? (No API call observed because it wasn't exercised) |
 | U-3.5 | Shuffle, repeat, volume, seek, lyrics sync, "Show More" / "View More" |
