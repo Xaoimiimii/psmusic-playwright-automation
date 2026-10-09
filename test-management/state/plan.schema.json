@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "test-management/state/plan.schema.json",
+  "title": "PSMusic Jira/Xray sync plan",
+  "description": "Written by /plan-jira-xray from the repository's requirement and test-design documents. Read by /sync-jira-xray. Contains no Jira keys: those live in issue-map.json.",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "sources", "entities", "relationships", "ambiguities", "coverageGaps"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "gitCommit": { "type": ["string", "null"] },
+    "sources": {
+      "type": "array",
+      "description": "Files read to build the plan, with a content hash so drift is detectable.",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256"],
+        "additionalProperties": false,
+        "properties": { "path": { "type": "string" }, "sha256": { "type": "string" } }
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["localId", "type", "summary", "source", "approved"],
+        "additionalProperties": false,
+        "properties": {
+          "localId": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)*$" },
+          "type": { "enum": ["epic", "story", "requirement", "risk", "bug", "test", "testSet", "testPlan", "testExecution", "precondition"] },
+          "summary": { "type": "string", "maxLength": 255 },
+          "description": { "type": "string", "description": "Markdown; converted to ADF or wiki markup by the channel that writes it." },
+          "labels": { "type": "array", "items": { "type": "string", "pattern": "^[^\\s]+$" } },
+          "priority": { "type": ["string", "null"] },
+          "fields": { "type": "object", "description": "Extra field values keyed by the local field name in project-map.json fields.<type>.custom." },
+          "xray": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "testType": { "type": ["string", "null"] },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["action", "result"],
+                  "additionalProperties": false,
+                  "properties": { "action": { "type": "string" }, "data": { "type": "string" }, "result": { "type": "string" } }
+                }
+              },
+              "unstructured": { "type": ["string", "null"] },
+              "automatedSpec": { "type": ["string", "null"] }
+            }
+          },
+          "source": { "type": "string", "description": "File and section the entity came from, e.g. docs/requirements/user-stories.md#US-002." },
+          "approved": { "type": "boolean", "description": "Only approved entities are synced. Set by the person reviewing the plan." }
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "from", "to", "relationshipKey", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "enum": ["parent", "issueLink", "testSetMember", "testPlanMember", "testExecutionMember", "testExecutionInPlan"] },
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "relationshipKey": { "type": ["string", "null"], "description": "Key into project-map.json relationships (issueLink) or hierarchy (parent)." },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "affects"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "affects": { "type": "array", "items": { "type": "string" } },
+          "blocking": { "type": "boolean" }
+        }
+      }
+    },
+    "coverageGaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["localId", "gap"],
+        "additionalProperties": false,
+        "properties": { "localId": { "type": "string" }, "gap": { "type": "string" } }
+      }
+    }
+  }
+}

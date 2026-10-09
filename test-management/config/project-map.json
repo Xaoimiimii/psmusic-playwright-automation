@@ -1,0 +1,107 @@
+{
+  "$comment": "Verified configuration for project MSC. Values were read on 2026-10-09 through the atlassian-rovo MCP (read-only). null = not verified yet; do not fill by guessing. Site URL and Cloud ID live in .env (ATLASSIAN_SITE_URL, ATLASSIAN_CLOUD_ID).",
+  "schemaVersion": 1,
+  "jira": {
+    "siteUrlEnv": "ATLASSIAN_SITE_URL",
+    "cloudIdEnv": "ATLASSIAN_CLOUD_ID",
+    "projectKey": "MSC",
+    "projectId": "10005",
+    "projectStyle": "classic",
+    "projectManagementType": "company-managed",
+    "verifiedAt": "2026-10-09",
+    "verifiedBy": "listJiraProjects"
+  },
+  "issueTypes": {
+    "epic": { "name": "Epic", "id": "10000" },
+    "story": { "name": "Story", "id": "10005" },
+    "requirement": { "name": "Requirement", "id": "10039" },
+    "bug": { "name": "Bug", "id": "10038" },
+    "risk": { "name": "Risk", "id": "10040" },
+    "test": { "name": "Test", "id": "10029" },
+    "testSet": { "name": "Test Set", "id": "10030" },
+    "testPlan": { "name": "Test Plan", "id": "10031" },
+    "testExecution": { "name": "Test Execution", "id": "10032" },
+    "precondition": { "name": "Precondition", "id": "10033" },
+    "verifiedAt": "2026-10-09",
+    "verifiedBy": "listJiraProjectIssueTypesMetadata"
+  },
+  "fields": {
+    "$comment": "Every type listed requires only project, issuetype and summary (getJiraIssueTypeMetaWithFields, 2026-10-09). Optional standard fields on Epic, Story, Test, Risk: description, labels, priority, assignee, components, fixVersions, duedate, issuelinks; Story, Test and Risk also have parent, Epic does not. No custom field is written by the sync yet.",
+    "epic": { "required": [], "custom": {} },
+    "story": { "required": [], "custom": {} },
+    "requirement": { "required": [], "custom": {} },
+    "bug": { "required": [], "custom": {} },
+    "risk": { "required": [], "custom": {} },
+    "test": { "required": [], "custom": {} },
+    "testSet": { "required": [], "custom": {} },
+    "testPlan": { "required": [], "custom": {} },
+    "testExecution": { "required": [], "custom": {} },
+    "verifiedAt": "2026-10-09",
+    "verifiedBy": "getJiraIssueTypeMetaWithFields"
+  },
+  "hierarchy": {
+    "$comment": "The Story create screen has a parent field, but MSC has no issues yet, so no Epic -> Story parent has been observed. Set verified=true after the first one is read back.",
+    "storyParent": { "parentType": "epic", "field": "parent", "verified": false },
+    "requirementParent": { "parentType": "epic", "field": "parent", "verified": false }
+  },
+  "relationships": {
+    "$comment": "Site link types (listJiraIssueLinkTypes, 2026-10-09): Blocks 10000, Cloners 10001, Duplicate 10002, Relates 10003, Test 10006 (is tested by / tests), Defect 10007 (created by / created). Only Relates is symmetric and its meaning is unambiguous. Test as Xray's coverage link needs Xray getProjectSettings; Defect semantics are undocumented.",
+    "testCoversRequirement": { "linkType": "Test", "linkTypeId": "10006", "outward": "test", "inward": "story", "semanticsVerified": false, "evidence": "Link type exists on the site; not yet confirmed as Xray's coverage link type (getProjectSettings.testCoverageSettings.issueLinkTypeId)" },
+    "riskRelatesToStory": { "linkType": "Relates", "linkTypeId": "10003", "outward": "risk", "inward": "story", "semanticsVerified": true, "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'" },
+    "riskRelatesToEpic": { "linkType": "Relates", "linkTypeId": "10003", "outward": "risk", "inward": "epic", "semanticsVerified": true, "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'" },
+    "bugFoundByTest": { "linkType": null, "linkTypeId": null, "outward": "test", "inward": "bug", "semanticsVerified": false, "evidence": "Defect link type exists but its intended direction/meaning is undocumented; Xray may record defects on test runs instead" },
+    "bugAffectsStory": { "linkType": "Relates", "linkTypeId": "10003", "outward": "bug", "inward": "story", "semanticsVerified": true, "evidence": "listJiraIssueLinkTypes 2026-10-09: symmetric 'relates to'" }
+  },
+  "xray": {
+    "baseUrlEnv": "XRAY_BASE_URL",
+    "clientIdEnv": "XRAY_CLIENT_ID",
+    "clientSecretEnv": "XRAY_CLIENT_SECRET",
+    "installed": true,
+    "installedEvidence": "Issue types Test, Test Set, Test Plan, Test Execution, Precondition, Sub Test Execution carry Xray's descriptions in MSC",
+    "region": null,
+    "edition": null,
+    "rateLimitPer5Min": null,
+    "projectSettings": {
+      "testTypes": [],
+      "defaultTestTypeId": null,
+      "coverableIssueTypeIds": [],
+      "coverageLinkTypeId": null,
+      "coverageLinkDirection": null,
+      "epicIssuesRelation": null,
+      "defectIssueTypes": [],
+      "testEnvironments": []
+    },
+    "automatedTestType": null,
+    "manualTestType": null,
+    "verifiedAt": null,
+    "verifiedBy": "getProjectSettings (not run: no Xray credentials or adapter yet)"
+  },
+  "supportedOperations": {
+    "$comment": "mcp = verified in the MCP catalog; xray-graphql / xray-rest = documented Xray operation, adapter not built (scripts/xray/xray.mjs).",
+    "createIssue": "mcp",
+    "editIssue": "mcp",
+    "createIssueLink": "mcp",
+    "readIssue": "mcp",
+    "searchIssues": "mcp",
+    "createXrayTest": "xray-graphql",
+    "updateXrayTestDefinition": "xray-graphql",
+    "createTestSet": "xray-graphql",
+    "addTestsToTestSet": "xray-graphql",
+    "createTestPlan": "xray-graphql",
+    "addTestsToTestPlan": "xray-graphql",
+    "createTestExecution": "xray-graphql",
+    "importJUnitResults": "xray-rest",
+    "readXrayMembership": "xray-graphql"
+  },
+  "verificationPolicy": {
+    "dryRunFirst": true,
+    "readBackAfterEveryWrite": true,
+    "failOnWarnings": true,
+    "treatUnverifiableAs": "UNVERIFIED",
+    "duplicateCheckBeforeCreate": true,
+    "stopOnCriticalConfigurationError": true,
+    "maxRetries": 4,
+    "allowDelete": false,
+    "notifyUsersOnEdit": false
+  }
+}

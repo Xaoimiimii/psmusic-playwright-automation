@@ -1,0 +1,105 @@
+{
+  "$comment": "Copy to project-map.json. Fill a value only after /discover-jira-xray verified it on the real site; leave null otherwise. Each block has 'verifiedAt' (ISO date) and 'verifiedBy' (the call that confirmed it). No secrets here: credentials live in .env.",
+  "schemaVersion": 1,
+  "jira": {
+    "siteUrlEnv": "ATLASSIAN_SITE_URL",
+    "cloudIdEnv": "ATLASSIAN_CLOUD_ID",
+    "projectKey": null,
+    "projectId": null,
+    "projectStyle": null,
+    "projectManagementType": null,
+    "verifiedAt": null,
+    "verifiedBy": null
+  },
+  "issueTypes": {
+    "epic": { "name": "Epic", "id": null },
+    "story": { "name": "Story", "id": null },
+    "requirement": { "name": "Requirement", "id": null },
+    "bug": { "name": "Bug", "id": null },
+    "risk": { "name": "Risk", "id": null },
+    "test": { "name": "Test", "id": null },
+    "testSet": { "name": "Test Set", "id": null },
+    "testPlan": { "name": "Test Plan", "id": null },
+    "testExecution": { "name": "Test Execution", "id": null },
+    "precondition": { "name": "Precondition", "id": null },
+    "verifiedAt": null,
+    "verifiedBy": "listJiraProjectIssueTypesMetadata"
+  },
+  "fields": {
+    "$comment": "Per issue type: required fields beyond project/issuetype/summary, and custom fields the sync writes. Key = local name, value = { fieldId, name, schemaType, required }. Only IDs read from getJiraIssueTypeMetaWithFields.",
+    "epic": { "required": [], "custom": {} },
+    "story": { "required": [], "custom": {} },
+    "requirement": { "required": [], "custom": {} },
+    "bug": { "required": [], "custom": {} },
+    "risk": { "required": [], "custom": {} },
+    "test": { "required": [], "custom": {} },
+    "testSet": { "required": [], "custom": {} },
+    "testPlan": { "required": [], "custom": {} },
+    "testExecution": { "required": [], "custom": {} },
+    "verifiedAt": null,
+    "verifiedBy": "getJiraIssueTypeMetaWithFields"
+  },
+  "hierarchy": {
+    "$comment": "Parent relationships the sync may set with the Jira 'parent' field. Add a pair only after confirming it on one real issue.",
+    "storyParent": { "parentType": "epic", "field": "parent", "verified": false },
+    "requirementParent": { "parentType": "epic", "field": "parent", "verified": false }
+  },
+  "relationships": {
+    "$comment": "Issue link types by name (from listJiraIssueLinkTypes). 'direction' says which plan entity is the outward issue. semanticsVerified=false means the sync must not create this link.",
+    "testCoversRequirement": { "linkType": null, "linkTypeId": null, "outward": "test", "inward": "story", "semanticsVerified": false, "evidence": null },
+    "riskRelatesToStory": { "linkType": null, "linkTypeId": null, "outward": "risk", "inward": "story", "semanticsVerified": false, "evidence": null },
+    "riskRelatesToEpic": { "linkType": null, "linkTypeId": null, "outward": "risk", "inward": "epic", "semanticsVerified": false, "evidence": null },
+    "bugFoundByTest": { "linkType": null, "linkTypeId": null, "outward": "test", "inward": "bug", "semanticsVerified": false, "evidence": null },
+    "bugAffectsStory": { "linkType": null, "linkTypeId": null, "outward": "bug", "inward": "story", "semanticsVerified": false, "evidence": null }
+  },
+  "xray": {
+    "baseUrlEnv": "XRAY_BASE_URL",
+    "clientIdEnv": "XRAY_CLIENT_ID",
+    "clientSecretEnv": "XRAY_CLIENT_SECRET",
+    "region": null,
+    "edition": null,
+    "rateLimitPer5Min": null,
+    "projectSettings": {
+      "testTypes": [],
+      "defaultTestTypeId": null,
+      "coverableIssueTypeIds": [],
+      "coverageLinkTypeId": null,
+      "coverageLinkDirection": null,
+      "epicIssuesRelation": null,
+      "defectIssueTypes": [],
+      "testEnvironments": []
+    },
+    "automatedTestType": null,
+    "manualTestType": null,
+    "verifiedAt": null,
+    "verifiedBy": "getProjectSettings"
+  },
+  "supportedOperations": {
+    "$comment": "Set each to 'mcp', 'xray-graphql', 'xray-rest', 'jira-rest' or 'unavailable' after discovery. 'unavailable' blocks the matching sync step.",
+    "createIssue": null,
+    "editIssue": null,
+    "createIssueLink": null,
+    "readIssue": null,
+    "searchIssues": null,
+    "createXrayTest": null,
+    "updateXrayTestDefinition": null,
+    "createTestSet": null,
+    "addTestsToTestSet": null,
+    "createTestPlan": null,
+    "addTestsToTestPlan": null,
+    "createTestExecution": null,
+    "importJUnitResults": null,
+    "readXrayMembership": null
+  },
+  "verificationPolicy": {
+    "dryRunFirst": true,
+    "readBackAfterEveryWrite": true,
+    "failOnWarnings": true,
+    "treatUnverifiableAs": "UNVERIFIED",
+    "duplicateCheckBeforeCreate": true,
+    "stopOnCriticalConfigurationError": true,
+    "maxRetries": 4,
+    "allowDelete": false,
+    "notifyUsersOnEdit": false
+  }
+}

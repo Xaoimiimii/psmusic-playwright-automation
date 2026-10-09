@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "test-management/state/issue-map.schema.json",
+  "title": "PSMusic Jira/Xray issue map",
+  "description": "Persistent mapping from stable local IDs (FA-01, US-002, PR-01, TS-AUTH-01, ...) to Jira/Xray entities. Written by /sync-jira-xray after each successful operation; read by every command to resume safely.",
+  "type": "object",
+  "required": ["schemaVersion", "projectKey", "updatedAt", "entities", "relationships"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "projectKey": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "lastRunId": { "type": ["string", "null"] },
+    "entities": {
+      "type": "object",
+      "description": "Keyed by local ID.",
+      "propertyNames": { "pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)*$" },
+      "additionalProperties": { "$ref": "#/$defs/entity" }
+    },
+    "relationships": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relationship" }
+    }
+  },
+  "$defs": {
+    "entityType": {
+      "enum": ["epic", "story", "requirement", "risk", "bug", "test", "testSet", "testPlan", "testExecution", "precondition"]
+    },
+    "creationStatus": {
+      "description": "planned: in plan, not sent. creating: request about to be sent or outcome unknown (search before retrying). created: Jira returned a key. matched: an existing issue was confirmed as this entity. updated: fields reconciled. failed: last attempt failed (see lastError). skipped: not approved or blocked.",
+      "enum": ["planned", "creating", "created", "matched", "updated", "failed", "skipped"]
+    },
+    "verificationStatus": { "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_RUN"] },
+    "entity": {
+      "type": "object",
+      "required": ["localId", "type", "creationStatus", "verificationStatus"],
+      "additionalProperties": false,
+      "properties": {
+        "localId": { "type": "string" },
+        "type": { "$ref": "#/$defs/entityType" },
+        "summary": { "type": "string" },
+        "planHash": { "type": ["string", "null"], "description": "Hash of the planned fields, to detect content drift." },
+        "jiraKey": { "type": ["string", "null"], "pattern": "^[A-Z][A-Z0-9_]+-[0-9]+$" },
+        "jiraId": { "type": ["string", "null"], "pattern": "^[0-9]+$", "description": "Numeric issue id; Xray GraphQL uses this, not the key." },
+        "xray": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "testType": { "type": ["string", "null"] },
+            "definitionStatus": { "enum": ["none", "pending", "set", "unknown"] },
+            "stepsCount": { "type": ["integer", "null"], "minimum": 0 },
+            "genericDefinition": { "type": ["string", "null"], "description": "classname + name of the automated test, for JUnit matching." },
+            "automatedSpec": { "type": ["string", "null"], "description": "Spec file and test title in this repo, e.g. tests/auth/login.spec.ts > ..." }
+          }
+        },
+        "creationStatus": { "$ref": "#/$defs/creationStatus" },
+        "verificationStatus": { "$ref": "#/$defs/verificationStatus" },
+        "createdAt": { "type": ["string", "null"], "format": "date-time" },
+        "verifiedAt": { "type": ["string", "null"], "format": "date-time" },
+        "lastRunId": { "type": ["string", "null"] },
+        "lastError": { "type": ["string", "null"], "description": "Redacted error message." },
+        "duplicates": { "type": "array", "items": { "type": "string" }, "description": "Other Jira keys found for this local ID (never deleted by tooling)." }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["kind", "from", "to", "creationStatus", "verificationStatus"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": ["parent", "issueLink", "testSetMember", "testPlanMember", "testExecutionMember", "testExecutionInPlan"]
+        },
+        "from": { "type": "string", "description": "Local ID. For parent: the child. For issueLink: the outward issue. For membership: the Test or Test Execution." },
+        "to": { "type": "string", "description": "Local ID. For parent: the parent. For issueLink: the inward issue. For membership: the container." },
+        "linkType": { "type": ["string", "null"], "description": "Jira link type name for kind=issueLink." },
+        "relationshipKey": { "type": ["string", "null"], "description": "Key into project-map.json relationships." },
+        "creationStatus": { "$ref": "#/$defs/creationStatus" },
+        "verificationStatus": { "$ref": "#/$defs/verificationStatus" },
+        "verifiedAt": { "type": ["string", "null"], "format": "date-time" },
+        "lastError": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
