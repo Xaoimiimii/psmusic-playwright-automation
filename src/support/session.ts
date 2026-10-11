@@ -1,6 +1,7 @@
-import type { BrowserContext, Cookie, Page } from '@playwright/test';
+import { test, type BrowserContext, type Cookie, type Page } from '@playwright/test';
 import { AuthApi } from '../api/auth-api';
 import type { Credentials } from '../data/users';
+import { withApiReporting } from '../reporting/api-reporting';
 
 /** HttpOnly session cookie set by login and refresh (`AuthController.SetRefreshTokenCookie`). */
 export const REFRESH_COOKIE = 'RefreshToken';
@@ -18,7 +19,9 @@ export const EXPIRY_TOLERANCE_S = 5 * 60;
  * `POST /api/auth/refresh` on the next page load.
  */
 export async function signInThroughApi(context: BrowserContext, credentials: Credentials): Promise<void> {
-  await new AuthApi(context.request).loginOrThrow(credentials);
+  await test.step(`Precondition: sign the browser in as "${credentials.username}" through the API`, async () => {
+    await new AuthApi(withApiReporting(context.request, { precondition: true })).loginOrThrow(credentials);
+  });
 }
 
 export async function refreshCookie(context: BrowserContext): Promise<Cookie | undefined> {

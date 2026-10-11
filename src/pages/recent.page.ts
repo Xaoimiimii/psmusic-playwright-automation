@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { uiText } from '../data/messages';
+import { step } from '../reporting/step';
 
 /**
  * `/recent`, members only. Today a stub: `App.jsx` renders a bare
@@ -17,6 +18,7 @@ export class RecentPage {
     this.placeholder = this.content.getByText(uiText.recentPlaceholder, { exact: true });
   }
 
+  @step('Open the Recent page')
   async open(): Promise<void> {
     await this.page.goto(this.path);
   }

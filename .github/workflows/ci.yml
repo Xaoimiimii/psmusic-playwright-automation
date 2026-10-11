@@ -52,6 +52,8 @@ jobs:
       PSMUSIC_UI_URL: ${{ vars.PSMUSIC_UI_URL }}
       PSMUSIC_API_URL: ${{ vars.PSMUSIC_API_URL }}
       PSMUSIC_SERVICE_KEY: ${{ secrets.PSMUSIC_SERVICE_KEY }}
+      # Optional, not a secret: links Allure results to their Jira issues (docs/reporting.md).
+      ATLASSIAN_SITE_URL: ${{ vars.ATLASSIAN_SITE_URL }}
     steps:
       - uses: actions/checkout@v4
 

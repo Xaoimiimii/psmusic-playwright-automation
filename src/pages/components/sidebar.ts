@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { step } from '../../reporting/step';
 
 /** Left navigation (`Sidebar.jsx`, rendered as `<aside>`). */
 export class Sidebar {
@@ -9,6 +10,7 @@ export class Sidebar {
     this.favoritesLink = page.getByRole('complementary').getByRole('link', { name: 'Favorites', exact: true });
   }
 
+  @step('Open Favorites from the sidebar')
   async openFavorites(): Promise<void> {
     await this.favoritesLink.click();
   }

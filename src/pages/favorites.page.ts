@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { step } from '../reporting/step';
 
 /**
  * `/favorites` (`FavoriteSongsPage.jsx`), members only. A user with favorites
@@ -19,11 +20,13 @@ export class FavoritesPage {
     this.content = this.playlistHeading.or(this.emptyStateMessage);
   }
 
+  @step('Open the Favorites page')
   async open(): Promise<void> {
     await this.page.goto(this.path);
   }
 
   /** Opens a song page by clicking its title in the playlist (in-app navigation, no page load). */
+  @step((title: string) => `Open song "${title}" from the playlist`)
   async openSong(title: string): Promise<void> {
     await this.page.getByRole('main').getByRole('button', { name: title, exact: true }).first().click();
   }

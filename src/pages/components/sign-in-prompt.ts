@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { uiText } from '../../data/messages';
+import { step } from '../../reporting/step';
 
 /**
  * "Start Listening" modal shown to guests on a members-only action (`AuthModal.jsx`).
@@ -27,19 +28,23 @@ export class SignInPrompt {
     this.overlay = this.root.locator('xpath=..');
   }
 
+  @step('Close the sign-in prompt with "Maybe Later"')
   async closeWithMaybeLater(): Promise<void> {
     await this.maybeLaterButton.click();
   }
 
+  @step('Close the sign-in prompt with the X icon')
   async closeWithIcon(): Promise<void> {
     await this.closeIconButton.click();
   }
 
   /** Clicks the backdrop at its top-left corner, which the centered card never covers. */
+  @step('Close the sign-in prompt by clicking the backdrop')
   async closeByOverlay(): Promise<void> {
     await this.overlay.click({ position: { x: 10, y: 10 } });
   }
 
+  @step('Choose "Login Now" in the sign-in prompt')
   async loginNow(): Promise<void> {
     await this.loginNowButton.click();
   }

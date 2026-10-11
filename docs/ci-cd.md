@@ -174,8 +174,9 @@ CI=true npm run test:smoke               # Git Bash / macOS / Linux
 $env:CI='true'; npm run test:smoke       # PowerShell
 ```
 
-`reports/allure-results/` is not cleared between local runs, so the next report also shows older results. Delete the folder
-before a run when you want a clean report. In CI every run starts from an empty checkout.
+`reports/allure-results/` is emptied at the start of every run (global set-up), so a report shows that run only,
+retries included. Set `ALLURE_KEEP_RESULTS=1` to keep earlier results. Report content, metadata and evidence are
+described in [`reporting.md`](reporting.md).
 
 ## 6. Failure investigation
 
@@ -203,7 +204,9 @@ What is in the evidence:
 | Error message and stack | Job log, Allure, Playwright report |
 | Screenshot at the moment of failure (UI tests) | `reports/test-results/<test>/test-failed-1.png`, attached in Allure |
 | Page structure at failure (accessibility snapshot) | `reports/test-results/<test>/error-context.md`, attached in Allure |
-| API failures | The assertion error shows the expected and actual status and body fields. Setup failures (`Test setup: register ... failed with 400 ...`) include the status and the response text |
+| API failures | An **HTTP exchange** attachment per call (method, URL, status, duration, headers and bodies, credentials masked), plus the assertion error. Setup failures (`Test setup: register ... failed with 400 ...`) include the status and the response text |
+| Browser console, page errors and the page's API calls (UI tests) | **Failure context** and **Browser API traffic** attachments in Allure, on failure only |
+| Likely cause | Allure **Categories** tab: triage hints from observed signals (5xx, network error, page error) and error patterns ([`reporting.md`](reporting.md) §7) |
 | Retries and flaky tests | Allure (retries per test), the job log (`flaky` count), `-retry1` folders in `reports/test-results/` |
 | Full console log | Job log. Use **Download log archive** from the run's ⋯ menu |
 
@@ -212,10 +215,11 @@ What is in the evidence:
 
 ### What is never in the evidence
 
-Traces are off in CI, so request headers (`X-App-Service-Key`, `Authorization`), cookies and request bodies are not
-uploaded. Screenshots and accessibility snapshots show only the page, and the only passwords a test ever types belong
-to throwaway test users. If you add `testInfo.attach(...)` or log a response,
-do not include headers, tokens, cookies or passwords.
+Traces are off in CI, because a trace records request headers and bodies unmasked. The Allure HTTP exchange
+attachments do show headers and bodies, with the service key, bearer tokens, cookie values, passwords and every JWT
+replaced by `<redacted>` ([`reporting.md`](reporting.md) §5). Screenshots and accessibility snapshots show only the page,
+and the only passwords a test ever types belong to throwaway test users (the Playwright HTML report still lists
+them in its action steps). If you add `testInfo.attach(...)`, pass the text through `src/reporting/redaction.ts`.
 
 ## 7. Test data and cleanup
 
