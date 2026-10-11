@@ -19,10 +19,9 @@ evidence supports it; verify direction and type; record mapping conflicts).
 
 **Status: partially operational.** Jira steps (Epic, Story, Requirement, Risk, Bug issues, `parent`, issue links) run
 through MCP. Xray steps (test type/steps, Test Set/Plan creation with membership) run through
-`scripts/test-management/sync-xray.mjs` (client: `scripts/xray/xray-client.mjs`). On MSC these are **blocked** since
-2026-10-09 because Xray cannot see or create MSC issues (`project-map.json` `xray.accessBlocker`,
+`scripts/test-management/sync-xray.mjs` (client: `scripts/xray/xray-client.mjs`). On MSC these were blocked on 2026-10-09 until the API key was replaced. If Xray again cannot see or create issues (`project-map.json` `xray.accessBlocker`,
 [troubleshooting](../../docs/integrations/troubleshooting.md#xray-authenticates-but-cannot-see-or-create-jira-issues)):
-while blocked, mark those entities `creationStatus: "skipped"` with the blocker as reason and do not create Tests,
+then mark those entities `creationStatus: "skipped"` with the blocker as reason and do not create Tests,
 Test Sets or Test Plans as bare Jira issues (they would look complete but have no type, steps or members).
 
 Helpers: `node scripts/test-management/build-plan.mjs [--approve]` (plan), `issue-map.mjs` (payloads, checkpoints),
@@ -76,6 +75,17 @@ reconciles against `test-management/tmp/existing-index.json`, exported from an M
    `failed` with the redacted error.
 3. **Update** a matched/created entity only when its planned fields differ (compare `planHash`). Use
    `editJiraIssue`; labels via add/remove so labels added by people stay. `notifyUsers` off where available.
+   Procedure (operational since 2026-10-09):
+   - `node scripts/test-management/issue-map.mjs updates` lists drifted entities. For an issue that exists,
+     `planHash` is the hash last written to Jira; `init` does not overwrite it.
+   - For each one, `listJiraIssueChangelogs` (via `executeRead`): if anyone changed summary, description,
+     labels or priority after creation, do **not** overwrite. Record a conflict for a person to resolve.
+   - `getJiraIssue` for the current labels, then `issue-map.mjs update-payload <localId> <labels,csv>`. This keeps
+     every current label and removes only sync-managed labels that the plan no longer lists (`MANAGED_LABEL_GROUPS`:
+     automation status, priority label, smoke, story status).
+   - `editJiraIssue` with that payload, read it back (JQL on the key and labels), check the Xray side with
+     `sync-xray.mjs verify --only <localId>`, then `issue-map.mjs mark-updated <localId>`.
+   - The Xray test type and steps are not changed by this step.
 4. **Read back** with `getJiraIssue` (`view: "evidence"`): type, summary, required fields, `parent`. Set
    `verificationStatus` PASS/FAIL.
 

@@ -1,0 +1,99 @@
+# Installs the automation project, runs one test suite and keeps the evidence.
+# Used by every workflow here and by the application repository's pre-merge workflow,
+# so a run looks the same whatever started it. Details: docs/ci-cd.md.
+#
+# The caller sets PSMUSIC_UI_URL, PSMUSIC_API_URL and PSMUSIC_SERVICE_KEY in the job env.
+name: Run PSMusic test suite
+description: npm ci, Chromium, Playwright run, run summary, Allure report and artifacts
+
+inputs:
+  title:
+    description: Suite name shown in the run summary, for example "Smoke tests"
+    required: true
+  grep:
+    description: Tag filter passed to --grep, for example "@smoke". Empty runs every test
+    required: false
+    default: ''
+  artifact-suffix:
+    description: Artifact names become allure-<suffix> and playwright-<suffix>
+    required: true
+  typecheck:
+    description: '"true" to type-check the project (npm run typecheck) before running the tests'
+    required: false
+    default: 'false'
+  working-directory:
+    description: Folder holding this automation project (relative to the workspace)
+    required: false
+    default: .
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+        cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: npm ci
+
+    - name: Type-check
+      if: inputs.typecheck == 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: npm run typecheck
+
+    - name: Install Chromium
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: npx playwright install --with-deps chromium
+
+    # CI=true is set by GitHub: headless, 1 worker, 1 retry, no traces (playwright.config.ts).
+    # A failing test fails this step, and therefore the job.
+    - name: Run tests
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        GREP: ${{ inputs.grep }}
+      run: |
+        if [ -n "$GREP" ]; then npx playwright test --grep "$GREP"; else npx playwright test; fi
+
+    # The steps below run even when the tests failed, so the evidence is kept.
+    - name: Write results to the run summary
+      if: ${{ !cancelled() }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        TITLE: ${{ inputs.title }}
+      run: node scripts/write-ci-summary.mjs "$TITLE"
+
+    - name: Generate Allure report
+      if: ${{ !cancelled() }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: npm run allure:generate
+
+    - name: Upload Allure report and results
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-${{ inputs.artifact-suffix }}
+        path: |
+          ${{ inputs.working-directory }}/allure-report/
+          ${{ inputs.working-directory }}/allure-results/
+        retention-days: 14
+        if-no-files-found: warn
+
+    - name: Upload Playwright report and failure screenshots
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-${{ inputs.artifact-suffix }}
+        path: |
+          ${{ inputs.working-directory }}/playwright-report/
+          ${{ inputs.working-directory }}/test-results/
+        retention-days: 14
+        if-no-files-found: ignore

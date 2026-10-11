@@ -1,8 +1,12 @@
-# Full regression: every test in tests/. Started by hand from the Actions tab.
+# Full regression: every test in tests/, against the deployed environment.
+# Runs every night, and by hand from the Actions tab before a release or demo.
 # Details: docs/ci-cd.md
 name: Regression
 
 on:
+  schedule:
+    # 01:00 UTC = 08:00 in Vietnam. GitHub may start a scheduled run some minutes late.
+    - cron: '0 1 * * *'
   workflow_dispatch:
 
 permissions:
@@ -20,50 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Type-check
-        run: npm run typecheck
-
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
+      # Install, type-check, run every test, keep the evidence.
       # Fails with "Missing environment variable ..." if the configuration is not set.
-      - name: Run regression tests
-        run: npm run test:regression
-
-      - name: Write results to the run summary
-        if: ${{ !cancelled() }}
-        run: node scripts/write-ci-summary.mjs "Regression tests"
-
-      - name: Generate Allure report
-        if: ${{ !cancelled() }}
-        run: npm run allure:generate
-
-      - name: Upload Allure report and results
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+      - uses: ./.github/actions/run-suite
         with:
-          name: allure-regression
-          path: |
-            allure-report/
-            allure-results/
-          retention-days: 14
-          if-no-files-found: warn
-
-      - name: Upload Playwright report and failure screenshots
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-regression
-          path: |
-            playwright-report/
-            test-results/
-          retention-days: 14
-          if-no-files-found: ignore
+          title: Regression tests
+          typecheck: 'true'
+          artifact-suffix: regression

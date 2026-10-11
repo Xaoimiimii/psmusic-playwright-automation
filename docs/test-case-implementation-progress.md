@@ -13,7 +13,7 @@
 - **Partial**: an automated test exists but covers only part of the scenario.
 - **No**: the scenario is defined but no automated test covers it.
 
-**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Every other area is still **No**. Run results and open findings are listed under each area.
+**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Player: TS-PLAY-06 (volume and mute) is automated in `tests/player/volume.spec.ts` with the extended `PlayerBar` (2026-10-09, branch `feature/player-automation`). Every other area is still **No**. Run results and open findings are listed under each area.
 
 Scenario names and objectives are taken from `test-scenarios.md`. Priorities are the scenario priorities defined there.
 
@@ -165,7 +165,7 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 | TS-PLAY-03 | Next, previous and queue refill | Queue navigation works and the queue never runs dry. | P1 | No |
 | TS-PLAY-04 | Repeat modes | Repeat cycles through its states and each state behaves correctly. | P1 | No |
 | TS-PLAY-05 | Shuffle | Shuffle reorders the rest of the queue and can be undone. | P1 | No |
-| TS-PLAY-06 | Volume and mute | Volume defaults and mute behave as agreed. | P1 | No |
+| TS-PLAY-06 | Volume and mute | Volume defaults and mute behave as agreed. | P1 | Yes |
 | TS-PLAY-07 | Next song starts when a song ends | Playback continues automatically. | P1 | No |
 | TS-PLAY-08 | One click performs one action | Duplicated player controls (rendered 2 to 3 times) do not double-handle a click. | P1 | No |
 | TS-PLAY-09 | Player title shortening and link | Long titles are shortened and the title opens the song. | P3 | No |

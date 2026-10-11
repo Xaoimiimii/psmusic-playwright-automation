@@ -55,49 +55,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      # Install, run @smoke, keep the evidence.
+      - uses: ./.github/actions/run-suite
         with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
-      # CI=true is set by GitHub: headless, 1 worker, 1 retry, no traces (playwright.config.ts).
-      # A failing test fails this step, and therefore the job.
-      - name: Run smoke tests
-        run: npm run test:smoke
-
-      # The steps below run even when the tests failed, so the evidence is kept.
-      - name: Write results to the run summary
-        if: ${{ !cancelled() }}
-        run: node scripts/write-ci-summary.mjs "Smoke tests"
-
-      - name: Generate Allure report
-        if: ${{ !cancelled() }}
-        run: npm run allure:generate
-
-      - name: Upload Allure report and results
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-smoke
-          path: |
-            allure-report/
-            allure-results/
-          retention-days: 14
-          if-no-files-found: warn
-
-      - name: Upload Playwright report and failure screenshots
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-smoke
-          path: |
-            playwright-report/
-            test-results/
-          retention-days: 14
-          if-no-files-found: ignore
+          title: Smoke tests
+          grep: '@smoke'
+          artifact-suffix: smoke

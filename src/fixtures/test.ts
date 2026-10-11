@@ -14,6 +14,7 @@ import { SongPage } from '../pages/song.page';
 import { blockRecommendationTracker, pinLanguage } from '../support/browser-setup';
 import { ApiTrafficLog } from '../support/network';
 import { signInThroughApi } from '../support/session';
+import { xrayTestKeyFor } from '../support/xray';
 
 interface Fixtures {
   /** API client on its own cookie jar (no browser). */
@@ -37,6 +38,8 @@ interface Fixtures {
   favoritesPage: FavoritesPage;
   recentPage: RecentPage;
   songPage: SongPage;
+  /** Automatic: annotates the test with its Xray `test_key` for the JUnit report (scripts/test-management/export-test-keys.mjs). */
+  xrayTestKey: void;
 }
 
 /** Registers a run-unique account on a throwaway context, so its cookie jar never leaks into the test. */
@@ -94,6 +97,16 @@ export const test = base.extend<Fixtures>({
   favoritesPage: async ({ page }, use) => use(new FavoritesPage(page)),
   recentPage: async ({ page }, use) => use(new RecentPage(page)),
   songPage: async ({ page }, use) => use(new SongPage(page)),
+
+  // The JUnit reporter turns annotations into <property> elements; Xray attaches the result to this Test key.
+  xrayTestKey: [
+    async ({}, use, testInfo) => {
+      const key = xrayTestKeyFor(testInfo.titlePath);
+      if (key) testInfo.annotations.push({ type: 'test_key', description: key });
+      await use();
+    },
+    { auto: true },
+  ],
 });
 
 export { expect };

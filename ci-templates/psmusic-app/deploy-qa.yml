@@ -1,0 +1,78 @@
+# TEMPLATE for the PSMusic application repository (Xaoimiimii/psmusic-social-network).
+# It does nothing here. Copy it to .github/workflows/deploy-qa.yml in the application repository.
+# Setup and the secrets/variables it needs: docs/ci-cd.md section 8 in the automation repository.
+#
+# SIMULATED QA deployment. This repository is not connected to any hosting, so nothing is deployed:
+# the QA environment is the fixed pair in the automation repository's PSMUSIC_UI_URL / PSMUSIC_API_URL.
+# The workflow records a GitHub deployment to "qa" for the commit, then asks the automation repository
+# to validate it (post-deployment.yml). Replace the "Deploy" step with a real deployment when one exists.
+name: Deploy to QA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+# Deployments run one after the other, never in parallel.
+concurrency:
+  group: deploy-qa
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to QA (simulated)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      AUTOMATION_REPO: ${{ vars.AUTOMATION_REPO }}
+      QA_URL: ${{ vars.QA_URL }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Check configuration
+        env:
+          HAS_TOKEN: ${{ secrets.AUTOMATION_REPO_TOKEN != '' }}
+        run: |
+          if [ -z "$AUTOMATION_REPO" ] || [ "$HAS_TOKEN" != "true" ]; then
+            echo "::error title=QA deployment not configured::Set the variable AUTOMATION_REPO and the secret AUTOMATION_REPO_TOKEN. See docs/ci-cd.md section 8 in the automation repository."
+            exit 1
+          fi
+
+      - name: Deploy (simulated)
+        run: echo "::notice title=Simulated deployment::Nothing was deployed. QA is the fixed environment ${QA_URL:-configured in the automation repository}."
+
+      # Shows the commit under "Deployments" in this repository, as a real deployment would.
+      - name: Record the deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          id=$(jq -n --arg ref "$GITHUB_SHA" \
+                 '{ref: $ref, environment: "qa", description: "Simulated QA deployment", auto_merge: false, required_contexts: []}' \
+               | gh api --method POST "repos/$GITHUB_REPOSITORY/deployments" --input - --jq .id)
+          args=(-f state=success -f log_url="$RUN_URL")
+          if [ -n "$QA_URL" ]; then args+=(-f environment_url="$QA_URL"); fi
+          gh api --method POST "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" "${args[@]}" > /dev/null
+
+      - name: Start post-deployment validation in the automation repository
+        env:
+          GH_TOKEN: ${{ secrets.AUTOMATION_REPO_TOKEN }}
+        run: |
+          gh api --method POST "repos/$AUTOMATION_REPO/dispatches" \
+            -f event_type=psmusic-qa-deployed \
+            -f "client_payload[environment]=qa" \
+            -f "client_payload[app_repo]=$GITHUB_REPOSITORY" \
+            -f "client_payload[app_sha]=$GITHUB_SHA" \
+            -f "client_payload[app_run_url]=$RUN_URL"
+
+      - name: Link to the validation run
+        run: |
+          {
+            echo "### QA deployment recorded (simulated)"
+            echo ""
+            echo "Post-deployment validation: https://github.com/${AUTOMATION_REPO}/actions/workflows/post-deployment.yml"
+            echo ""
+            echo "This job only starts the validation. It stays green even when the tests fail."
+          } >> "$GITHUB_STEP_SUMMARY"

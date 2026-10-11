@@ -1,0 +1,85 @@
+# TEMPLATE for the PSMusic application repository (Xaoimiimii/psmusic-social-network).
+# It does nothing here. Copy it to .github/workflows/pre-merge-validation.yml in the application repository.
+# Setup and the secrets/variables it needs: docs/ci-cd.md section 8 in the automation repository.
+#
+# Pre-merge validation: builds the pull request's code with docker compose (API on :7215, web app on :5173),
+# then runs the automation repository's @critical tests against it. The job result is the PR check.
+name: Pre-merge validation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A new push to the same PR cancels the validation that is still running.
+concurrency:
+  group: pre-merge-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-merge:
+    name: Automation tests (@critical)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PSMUSIC_UI_URL: http://localhost:5173
+      PSMUSIC_API_URL: http://localhost:7215
+      PSMUSIC_SERVICE_KEY: ${{ secrets.PSMUSIC_SERVICE_KEY }}
+    steps:
+      - name: Check configuration
+        env:
+          AUTOMATION_REPO: ${{ vars.AUTOMATION_REPO }}
+          HAS_SECRETS: ${{ secrets.AUTOMATION_REPO_TOKEN != '' && secrets.PSMUSIC_SERVICE_KEY != '' && secrets.DB_CONNECTION != '' && secrets.ELASTICSEARCH_APIKEY != '' }}
+          ELASTICSEARCH_URI: ${{ vars.ELASTICSEARCH_URI }}
+        run: |
+          if [ -z "$AUTOMATION_REPO" ] || [ -z "$ELASTICSEARCH_URI" ] || [ "$HAS_SECRETS" != "true" ]; then
+            echo "::error title=Pre-merge validation not configured::Set the variables AUTOMATION_REPO and ELASTICSEARCH_URI and the secrets AUTOMATION_REPO_TOKEN, PSMUSIC_SERVICE_KEY, DB_CONNECTION and ELASTICSEARCH_APIKEY. See docs/ci-cd.md section 8 in the automation repository."
+            exit 1
+          fi
+
+      # The pull request's code (GitHub's merge of the PR into main).
+      - uses: actions/checkout@v4
+
+      - name: Check out the automation tests
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.AUTOMATION_REPO }}
+          ref: main
+          token: ${{ secrets.AUTOMATION_REPO_TOKEN }}
+          path: automation
+
+      # docker-compose.yml reads DB_CONNECTION, ELASTICSEARCH_* from the environment and needs a .env file to exist.
+      # The values stay in the environment, not in the file, so nothing secret is written to disk.
+      - name: Build and start PSMusic from this pull request
+        working-directory: PSMusic
+        env:
+          DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+          ELASTICSEARCH_URI: ${{ vars.ELASTICSEARCH_URI }}
+          ELASTICSEARCH_DEFAULTINDEX: songs
+          ELASTICSEARCH_APIKEY: ${{ secrets.ELASTICSEARCH_APIKEY }}
+        run: |
+          touch .env
+          docker compose up --detach --build
+
+      - name: Wait until the web app and the API answer
+        run: |
+          timeout 300 bash -c 'until curl --silent --fail --output /dev/null "$PSMUSIC_UI_URL"; do sleep 5; done'
+          # Any HTTP answer means the API is listening; the test run's global setup then checks the service key.
+          timeout 300 bash -c 'until curl --silent --output /dev/null "$PSMUSIC_API_URL"; do sleep 5; done'
+
+      # Install, run @critical, keep the evidence (the same steps as the automation repository's own CI).
+      - uses: ./automation/.github/actions/run-suite
+        with:
+          title: Pre-merge critical tests
+          grep: '@critical'
+          artifact-suffix: pre-merge
+          working-directory: automation
+
+      # In the job log only (secret values are masked there), never as an artifact.
+      - name: Show application logs
+        if: failure()
+        working-directory: PSMusic
+        run: docker compose logs --no-color --tail 300

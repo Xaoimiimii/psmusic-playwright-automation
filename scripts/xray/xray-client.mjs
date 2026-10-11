@@ -66,3 +66,21 @@ export async function graphql(query, variables = {}, { retry = false } = {}) {
   }
 }
 
+
+/**
+ * POST /api/v2/import/execution/junit (xray-cloud-rest-api.md §6.1). Creates a Test Execution, or updates
+ * `testExecKey`, and returns `{ id, key, self }`. Never retried: an import that timed out may have succeeded, so
+ * search for the execution first.
+ */
+export async function importJunit(xml, { projectKey, testPlanKey, testExecKey } = {}) {
+  if (!token) await authenticate();
+  const query = new URLSearchParams(Object.entries({ projectKey, testPlanKey, testExecKey }).filter(([, v]) => v));
+  const response = await fetch(`${baseUrl}/api/v2/import/execution/junit?${query}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/xml', Authorization: `Bearer ${token}` },
+    body: xml,
+  });
+  const text = await response.text();
+  if (!response.ok) throw new Error(`import junit: HTTP ${response.status} ${redact(text).slice(0, 1000)}`);
+  return JSON.parse(text);
+}

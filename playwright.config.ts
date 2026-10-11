@@ -18,6 +18,10 @@ export default defineConfig({
     ['allure-playwright', { resultsDir: 'allure-results' }],
     // Read by scripts/write-ci-summary.mjs for the summary on the GitHub Actions run page.
     ['json', { outputFile: 'test-results.json' }],
+    // For Xray import (scripts/xray/xray.mjs import-junit). Annotations become <property> elements, so the
+    // `test_key` set by the xrayTestKey fixture attaches each result to its existing Xray Test. Attachments are
+    // not embedded: screenshots of signed-in pages can show personal data (docs/integrations/xray-cloud-rest-api.md §6.3).
+    ['junit', { outputFile: 'xray-report.xml', embedAnnotationsAsProperties: true, textContentAnnotations: ['test_description'] }],
   ],
   use: {
     baseURL: env.uiBaseUrl,

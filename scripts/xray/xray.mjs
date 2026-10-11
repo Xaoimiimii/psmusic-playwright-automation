@@ -14,10 +14,15 @@
 //   create-test-plan <input.json>       createTestPlan. input = { testIssueIds?, jira }
 //   add-tests-to-set <issueId> <id,id>  addTestsToTestSet
 //   add-tests-to-plan <issueId> <id,id> addTestsToTestPlan
+//   prepare-junit <file.xml>             Dry run of import-junit: keys, failures, known-defect status changes
+//   import-junit <file.xml> [testPlanKey]  Import a Playwright JUnit report (creates a Test Execution in the project);
+//                                        known-defect testcases are reported by story outcome (junit-for-xray.mjs)
+//   get-test-execution <issueId>        Test Execution with its runs (test key, status), 100 per page
 // Mutations that create issues are never retried: after an unknown outcome, search first (xray-cloud-rest-api.md §9).
 // Core (auth, retry, redaction) lives in xray-client.mjs.
 import fs from 'node:fs';
-import { authenticate, graphql, redact } from './xray-client.mjs';
+import { knownDefectsToXrayStatus } from './junit-for-xray.mjs';
+import { authenticate, graphql, importJunit, redact } from './xray-client.mjs';
 
 const baseUrl = (process.env.XRAY_BASE_URL || 'https://xray.cloud.getxray.app').replace(/\/+$/, '');
 const readJson = (file) => JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -26,6 +31,32 @@ const ids = (list) => list.split(',').map((id) => id.trim()).filter(Boolean);
 const TEST_FIELDS = `issueId testType { name kind } steps { id action data result } unstructured jira(fields: ["key", "summary"])`;
 
 const commands = {
+  /** Prints what import-junit would send: testcase count, test keys, and known-defect status changes. No upload. */
+  async 'prepare-junit'(file) {
+    const { xml, changes } = knownDefectsToXrayStatus(fs.readFileSync(file, 'utf8'));
+    const keys = [...xml.matchAll(/name="test_key" value="([^"]+)"/g)].map((m) => m[1]);
+    return { testcases: (xml.match(/<testcase /g) ?? []).length, failures: (xml.match(/<failure /g) ?? []).length, testKeys: [...new Set(keys)], knownDefectChanges: changes };
+  },
+
+  async 'import-junit'(file, testPlanKey) {
+    const { xml, changes } = knownDefectsToXrayStatus(fs.readFileSync(file, 'utf8'));
+    if (changes.length) console.error(`known-defect status changes: ${JSON.stringify(changes)}`);
+    const projectKey = process.env.JIRA_PROJECT_KEY;
+    if (!projectKey) throw new Error('JIRA_PROJECT_KEY is not set');
+    const unkeyed = (xml.match(/<testcase /g) ?? []).length - (xml.match(/name="test_key"/g) ?? []).length;
+    if (unkeyed > 0) throw new Error(`${unkeyed} testcase(s) have no test_key property: Xray would create new Generic Tests for them`);
+    return importJunit(xml, { projectKey, testPlanKey });
+  },
+
+  async 'get-test-execution'(issueId) {
+    return graphql(
+      `query ($id: String) { getTestExecution(issueId: $id) { issueId jira(fields: ["key", "summary"])
+        testRuns(limit: 100) { total results { status { name } test { issueId jira(fields: ["key"]) } testType { name } comment results { name status { name } } } } } }`,
+      { id: issueId },
+      { retry: true },
+    );
+  },
+
   /** Read-only raw query from a file (for introspection and ad-hoc verification). Mutations are refused. */
   async query(file, variablesFile) {
     const text = fs.readFileSync(file, 'utf8');
