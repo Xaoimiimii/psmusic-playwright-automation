@@ -41,8 +41,10 @@ UI + API + E2E test automation framework (TypeScript, Playwright Test, Allure, G
 psmusic-playwright-automation/
 ├── package.json / package-lock.json         # scripts: test, test:smoke, test:regression, typecheck, allure:*, xray:keys, jira:export
 ├── playwright.config.ts                     # Chromium project, globalSetup, CI-aware retries/workers/trace, 5 reporters
-├── allurerc.mjs                             # Allure 3: single-file "awesome" report → allure-report/
+├── allurerc.mjs                             # Allure 3: single-file "awesome" report → reports/allure-report/
 ├── tsconfig.json
+├── reports/                                 # run output, git-ignored: test-results/, playwright-report/, allure-results/,
+│                                            #   allure-report/, test-results.json, xray-report.xml
 ├── .env.example                             # PSMUSIC_* (tests) and ATLASSIAN_*/JIRA_*/XRAY_* (integration)
 ├── .mcp.json                                # Atlassian Rovo MCP server
 ├── CLAUDE.md                                # repository rules
@@ -65,7 +67,7 @@ psmusic-playwright-automation/
 │   ├── ci-cd.md
 │   └── test-case-implementation-progress.md
 ├── scripts/
-│   ├── write-ci-summary.mjs                 # test-results.json → GitHub run summary
+│   ├── write-ci-summary.mjs                 # reports/test-results.json → GitHub run summary
 │   ├── write-trigger-summary.mjs            # records which app deployment started a post-deployment run
 │   ├── jira-export.mjs                      # Markdown test design → Jira CSV import files
 │   ├── test-management/                     # build-plan, sync-xray, verify-jira, issue-map, export-test-keys
@@ -309,11 +311,11 @@ flowchart TD
 flowchart TD
     RUN["Playwright run"]
     LIST["list (local) / github (CI)"]
-    HTML["HTML → playwright-report/"]
-    AL["allure-playwright → allure-results/"]
-    JSON["json → test-results.json"]
-    JU["junit → xray-report.xml"]
-    AR["allurerc.mjs → allure-report/ (single file)"]
+    HTML["HTML → reports/playwright-report/"]
+    AL["allure-playwright → reports/allure-results/"]
+    JSON["json → reports/test-results.json"]
+    JU["junit → reports/xray-report.xml"]
+    AR["allurerc.mjs → reports/allure-report/ (single file)"]
     SUM["scripts/write-ci-summary.mjs"]
     GH(["GitHub run summary"])
     XR["scripts/xray/xray.mjs import-junit"]
@@ -332,7 +334,7 @@ flowchart TD
 | Output | Contents |
 |---|---|
 | Allure report | Steps, errors, failure screenshots, retries; one HTML file that opens from a downloaded artifact |
-| Playwright HTML / `test-results/` | Per-test details and screenshots; traces locally only |
+| Playwright HTML / `reports/test-results/` | Per-test details and screenshots; traces locally only |
 | Run summary | Totals, failed tests with file/line/error, flaky tests, known-defect tests; JWTs masked |
 | JUnit for Xray | One `<testcase>` per test with `test_key` property; no attachments (screenshots of signed-in pages may show personal data) |
 
@@ -356,7 +358,7 @@ flowchart TD
     VER["/verify-jira-xray<br/>verify-jira.mjs · sync-xray.mjs verify"]
     KEYS["npm run xray:keys → src/data/xray-test-keys.ts"]
     FX["xrayTestKey fixture → test_key annotation"]
-    JU["xray-report.xml"]
+    JU["reports/xray-report.xml"]
     IMP["xray.mjs import-junit"]
     EXEC(["Xray Test Execution"])
 
@@ -391,7 +393,7 @@ flowchart TD
 
 1. After a sync that creates Tests, regenerate the key map: `npm run xray:keys` (add `--check` to detect drift).
 2. The auto fixture `xrayTestKey` finds the first `TS-…` ID in the test's title path and annotates it with `test_key`; the JUnit reporter turns it into a `<property>`. No spec hard-codes a key.
-3. Import: `node scripts/xray/xray.mjs prepare-junit xray-report.xml` (dry run), then `node scripts/xray/xray.mjs import-junit xray-report.xml [testPlanKey]`. The import refuses any testcase without a `test_key`, so it never creates stray Generic Tests.
+3. Import: `node scripts/xray/xray.mjs prepare-junit reports/xray-report.xml` (dry run), then `node scripts/xray/xray.mjs import-junit reports/xray-report.xml [testPlanKey]`. The import refuses any testcase without a `test_key`, so it never creates stray Generic Tests.
 4. **Known defects:** `knownDefect()` marks a test `test.fail()`, so Playwright reports a reproduced defect as passed. `junit-for-xray.mjs` flips those testcases before upload: defect reproduced → Xray FAILED; defect no longer reproduced → Xray PASSED with a review comment.
 
 Importing results from CI is not wired yet (needs `XRAY_CLIENT_ID` / `XRAY_CLIENT_SECRET` as GitHub secrets; `docs/integrations/README.md` follow-up #6). Credentials: `ATLASSIAN_*`, `JIRA_*`, `XRAY_*` in `.env` — never read by the tests. `scripts/jira-export.mjs` (`npm run jira:export`) also generates Jira CSV import files from the same Markdown.
@@ -526,7 +528,7 @@ cp .env.example .env            # fill in PSMUSIC_SERVICE_KEY (and URLs if not l
 | One scenario | `npx playwright test --grep TS-AUTH-05` |
 | Watch the browser | `npx playwright test --headed --grep @smoke` |
 | Run as CI does | `CI=true npm run test:smoke` (PowerShell: `$env:CI='true'; npm run test:smoke`) |
-| Allure report | `npm run allure:generate` → `allure-report/index.html`; `npm run allure:open` |
+| Allure report | `npm run allure:generate` → `reports/allure-report/index.html`; `npm run allure:open` |
 | Playwright report | `npx playwright show-report` |
 | Xray key map | `npm run xray:keys` |
 
@@ -540,7 +542,7 @@ cp .env.example .env            # fill in PSMUSIC_SERVICE_KEY (and URLs if not l
 | `@api` | Test drives the API directly |
 | `@sit-controlled` | Requires a controlled third-party condition (e.g. lyric file unavailable) |
 
-`allure-results/` is not cleared between local runs; delete it for a clean report.
+All run output goes to `reports/` (git-ignored). `reports/allure-results/` is not cleared between local runs; delete it for a clean report.
 
 ## 11. Parallel Execution
 

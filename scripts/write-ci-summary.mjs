@@ -1,11 +1,11 @@
-// Turns Playwright's JSON report (test-results.json) into a Markdown summary.
+// Turns Playwright's JSON report (reports/test-results.json) into a Markdown summary.
 // In GitHub Actions it is appended to the run page ($GITHUB_STEP_SUMMARY);
 // locally it is printed. Usage: node scripts/write-ci-summary.mjs "Smoke tests"
 // It never fails: the test step already decides whether the job is red.
 import fs from 'node:fs';
 
 const suiteName = process.argv[2] ?? 'Tests';
-const reportFile = 'test-results.json';
+const reportFile = 'reports/test-results.json';
 const MAX_ERROR_LENGTH = 1500;
 
 /** Removes terminal colors and masks JWTs (access and refresh tokens) that an assertion may print. */

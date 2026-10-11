@@ -82,8 +82,8 @@ runs:
       with:
         name: allure-${{ inputs.artifact-suffix }}
         path: |
-          ${{ inputs.working-directory }}/allure-report/
-          ${{ inputs.working-directory }}/allure-results/
+          ${{ inputs.working-directory }}/reports/allure-report/
+          ${{ inputs.working-directory }}/reports/allure-results/
         retention-days: 14
         if-no-files-found: warn
 
@@ -93,7 +93,7 @@ runs:
       with:
         name: playwright-${{ inputs.artifact-suffix }}
         path: |
-          ${{ inputs.working-directory }}/playwright-report/
-          ${{ inputs.working-directory }}/test-results/
+          ${{ inputs.working-directory }}/reports/playwright-report/
+          ${{ inputs.working-directory }}/reports/test-results/
         retention-days: 14
         if-no-files-found: ignore

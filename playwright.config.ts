@@ -12,16 +12,19 @@ export default defineConfig({
   retries: isCI ? 1 : 0,
   // Sequential in CI: tests share the remote database and song counters (test-strategy.md §7.4).
   workers: isCI ? 1 : undefined,
+  // Every run output lives under reports/ (git-ignored). outputDir is wiped at the start of each run,
+  // so the reporters write next to it, not inside it.
+  outputDir: 'reports/test-results',
   reporter: [
     isCI ? ['github'] : ['list'],
-    ['html', { open: 'never' }],
-    ['allure-playwright', { resultsDir: 'allure-results' }],
+    ['html', { open: 'never', outputFolder: 'reports/playwright-report' }],
+    ['allure-playwright', { resultsDir: 'reports/allure-results' }],
     // Read by scripts/write-ci-summary.mjs for the summary on the GitHub Actions run page.
-    ['json', { outputFile: 'test-results.json' }],
+    ['json', { outputFile: 'reports/test-results.json' }],
     // For Xray import (scripts/xray/xray.mjs import-junit). Annotations become <property> elements, so the
     // `test_key` set by the xrayTestKey fixture attaches each result to its existing Xray Test. Attachments are
     // not embedded: screenshots of signed-in pages can show personal data (docs/integrations/xray-cloud-rest-api.md §6.3).
-    ['junit', { outputFile: 'xray-report.xml', embedAnnotationsAsProperties: true, textContentAnnotations: ['test_description'] }],
+    ['junit', { outputFile: 'reports/xray-report.xml', embedAnnotationsAsProperties: true, textContentAnnotations: ['test_description'] }],
   ],
   use: {
     baseURL: env.uiBaseUrl,

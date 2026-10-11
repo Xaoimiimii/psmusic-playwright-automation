@@ -89,7 +89,7 @@ GitHub sets `CI=true`. `playwright.config.ts` then uses:
 | Trace | kept on failure | off | A trace records request headers and bodies (service key, cookies, tokens). CI uploads evidence as artifacts, so no traces there |
 | Screenshot | on failure | on failure | Main UI evidence |
 | `test.only` | allowed | fails the run (`forbidOnly`) | Stops a focused test from being merged |
-| Reporters | list, HTML, Allure, JSON | GitHub annotations, HTML, Allure, JSON | JSON (`test-results.json`) feeds the run summary (section 6) |
+| Reporters | list, HTML, Allure, JSON | GitHub annotations, HTML, Allure, JSON | JSON (`reports/test-results.json`) feeds the run summary (section 6) |
 
 ## 4. Configuration
 
@@ -163,7 +163,7 @@ npm run test:regression                  # all tests, as in regression.yml
 npx playwright test tests/auth/login.spec.ts   # one file
 npx playwright test --headed --grep @smoke     # watch the browser
 
-npm run allure:generate                  # builds allure-report/index.html from allure-results/
+npm run allure:generate                  # builds reports/allure-report/index.html from reports/allure-results/
 npm run allure:open                      # serves the report in a browser
 ```
 
@@ -174,7 +174,7 @@ CI=true npm run test:smoke               # Git Bash / macOS / Linux
 $env:CI='true'; npm run test:smoke       # PowerShell
 ```
 
-`allure-results/` is not cleared between local runs, so the next report also shows older results. Delete the folder
+`reports/allure-results/` is not cleared between local runs, so the next report also shows older results. Delete the folder
 before a run when you want a clean report. In CI every run starts from an empty checkout.
 
 ## 6. Failure investigation
@@ -186,29 +186,29 @@ before a run when you want a clean report. In CI every run starts from an empty 
    - each flaky test with the error of its first attempt,
    - known-defect tests in the run.
 
-   This summary is written by `scripts/write-ci-summary.mjs` from Playwright's `test-results.json`. Tokens (JWTs) in
+   This summary is written by `scripts/write-ci-summary.mjs` from Playwright's `reports/test-results.json`. Tokens (JWTs) in
    error messages are masked. Failed tests are also listed as annotations, and the failed step's log shows the full error.
 2. **For screenshots and step details, download the artifacts** at the bottom of the run summary page. They are uploaded even when tests fail and are
    kept for 14 days.
 
 | Artifact | Contents | How to open |
 |---|---|---|
-| `allure-smoke` / `allure-regression` / `allure-post-deployment` / `allure-pre-merge` (in the application repository) | `allure-report/index.html` (whole report in one file) and the raw `allure-results/` | Unzip and open `allure-report/index.html` in a browser. Shows steps, errors, screenshots and retries |
-| `playwright-smoke` / `playwright-regression` / `playwright-post-deployment` / `playwright-pre-merge` | `playwright-report/` (HTML report) and `test-results/` | `npx playwright show-report <unzipped>/playwright-report`, or look at the files in `test-results/` directly |
+| `allure-smoke` / `allure-regression` / `allure-post-deployment` / `allure-pre-merge` (in the application repository) | `reports/allure-report/index.html` (whole report in one file) and the raw `reports/allure-results/` | Unzip and open `reports/allure-report/index.html` in a browser. Shows steps, errors, screenshots and retries |
+| `playwright-smoke` / `playwright-regression` / `playwright-post-deployment` / `playwright-pre-merge` | `reports/playwright-report/` (HTML report) and `reports/test-results/` | `npx playwright show-report <unzipped>/reports/playwright-report`, or look at the files in `reports/test-results/` directly |
 
 What is in the evidence:
 
 | Evidence | Where |
 |---|---|
 | Error message and stack | Job log, Allure, Playwright report |
-| Screenshot at the moment of failure (UI tests) | `test-results/<test>/test-failed-1.png`, attached in Allure |
-| Page structure at failure (accessibility snapshot) | `test-results/<test>/error-context.md`, attached in Allure |
+| Screenshot at the moment of failure (UI tests) | `reports/test-results/<test>/test-failed-1.png`, attached in Allure |
+| Page structure at failure (accessibility snapshot) | `reports/test-results/<test>/error-context.md`, attached in Allure |
 | API failures | The assertion error shows the expected and actual status and body fields. Setup failures (`Test setup: register ... failed with 400 ...`) include the status and the response text |
-| Retries and flaky tests | Allure (retries per test), the job log (`flaky` count), `-retry1` folders in `test-results/` |
+| Retries and flaky tests | Allure (retries per test), the job log (`flaky` count), `-retry1` folders in `reports/test-results/` |
 | Full console log | Job log. Use **Download log archive** from the run's ⋯ menu |
 
 3. **Reproduce locally** with the same command, adding the trace that CI does not record:
-   `npx playwright test <file> --grep "<test title>" --trace on`, then `npx playwright show-trace test-results/<test>/trace.zip`.
+   `npx playwright test <file> --grep "<test title>" --trace on`, then `npx playwright show-trace reports/test-results/<test>/trace.zip`.
 
 ### What is never in the evidence
 

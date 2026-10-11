@@ -193,7 +193,7 @@ can show personal data; keep it off in CI unless reviewed (see authentication-an
 
 **Applied in this repository (2026-10-09):**
 
-- `playwright.config.ts` has the `junit` reporter (`xray-report.xml`, `embedAnnotationsAsProperties: true`,
+- `playwright.config.ts` has the `junit` reporter (`reports/xray-report.xml`, `embedAnnotationsAsProperties: true`,
   `textContentAnnotations: ['test_description']`, **no** `embedAttachmentsAsProperty`).
 - The automatic `xrayTestKey` fixture (`src/fixtures/test.ts`) takes the first scenario ID (`TS-AREA-nn`) in the test's
   title path, test title first, then the enclosing `describe` titles. It looks that ID up in `src/data/xray-test-keys.ts`
@@ -203,7 +203,7 @@ can show personal data; keep it off in CI unless reviewed (see authentication-an
   (from a `describe` title) and `MSC-142` (from a test title). `--list` of the real suite: 37 Playwright tests, all
   resolve to a key, covering the 25 automated scenarios. 7 scenarios have more than one Playwright test under one key
   (TS-AUTHZ-02 has 7).
-- `node scripts/xray/xray.mjs import-junit xray-report.xml [testPlanKey]` refuses a report with any testcase that
+- `node scripts/xray/xray.mjs import-junit reports/xray-report.xml [testPlanKey]` refuses a report with any testcase that
   has no `test_key`, so an import cannot create new Generic Tests.
 - **Known defects:** `knownDefect()` marks a test `test.fail()`, so JUnit reports a reproduced defect as a pass.
   `scripts/xray/junit-for-xray.mjs` flips only those testcases before import: defect reproduced → `<failure>` (Xray

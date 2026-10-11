@@ -4,7 +4,7 @@ import { defineConfig } from 'allure';
 // singleFile: the report is one HTML file that opens straight from a downloaded artifact.
 export default defineConfig({
   name: 'PSMusic Automation',
-  output: './allure-report',
+  output: './reports/allure-report',
   plugins: {
     awesome: {
       options: {

@@ -9,8 +9,8 @@
     "test:auth": "playwright test tests/auth",
     "test:smoke": "playwright test --grep @smoke",
     "test:regression": "playwright test",
-    "allure:generate": "allure generate allure-results",
-    "allure:open": "allure open allure-report",
+    "allure:generate": "allure generate reports/allure-results",
+    "allure:open": "allure open reports/allure-report",
     "xray:keys": "node scripts/test-management/export-test-keys.mjs"
   },
   "keywords": [],

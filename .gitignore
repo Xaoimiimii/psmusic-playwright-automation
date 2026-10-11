@@ -1,17 +1,13 @@
 # Dependencies
 node_modules/
 
+# Test run output: Playwright artifacts and reports, Allure results and report, JSON and JUnit reports
+/reports/
+
 # Playwright
-/test-results/
-/test-results.json
-/playwright-report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
-
-# Allure
-/allure-results/
-/allure-report/
 
 # Environment / secrets (keep .env.example committed)
 .env
@@ -45,5 +41,3 @@ Thumbs.db
 # Jira/Xray sync: raw API responses kept only for debugging
 /test-management/tmp/
 
-# JUnit report for Xray import (playwright.config.ts)
-/xray-report.xml
