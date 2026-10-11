@@ -83,13 +83,7 @@ psmusic-playwright-automation/
 │   │   └── components/                      # header, sidebar, player-bar, sign-in-prompt
 │   ├── data/                                # users, catalog, messages, login-cases, access-control, player, xray-test-keys (generated)
 │   └── support/                             # browser-setup, session, network, jwt, set-cookie, lyrics, known-defect, xray
-└── tests/
-    ├── auth/        login, session, logout
-    ├── authz/       api-access, guest-gating, protected-routes
-    ├── song/        song-details
-    ├── player/      volume
-    ├── profile/     profile
-    └── shared/      not-found
+└── tests/                                   # tests
 ```
 
 | Folder | Responsibility |
@@ -246,21 +240,21 @@ flowchart TD
     NET["support/network (ApiTrafficLog)"]
 
     UI -->|receives page objects from| FX
-    FX -->|new …(page)| AP
-    FX -->|new …(page)| SP
-    FX -->|new …(page)| FP
-    FX -->|new …(page)| RP
-    FX -->|new …(page)| H
-    FX -->|new …(page)| SB
-    FX -->|new …(page)| PB
-    FX -->|new …(page)| SIP
+    FX -->|"new …(page)"| AP
+    FX -->|"new …(page)"| SP
+    FX -->|"new …(page)"| FP
+    FX -->|"new …(page)"| RP
+    FX -->|"new …(page)"| H
+    FX -->|"new …(page)"| SB
+    FX -->|"new …(page)"| PB
+    FX -->|"new …(page)"| SIP
     FX -->|context setup| BS
     FX -->|member sign-in| SES
     FX -->|apiTraffic| NET
     SP -->|labels from| MSG
     RP -->|labels from| MSG
     SIP -->|labels from| MSG
-    AP -->|login(credentials)| USR
+    AP -->|"login(credentials)"| USR
 ```
 
 | Page object | Exposes |
@@ -506,7 +500,7 @@ sequenceDiagram
     FX->>FX: xrayTestKey → test_key annotation
     PW->>Page: test body: intent calls (open, login, play, toggle…)
     Page->>App: browser actions
-    PW->>PW: web-first assertions; knownDefect() before a defect-hit assertion
+    PW->>PW: web-first assertions, knownDefect() before a defect-hit assertion
     Note over Rep: failure → screenshot (+ trace locally)
     PW->>FX: teardown: dispose request contexts
     PW->>Rep: list/github · HTML · Allure · JSON · JUnit
