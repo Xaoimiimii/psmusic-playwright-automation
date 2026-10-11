@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { step } from '../../reporting/step';
 
 /**
  * Top bar (`Header.jsx`, `UserDropdown.jsx`). While the session check runs the
@@ -19,6 +20,7 @@ export class Header {
     this.logoutButton = this.root.getByRole('button', { name: 'Logout', exact: true });
   }
 
+  @step('Log out from the user menu')
   async logout(): Promise<void> {
     await this.userMenuButton.click();
     await this.logoutButton.click();

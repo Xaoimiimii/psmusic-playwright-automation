@@ -1,4 +1,5 @@
 import { test as base, expect, request as playwrightRequest } from '@playwright/test';
+import * as allure from 'allure-js-commons';
 import { AuthApi } from '../api/auth-api';
 import { SongApi } from '../api/song-api';
 import { UserApi } from '../api/user-api';
@@ -11,6 +12,10 @@ import { SignInPrompt } from '../pages/components/sign-in-prompt';
 import { FavoritesPage } from '../pages/favorites.page';
 import { RecentPage } from '../pages/recent.page';
 import { SongPage } from '../pages/song.page';
+import { applyOutcomeMetadata, applyScenarioMetadata } from '../reporting/allure-metadata';
+import { withApiReporting } from '../reporting/api-reporting';
+import { BrowserEvidence } from '../reporting/browser-evidence';
+import { recordLayer, resetTestObservations } from '../reporting/test-observations';
 import { blockRecommendationTracker, pinLanguage } from '../support/browser-setup';
 import { ApiTrafficLog } from '../support/network';
 import { signInThroughApi } from '../support/session';
@@ -40,45 +45,60 @@ interface Fixtures {
   songPage: SongPage;
   /** Automatic: annotates the test with its Xray `test_key` for the JUnit report (scripts/test-management/export-test-keys.mjs). */
   xrayTestKey: void;
+  /** Automatic: Allure metadata from the scenario, and outcome labels once the test has run (docs/reporting.md). */
+  reporting: void;
 }
 
 /** Registers a run-unique account on a throwaway context, so its cookie jar never leaks into the test. */
-async function registerFreshUser(): Promise<NewUser> {
-  const setupContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
+async function registerFreshUser(role: string): Promise<NewUser> {
   const user = buildUser();
-  await new AuthApi(setupContext).registerOrThrow(user);
-  await setupContext.dispose();
+  await base.step(`Precondition: register ${role} "${user.username}" through the API`, async () => {
+    const setupContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
+    await new AuthApi(withApiReporting(setupContext, { precondition: true })).registerOrThrow(user);
+    await setupContext.dispose();
+  });
+  // Excluded from Allure history: the name is new on every run.
+  await allure.parameter(role, user.username, { excluded: true });
   return user;
 }
 
 export const test = base.extend<Fixtures>({
   // Every UI test: tracker blocked (Mode 0) and English pinned before the SPA boots.
-  context: async ({ context }, use) => {
+  // Console, page errors and the page's API calls are attached if the test fails.
+  context: async ({ context }, use, testInfo) => {
+    recordLayer('UI');
+    const evidence = new BrowserEvidence(context);
     await blockRecommendationTracker(context);
     await pinLanguage(context);
     await use(context);
+    await evidence.attachIfFailed(testInfo);
+  },
+
+  // Raw requests (access-control tests) are reported like the API clients' calls.
+  request: async ({ request }, use) => {
+    await use(withApiReporting(request));
   },
 
   authApi: async ({}, use) => {
     const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
-    await use(new AuthApi(requestContext));
+    await use(new AuthApi(withApiReporting(requestContext)));
     await requestContext.dispose();
   },
 
   songApi: async ({}, use) => {
     const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
-    await use(new SongApi(requestContext));
+    await use(new SongApi(withApiReporting(requestContext)));
     await requestContext.dispose();
   },
 
   userApi: async ({}, use) => {
     const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
-    await use(new UserApi(requestContext));
+    await use(new UserApi(withApiReporting(requestContext)));
     await requestContext.dispose();
   },
 
-  registeredUser: async ({}, use) => use(await registerFreshUser()),
-  otherRegisteredUser: async ({}, use) => use(await registerFreshUser()),
+  registeredUser: async ({}, use) => use(await registerFreshUser('test user')),
+  otherRegisteredUser: async ({}, use) => use(await registerFreshUser('second test user')),
 
   member: async ({ context, registeredUser }, use) => {
     await signInThroughApi(context, registeredUser);
@@ -104,6 +124,16 @@ export const test = base.extend<Fixtures>({
       const key = xrayTestKeyFor(testInfo.titlePath);
       if (key) testInfo.annotations.push({ type: 'test_key', description: key });
       await use();
+    },
+    { auto: true },
+  ],
+
+  reporting: [
+    async ({}, use, testInfo) => {
+      resetTestObservations();
+      await applyScenarioMetadata(testInfo);
+      await use();
+      await applyOutcomeMetadata(testInfo);
     },
     { auto: true },
   ],

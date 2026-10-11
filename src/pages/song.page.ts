@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { uiText } from '../data/messages';
+import { step } from '../reporting/step';
 
 /**
  * `/song/:id` (`SongViewPage.jsx`), a public page.
@@ -73,18 +74,22 @@ export class SongPage {
     this.otherSongsToggle = this.otherSongsSection.locator('button[class*="btn-toggle-songs"]');
   }
 
+  @step((songId: number) => `Open the song page of song ${songId}`)
   async open(songId: number): Promise<void> {
     await this.page.goto(`/song/${songId}`);
   }
 
+  @step('Click the lyrics expand / collapse button')
   async toggleLyrics(): Promise<void> {
     await this.lyricsToggle.click();
   }
 
+  @step('Click View More / Show Less under the other songs')
   async toggleOtherSongs(): Promise<void> {
     await this.otherSongsToggle.click();
   }
 
+  @step('Click Play on the song page')
   async play(): Promise<void> {
     await this.playButton.click();
   }

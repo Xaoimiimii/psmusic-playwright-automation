@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import type { Credentials } from '../data/users';
+import { step } from '../reporting/step';
 
 /**
  * `/auth` (`AuthPage.jsx` + `SignIn.jsx`). Both forms are always in the DOM and
@@ -35,32 +36,39 @@ export class AuthPage {
     this.showLoginPanelButton = this.overlayPanel('Welcome!').getByRole('button', { name: 'Login', exact: true });
   }
 
+  @step('Open the login page')
   async open(): Promise<void> {
     await this.page.goto(this.path);
   }
 
+  @step((credentials: Credentials) => `Enter username ${shown(credentials.username)} and a ${credentials.password ? `${credentials.password.length}-character` : 'empty'} password`)
   async enterCredentials(credentials: Credentials): Promise<void> {
     await this.usernameInput.fill(credentials.username);
     await this.passwordInput.fill(credentials.password);
   }
 
+  @step('Submit the login form')
   async submitLogin(): Promise<void> {
     await this.loginButton.click();
   }
 
+  @step((credentials: Credentials) => `Log in as ${shown(credentials.username)}`)
   async login(credentials: Credentials): Promise<void> {
     await this.enterCredentials(credentials);
     await this.submitLogin();
   }
 
+  @step('Toggle password visibility with the eye icon')
   async togglePasswordVisibility(): Promise<void> {
     await this.passwordVisibilityToggle.click();
   }
 
+  @step('Switch to the Create Account panel')
   async switchToRegisterPanel(): Promise<void> {
     await this.showRegisterPanelButton.click();
   }
 
+  @step('Switch back to the Login panel')
   async switchToLoginPanel(): Promise<void> {
     await this.showLoginPanelButton.click();
   }
@@ -69,4 +77,9 @@ export class AuthPage {
   private overlayPanel(heading: string): Locator {
     return this.page.getByRole('heading', { name: heading, exact: true }).locator('xpath=..');
   }
+}
+
+/** A typed username for a step title; the password is never shown, only its length. */
+function shown(username: string): string {
+  return username ? `"${username}"` : '(empty username)';
 }

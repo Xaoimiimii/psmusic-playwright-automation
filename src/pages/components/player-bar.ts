@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { step } from '../../reporting/step';
 
 /**
  * Time allowed for the first audio frames to play after Play is clicked. The MP3
@@ -37,11 +38,13 @@ export class PlayerBar {
     this.audio = page.locator('audio');
   }
 
+  @step((level: number) => `Set the player volume slider to ${Math.round(level * 100)}%`)
   async setVolume(level: number): Promise<void> {
     await this.volumeSlider.fill(String(level));
   }
 
   /** Mutes when sound is on, unmutes when muted. */
+  @step('Click Mute / Unmute in the player bar')
   async toggleMute(): Promise<void> {
     await this.muteButton.click();
   }
@@ -51,10 +54,12 @@ export class PlayerBar {
     return this.audio.evaluate((element: HTMLAudioElement) => element.volume);
   }
 
+  @step('Click the heart in the player bar')
   async toggleFavorite(): Promise<void> {
     await this.favoriteButton.click();
   }
 
+  @step('Click the rate button in the player bar')
   async rate(): Promise<void> {
     await this.rateButton.click();
   }

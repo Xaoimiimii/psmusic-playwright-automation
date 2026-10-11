@@ -11,6 +11,7 @@
     "test:regression": "playwright test",
     "allure:generate": "allure generate reports/allure-results",
     "allure:open": "allure open reports/allure-report",
+    "report:metadata": "node scripts/test-management/export-test-metadata.mjs",
     "xray:keys": "node scripts/test-management/export-test-keys.mjs"
   },
   "keywords": [],
@@ -22,6 +23,7 @@
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.3",
     "allure": "^3.20.1",
+    "allure-js-commons": "^3.13.0",
     "allure-playwright": "^3.13.0",
     "typescript": "^5.9.3"
   }

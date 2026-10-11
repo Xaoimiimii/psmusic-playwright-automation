@@ -1,11 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
 import { env } from './src/config/env';
+import { allureEnvironmentInfo } from './src/reporting/environment-info';
 
 const isCI = !!process.env.CI;
+// The config is also loaded by every worker; reporters run only in the main process.
+const isMainProcess = process.env.TEST_WORKER_INDEX === undefined;
 
 export default defineConfig({
   testDir: './tests',
-  globalSetup: require.resolve('./src/global-setup'),
+  // Empty reports/allure-results/ first (ALLURE_KEEP_RESULTS=1 keeps it), then check PSMusic is reachable.
+  globalSetup: [require.resolve('./src/reporting/clean-allure-results'), require.resolve('./src/global-setup')],
   fullyParallel: true,
   forbidOnly: isCI,
   // At most one retry in CI; a test that passes on retry is reported as flaky (test-strategy.md §11.3).
@@ -18,7 +22,13 @@ export default defineConfig({
   reporter: [
     isCI ? ['github'] : ['list'],
     ['html', { open: 'never', outputFolder: 'reports/playwright-report' }],
-    ['allure-playwright', { resultsDir: 'reports/allure-results' }],
+    // detail: false keeps only test.step and page-object @step steps: Playwright's own action titles
+    // (`Fill "<typed password>"`, fixture set-up, every expect) stay out of the report (docs/reporting.md §4).
+    ['allure-playwright', {
+      resultsDir: 'reports/allure-results',
+      detail: false,
+      environmentInfo: isMainProcess ? allureEnvironmentInfo() : {},
+    }],
     // Read by scripts/write-ci-summary.mjs for the summary on the GitHub Actions run page.
     ['json', { outputFile: 'reports/test-results.json' }],
     // For Xray import (scripts/xray/xray.mjs import-junit). Annotations become <property> elements, so the

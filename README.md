@@ -25,7 +25,7 @@ UI + API + E2E test automation framework (TypeScript, Playwright Test, Allure, G
 | Automation / runner | `@playwright/test` 1.63 | Browser automation, API calls (`APIRequestContext`), fixtures, tagging, retries |
 | Browser | Chromium (Desktop Chrome device) | Only browser in scope (`docs/test-strategy/levels/system.md` §3) |
 | API automation | Playwright `APIRequestContext` | `AuthApi`, `SongApi`, `UserApi`, `sendApiRequest` |
-| Reporting | Allure 3 (`allure`, `allure-playwright`) + Playwright HTML, JSON, JUnit reporters | Single-file Allure report, CI run summary, Xray import |
+| Reporting | Allure 3 (`allure`, `allure-playwright`, `allure-js-commons`) + Playwright HTML, JSON, JUnit reporters | Single-file Allure report with plan-derived metadata, masked API evidence and failure categories ([`docs/reporting.md`](docs/reporting.md)), CI run summary, Xray import |
 | Runtime | Node.js 22 (`process.loadEnvFile` for `.env`) | No `dotenv` dependency |
 | Package manager | npm (`package-lock.json`, `npm ci`) | |
 | Test management | Jira Cloud + Xray Cloud | Epics, Stories, Risks, Bugs, Tests, Test Sets/Plans/Executions (project `MSC`) |
@@ -39,9 +39,9 @@ UI + API + E2E test automation framework (TypeScript, Playwright Test, Allure, G
 
 ```text
 psmusic-playwright-automation/
-├── package.json / package-lock.json         # scripts: test, test:smoke, test:regression, typecheck, allure:*, xray:keys, jira:export
+├── package.json / package-lock.json         # scripts: test, test:smoke, test:regression, typecheck, allure:*, report:metadata, xray:keys, jira:export
 ├── playwright.config.ts                     # Chromium project, globalSetup, CI-aware retries/workers/trace, 5 reporters
-├── allurerc.mjs                             # Allure 3: single-file "awesome" report → reports/allure-report/
+├── allurerc.mjs                             # Allure 3: single-file report, failure categories, local history → reports/allure-report/
 ├── tsconfig.json
 ├── reports/                                 # run output, git-ignored: test-results/, playwright-report/, allure-results/,
 │                                            #   allure-report/, test-results.json, xray-report.xml
@@ -84,6 +84,7 @@ psmusic-playwright-automation/
 │   ├── pages/                               # auth, song, favorites, recent pages
 │   │   └── components/                      # header, sidebar, player-bar, sign-in-prompt
 │   ├── data/                                # users, catalog, messages, login-cases, access-control, player, xray-test-keys (generated)
+│   ├── reporting/                           # Allure: metadata, @step, API exchanges, failure evidence, masking, environment
 │   └── support/                             # browser-setup, session, network, jwt, set-cookie, lyrics, known-defect, xray
 └── tests/                                   # tests
 ```
@@ -95,6 +96,7 @@ psmusic-playwright-automation/
 | `src/api` | Route maps and typed clients over `APIRequestContext`; every call carries `X-App-Service-Key` |
 | `src/pages` | Page objects and reusable components; locators are role/label/text-based |
 | `src/data` | Test data: run-unique users, known catalog IDs, UI/server messages, data-driven cases |
+| `src/reporting` | Allure reporting: plan-derived metadata, page-object `@step`, masked HTTP exchanges, failure evidence and signals ([`docs/reporting.md`](docs/reporting.md)) |
 | `src/support` | Cross-cutting helpers: browser setup, session/cookie, network capture, known defects, Xray key lookup |
 | `tests/<area>` | Specs grouped by functional area; titles start with the story and scenario IDs |
 | `scripts`, `test-management` | CI summaries and the Jira/Xray toolchain with its persistent state |
@@ -542,7 +544,7 @@ cp .env.example .env            # fill in PSMUSIC_SERVICE_KEY (and URLs if not l
 | `@api` | Test drives the API directly |
 | `@sit-controlled` | Requires a controlled third-party condition (e.g. lyric file unavailable) |
 
-All run output goes to `reports/` (git-ignored). `reports/allure-results/` is not cleared between local runs; delete it for a clean report.
+All run output goes to `reports/` (git-ignored). `reports/allure-results/` is emptied at the start of each run (`ALLURE_KEEP_RESULTS=1` keeps it). Report content and conventions: [`docs/reporting.md`](docs/reporting.md).
 
 ## 11. Parallel Execution
 

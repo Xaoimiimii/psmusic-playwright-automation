@@ -18,6 +18,8 @@ export const env = {
   uiBaseUrl: required('PSMUSIC_UI_URL'),
   apiBaseUrl: required('PSMUSIC_API_URL'),
   serviceKey: required('PSMUSIC_SERVICE_KEY'),
+  /** Optional. Jira site, e.g. https://<site>.atlassian.net; when set, Allure results link to their Jira issues. */
+  jiraSiteUrl: process.env.ATLASSIAN_SITE_URL?.replace(/\/+$/, '') || undefined,
 } as const;
 
 /** Absolute SPA URL for a route, e.g. appUrl('/') for Home. */
