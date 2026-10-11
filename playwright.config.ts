@@ -29,7 +29,7 @@ export default defineConfig({
       detail: false,
       environmentInfo: isMainProcess ? allureEnvironmentInfo() : {},
     }],
-    // Read by scripts/write-ci-summary.mjs for the summary on the GitHub Actions run page.
+    // Read by scripts/ci/write-ci-summary.mjs for the summary on the GitHub Actions run page.
     ['json', { outputFile: 'reports/test-results.json' }],
     // For Xray import (scripts/xray/xray.mjs import-junit). Annotations become <property> elements, so the
     // `test_key` set by the xrayTestKey fixture attaches each result to its existing Xray Test. Attachments are

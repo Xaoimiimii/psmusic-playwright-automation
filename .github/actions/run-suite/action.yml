@@ -68,7 +68,7 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       env:
         TITLE: ${{ inputs.title }}
-      run: node scripts/write-ci-summary.mjs "$TITLE"
+      run: node scripts/ci/write-ci-summary.mjs "$TITLE"
 
     - name: Generate Allure report
       if: ${{ !cancelled() }}

@@ -36,6 +36,13 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
+      # Generated from test-management/state/*.json; fails when someone re-planned or synced without regenerating
+      # (fix: npm run report:metadata && npm run xray:keys, then commit). Details: docs/reporting.md §3.
+      - name: Check generated test data is up to date
+        run: |
+          node scripts/test-management/export-test-metadata.mjs --check
+          node scripts/test-management/export-test-keys.mjs --check
+
       # The test job below is skipped until a PSMusic environment is configured.
       # This warning makes the skip visible on the run summary instead of silent.
       - name: Warn when no test environment is configured

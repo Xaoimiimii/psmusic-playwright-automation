@@ -1,5 +1,5 @@
 // Builds test-management/state/plan.json (schema: test-management/state/plan.schema.json) from the test-design
-// documents. Parsing is delegated to scripts/jira-export.mjs (run into test-management/tmp/plan-export) so the plan
+// documents. Parsing is delegated to scripts/test-management/jira-export.mjs (run into test-management/tmp/plan-export) so the plan
 // and the CSV import files never disagree. No Jira or Xray call is made here.
 //
 // Usage: node scripts/test-management/build-plan.mjs [--approve]
@@ -24,13 +24,13 @@ const sourceFiles = [
   'docs/test-case-implementation-progress.md',
   'docs/exploration/exploration-validation.md',
   'docs/exploration/browser/authentication.md',
-  'scripts/jira-export.mjs',
+  'scripts/test-management/jira-export.mjs',
 ];
 
 // ---------- run the existing parser ----------
 
 const exportDir = path.join(root, 'test-management/tmp/plan-export');
-execFileSync(process.execPath, [path.join(root, 'scripts/jira-export.mjs')], {
+execFileSync(process.execPath, [path.join(root, 'scripts/test-management/jira-export.mjs')], {
   env: { ...process.env, JIRA_EXPORT_OUT: exportDir },
   stdio: 'ignore',
 });

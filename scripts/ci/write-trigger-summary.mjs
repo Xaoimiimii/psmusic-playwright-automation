@@ -1,7 +1,7 @@
 // Records which PSMusic deployment started a post-deployment run (docs/ci-cd.md section 8).
 // Reads APP_REPO, APP_SHA, APP_RUN_URL and APP_ENVIRONMENT, sent by the application repository's
 // "Deploy to QA" workflow. In GitHub Actions it is appended to the run page ($GITHUB_STEP_SUMMARY);
-// locally it is printed. Usage: node scripts/write-trigger-summary.mjs
+// locally it is printed. Usage: node scripts/ci/write-trigger-summary.mjs
 // It never fails: a missing value is shown as "unknown" rather than stopping the tests.
 import fs from 'node:fs';
 

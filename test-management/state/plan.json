@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T15:43:43.033Z",
-  "gitCommit": "7c6cd3b602585cf38b868e54bd40a5e243fdb32f",
+  "generatedAt": "2026-10-11T10:26:11.080Z",
+  "gitCommit": "090c8eccf527c8523eaac08d2805d29595ccabbb",
   "sources": [
     {
       "path": "docs/requirements/user-stories.md",
@@ -36,8 +36,8 @@
       "sha256": "f3f8251017ac9f4673bcc09edd949ad1d697b1f09e830f1ce35f9a7d5e9959e2"
     },
     {
-      "path": "scripts/jira-export.mjs",
-      "sha256": "126c49770f17ee2779c87895b8fb128a4e58582a73b112bf730a9a867249e7ea"
+      "path": "scripts/test-management/jira-export.mjs",
+      "sha256": "c2650a3883e79b845ae036414c0c7960dbbe6577ada765c8b894cad8224c0603"
     }
   ],
   "entities": [

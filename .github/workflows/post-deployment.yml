@@ -37,7 +37,7 @@ jobs:
           APP_SHA: ${{ github.event.client_payload.app_sha }}
           APP_RUN_URL: ${{ github.event.client_payload.app_run_url }}
           APP_ENVIRONMENT: ${{ github.event.client_payload.environment }}
-        run: node scripts/write-trigger-summary.mjs
+        run: node scripts/ci/write-trigger-summary.mjs
 
       # Fails with "Missing environment variable ..." if the configuration is not set.
       # Install, run @smoke, keep the evidence.

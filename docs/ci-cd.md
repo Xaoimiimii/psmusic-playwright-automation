@@ -33,7 +33,7 @@ pre-merge workflow uses it too, from its checkout of this repository, so a pre-m
 
 | Workflow | File | Jobs |
 |---|---|---|
-| CI | `.github/workflows/ci.yml` | `build`: install dependencies and type-check. `smoke-tests`: run `@smoke` tests, then generate and upload the reports |
+| CI | `.github/workflows/ci.yml` | `build`: install dependencies, type-check, and check that the generated `src/data/test-metadata.ts` and `xray-test-keys.ts` match the plan ([`reporting.md`](reporting.md) §3). `smoke-tests`: run `@smoke` tests, then generate and upload the reports |
 | Regression | `.github/workflows/regression.yml` | `regression-tests`: install, type-check, run every test, then generate and upload the reports |
 | Post-deployment | `.github/workflows/post-deployment.yml` | `post-deployment-tests`: record which deployment started the run, run `@smoke`, upload the reports |
 | Pre-merge validation | `ci-templates/psmusic-app/pre-merge-validation.yml` (runs in the application repository) | `pre-merge`: build and start the PR's code, run `@critical` from a checkout of this repository |
@@ -187,7 +187,7 @@ described in [`reporting.md`](reporting.md).
    - each flaky test with the error of its first attempt,
    - known-defect tests in the run.
 
-   This summary is written by `scripts/write-ci-summary.mjs` from Playwright's `reports/test-results.json`. Tokens (JWTs) in
+   This summary is written by `scripts/ci/write-ci-summary.mjs` from Playwright's `reports/test-results.json`. Tokens (JWTs) in
    error messages are masked. Failed tests are also listed as annotations, and the failed step's log shows the full error.
 2. **For screenshots and step details, download the artifacts** at the bottom of the run summary page. They are uploaded even when tests fail and are
    kept for 14 days.
@@ -314,7 +314,7 @@ Things to know:
    `app_sha` and `app_run_url`.
 
 `post-deployment.yml` here then runs `@smoke` against `PSMUSIC_UI_URL` / `PSMUSIC_API_URL`. Its run summary starts
-with *"Started by a PSMusic deployment"*: environment, commit and a link back (`scripts/write-trigger-summary.mjs`,
+with *"Started by a PSMusic deployment"*: environment, commit and a link back (`scripts/ci/write-trigger-summary.mjs`,
 which drops payload values that do not look like a repository, SHA, URL or environment name). The target URLs are
 never taken from the payload, so a dispatch cannot send the service key to another host.
 

@@ -29,5 +29,5 @@ Stable and derived from the source documents, never from Jira:
 | Test Plan | `PLAN-<NAME>` (e.g. `PLAN-REGRESSION`) | Declared in the plan |
 | Test Execution | `EXEC-<NAME>-<YYYYMMDD>` | Created by imports |
 
-These match the IDs `scripts/jira-export.mjs` already uses, except that Bug IDs gain a `BUG-` prefix so they cannot
+These match the IDs `scripts/test-management/jira-export.mjs` already uses, except that Bug IDs gain a `BUG-` prefix so they cannot
 be confused with acceptance-criterion IDs.

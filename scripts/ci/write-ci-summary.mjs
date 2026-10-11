@@ -1,6 +1,6 @@
 // Turns Playwright's JSON report (reports/test-results.json) into a Markdown summary.
 // In GitHub Actions it is appended to the run page ($GITHUB_STEP_SUMMARY);
-// locally it is printed. Usage: node scripts/write-ci-summary.mjs "Smoke tests"
+// locally it is printed. Usage: node scripts/ci/write-ci-summary.mjs "Smoke tests"
 // It never fails: the test step already decides whether the job is red.
 import fs from 'node:fs';
 

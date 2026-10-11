@@ -85,7 +85,7 @@ must **not** be added there (tests would then require Jira credentials to run). 
 
 ## 6. Redaction in logs and reports
 
-Repository precedent: `scripts/write-ci-summary.mjs` masks JWTs (`eyJ…` → `<redacted-jwt>`), and CI disables
+Repository precedent: `scripts/ci/write-ci-summary.mjs` masks JWTs (`eyJ…` → `<redacted-jwt>`), and CI disables
 Playwright traces because they record headers (test-strategy §11.5). Apply the same to this integration:
 
 - Never print `Authorization` headers, the authenticate request body, or the token.

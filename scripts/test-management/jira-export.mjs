@@ -9,7 +9,7 @@
 //   docs/jira-import/bugs.csv     <- docs/exploration/exploration-validation.md §2
 //                                    + browser/authentication.md (A-7, A-11)
 //                                    + risk-register.md §2.1 (severity, priority)
-// Usage: node scripts/jira-export.mjs [path/to/keys.json]
+// Usage: node scripts/test-management/jira-export.mjs [path/to/keys.json]
 // keys.json (optional) maps ids to Jira keys once the issues exist, e.g.
 // {"FA-01": "PSM-1", "US-001": "PSM-20", "PR-01": "PSM-50", "TS-AUTH-10": "PSM-140"}.
 // Each import step adds the key columns for the issues already imported:
@@ -19,7 +19,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const root = path.resolve(import.meta.dirname, '..');
+const root = path.resolve(import.meta.dirname, '../..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n');
 // JIRA_EXPORT_OUT writes elsewhere, e.g. to compare with the committed files.
 const outDir = process.env.JIRA_EXPORT_OUT ?? path.join(root, 'docs/jira-import');

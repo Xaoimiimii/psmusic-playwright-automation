@@ -25,7 +25,7 @@ Related, outside this folder:
 | [`../../.claude/rules/traceability-rules.md`](../../.claude/rules/traceability-rules.md) | Coverage, risk, defect and repeatability rules every command applies |
 | [`../../test-management/config/project-map.example.json`](../../test-management/config/project-map.example.json) | Template for the verified project configuration (types, fields, link types) |
 | [`../../test-management/state/`](../../test-management/state/) | Persistent local-ID ↔ Jira/Xray mapping and its schema |
-| [`../../scripts/jira-export.mjs`](../../scripts/jira-export.mjs) | Existing generator of Jira CSV import files from the test-design Markdown |
+| [`../../scripts/test-management/jira-export.mjs`](../../scripts/test-management/jira-export.mjs) | Existing generator of Jira CSV import files from the test-design Markdown |
 
 ## Architecture
 

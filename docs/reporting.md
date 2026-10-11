@@ -56,6 +56,9 @@ npm run report:metadata                                        # regenerate afte
 node scripts/test-management/export-test-metadata.mjs --check  # exit 1 if the committed file is stale
 ```
 
+The CI build job (`ci.yml`) runs this check, and the same check for `src/data/xray-test-keys.ts`, on every PR and
+push to `main`. If it fails, run `npm run report:metadata` (and `npm run xray:keys`) and commit the result.
+
 The `reporting` fixture finds the scenario ID (`TS-AREA-nn`) in the test title, or in an enclosing `describe`
 title, and applies:
 
@@ -260,4 +263,3 @@ Passing `--reporter=…` on the command line **replaces** every configured repor
   or a `gh-pages` branch) and restore it before `allure generate`.
 - In-run retries are not flagged *flaky* by Allure 3 (history-based only). The CI run summary does list them.
 - The HTTP exchange shows the headers passed by the caller, not cookies the request context adds from its jar.
-- Add `node scripts/test-management/export-test-metadata.mjs --check` to the CI build job so a stale metadata file is caught.

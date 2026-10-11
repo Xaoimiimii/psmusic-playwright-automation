@@ -1,7 +1,7 @@
 ---
 description: Build the persistent Jira/Xray sync plan (Epics, Stories, Risks, Bugs, Tests, Test Sets, Test Plans) from the repo; no Jira writes
 argument-hint: [area filter, e.g. AUTH] [--full]
-allowed-tools: Read, Glob, Grep, Bash(git rev-parse:*), Bash(git status:*), Bash(node scripts/jira-export.mjs:*), Write(test-management/state/plan.json), Write(test-management/reports/*)
+allowed-tools: Read, Glob, Grep, Bash(git rev-parse:*), Bash(git status:*), Bash(node scripts/test-management/jira-export.mjs:*), Write(test-management/state/plan.json), Write(test-management/reports/*)
 ---
 
 # Plan Jira/Xray entities (local only)
@@ -31,7 +31,7 @@ organization rules) throughout.
 6. `docs/exploration/exploration-validation.md` §2, `docs/exploration/browser/authentication.md` → Bugs.
 7. Application source only when a document is ambiguous (CLAUDE.md §2); never edit it.
 
-`scripts/jira-export.mjs` already parses these documents. Reuse its parsing rules (run it with
+`scripts/test-management/jira-export.mjs` already parses these documents. Reuse its parsing rules (run it with
 `JIRA_EXPORT_OUT=test-management/tmp/export` to compare) rather than inventing different ones.
 
 ## Allowed

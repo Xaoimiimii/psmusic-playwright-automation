@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "jira:export": "node scripts/jira-export.mjs",
+    "jira:export": "node scripts/test-management/jira-export.mjs",
     "test": "playwright test",
     "test:auth": "playwright test tests/auth",
     "test:smoke": "playwright test --grep @smoke",
