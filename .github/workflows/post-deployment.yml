@@ -1,0 +1,46 @@
+# Post-deployment validation: the @smoke suite against the QA environment, right after a deployment.
+# Started by the PSMusic application repository's "Deploy to QA" workflow (repository_dispatch),
+# or by hand from the Actions tab. Details: docs/ci-cd.md section 8.
+name: Post-deployment
+
+on:
+  repository_dispatch:
+    types: [psmusic-qa-deployed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Only the latest deployment matters: a newer one cancels the check of the previous one.
+concurrency:
+  group: post-deployment
+  cancel-in-progress: true
+
+jobs:
+  post-deployment-tests:
+    name: Post-deployment smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PSMUSIC_UI_URL: ${{ vars.PSMUSIC_UI_URL }}
+      PSMUSIC_API_URL: ${{ vars.PSMUSIC_API_URL }}
+      PSMUSIC_SERVICE_KEY: ${{ secrets.PSMUSIC_SERVICE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record the deployment that started this run
+        if: github.event_name == 'repository_dispatch'
+        env:
+          APP_REPO: ${{ github.event.client_payload.app_repo }}
+          APP_SHA: ${{ github.event.client_payload.app_sha }}
+          APP_RUN_URL: ${{ github.event.client_payload.app_run_url }}
+          APP_ENVIRONMENT: ${{ github.event.client_payload.environment }}
+        run: node scripts/write-trigger-summary.mjs
+
+      # Fails with "Missing environment variable ..." if the configuration is not set.
+      # Install, run @smoke, keep the evidence.
+      - uses: ./.github/actions/run-suite
+        with:
+          title: Post-deployment smoke
+          grep: '@smoke'
+          artifact-suffix: post-deployment

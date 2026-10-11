@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "projectKey": "MSC",
-  "updatedAt": "2026-10-09T14:22:40.598Z",
+  "updatedAt": "2026-10-09T15:45:18.374Z",
   "lastRunId": "SYNC-20261009-130902",
   "entities": {
     "FA-01": {
@@ -1251,9 +1251,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:22.522Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.829Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1273,9 +1273,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:27.066Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.829Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1295,9 +1295,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:31.665Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.829Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1317,9 +1317,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:35.740Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1339,9 +1339,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:44.488Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1361,9 +1361,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:49.744Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1383,9 +1383,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:57:54.224Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1405,9 +1405,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:58:00.050Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1427,9 +1427,9 @@
         "automatedSpec": "tests/auth/login.spec.ts > TS-AUTH-01 valid login creates a session"
       },
       "creationStatus": "created",
-      "verificationStatus": "UNVERIFIED",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:12:19.211Z",
-      "verifiedAt": "2026-10-09T13:29:46.344Z",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1449,9 +1449,9 @@
         "automatedSpec": "tests/auth/login.spec.ts > TS-AUTH-02 login client validation"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:56:35.657Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1471,9 +1471,9 @@
         "automatedSpec": "tests/auth/login.spec.ts > TS-AUTH-03 unknown username and wrong password"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:58:05.030Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1493,9 +1493,9 @@
         "automatedSpec": "tests/auth/login.spec.ts > TS-AUTH-04 password visibility toggle and panel switch"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:58:21.770Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1515,9 +1515,9 @@
         "automatedSpec": "tests/auth/session.spec.ts > TS-AUTH-05 reload restores the session"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:58:53.685Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1537,9 +1537,9 @@
         "automatedSpec": "tests/auth/session.spec.ts > TS-AUTH-06 no refresh cookie means guest"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:58:58.403Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1559,9 +1559,9 @@
         "automatedSpec": "tests/auth/session.spec.ts > TS-AUTH-07 a 401 on a protected call triggers one refresh and a retry"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:03.177Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1581,9 +1581,9 @@
         "automatedSpec": "tests/auth/session.spec.ts > TS-AUTH-08 a failed refresh logs the user out cleanly"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:08.014Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1603,9 +1603,9 @@
         "automatedSpec": "tests/auth/session.spec.ts > TS-AUTH-09 each refresh re-issues the refresh token"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:12.779Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1625,9 +1625,9 @@
         "automatedSpec": "tests/auth/logout.spec.ts > TS-AUTH-10 logout lands on Home from every page"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:17.862Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1647,9 +1647,9 @@
         "automatedSpec": "tests/auth/logout.spec.ts > TS-AUTH-11 logout clears the session"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:24.042Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1669,9 +1669,9 @@
         "automatedSpec": "tests/authz/api-access.spec.ts > TS-AUTHZ-01 requests without a valid service key are refused"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:29.142Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1691,9 +1691,9 @@
         "automatedSpec": "tests/authz/api-access.spec.ts > TS-AUTHZ-02 bearer token enforcement"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:35.061Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1713,9 +1713,9 @@
         "automatedSpec": "tests/authz/guest-gating.spec.ts > TS-AUTHZ-03 guest clicking Favorites in the sidebar"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:40.524Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1735,9 +1735,9 @@
         "automatedSpec": "tests/authz/guest-gating.spec.ts > TS-AUTHZ-04 guest clicking heart or rate in the player bar"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:44.640Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1757,9 +1757,9 @@
         "automatedSpec": "tests/authz/guest-gating.spec.ts > TS-AUTHZ-05 closing the sign-in modal"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:53.156Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1779,9 +1779,9 @@
         "automatedSpec": "tests/authz/protected-routes.spec.ts > TS-AUTHZ-06 guest opening a protected URL is sent to /auth"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T13:59:59.195Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1801,9 +1801,9 @@
         "automatedSpec": "tests/profile/profile.spec.ts > TS-PROF-01 a user reads their own profile"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:05.287Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1823,9 +1823,9 @@
         "automatedSpec": "tests/profile/profile.spec.ts > TS-PROF-02 a user cannot read another user's profile"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:09.877Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1845,9 +1845,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:14.877Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1867,9 +1867,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:18.878Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1889,9 +1889,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:23.684Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1911,9 +1911,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:28.192Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1933,9 +1933,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:32.810Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1955,9 +1955,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:40.230Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1977,9 +1977,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:46.873Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -1999,9 +1999,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:50.890Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2021,9 +2021,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:56.593Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2043,9 +2043,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:01.072Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2065,9 +2065,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:06.455Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2087,9 +2087,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:11.444Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2109,9 +2109,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:16.038Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2131,9 +2131,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:21.006Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2153,9 +2153,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:25.954Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2175,9 +2175,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:30.490Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2197,9 +2197,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:35.807Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2219,9 +2219,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:40.268Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2241,9 +2241,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:45.699Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2263,9 +2263,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:49.916Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2285,9 +2285,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:54.935Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2307,9 +2307,9 @@
         "automatedSpec": "tests/song/song-details.spec.ts > TS-SONG-01 song page content"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:01.757Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2329,9 +2329,9 @@
         "automatedSpec": "tests/shared/not-found.spec.ts > TS-SONG-02"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:07.476Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2351,9 +2351,9 @@
         "automatedSpec": "tests/song/song-details.spec.ts > TS-SONG-03 lyrics display"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:12.046Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2373,9 +2373,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:17.943Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2395,9 +2395,9 @@
         "automatedSpec": "tests/song/song-details.spec.ts > TS-SONG-05 other songs by the artist"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:23.050Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2417,9 +2417,9 @@
         "automatedSpec": "tests/song/song-details.spec.ts > TS-SONG-06 heart state after in-app navigation and reload"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:29.529Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2439,9 +2439,9 @@
         "automatedSpec": "tests/song/song-details.spec.ts > TS-SONG-07 lyric file cannot be fetched"
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:35.014Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2461,9 +2461,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:41.135Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2483,9 +2483,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:46.177Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2505,9 +2505,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:50.363Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2527,9 +2527,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:02:55.788Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2549,9 +2549,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:01.361Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2571,9 +2571,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:05.815Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2593,9 +2593,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:10.347Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2604,7 +2604,7 @@
       "localId": "TS-PLAY-06",
       "type": "test",
       "summary": "TS-PLAY-06 Volume and mute",
-      "planHash": "741a78f0e2fcf239",
+      "planHash": "df76232f2cbbe1b2",
       "jiraKey": "MSC-155",
       "jiraId": "10382",
       "xray": {
@@ -2614,10 +2614,10 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "creationStatus": "updated",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:16.051Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T15:45:18.374Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2637,9 +2637,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:20.593Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2659,9 +2659,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:26.727Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2681,9 +2681,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:31.670Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2703,9 +2703,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:36.782Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2725,9 +2725,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:45.902Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2747,9 +2747,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:51.829Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2769,9 +2769,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:57.224Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2791,9 +2791,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:02.097Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2813,9 +2813,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:07.241Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2835,9 +2835,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:12.105Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2857,9 +2857,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:16.960Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2879,9 +2879,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:21.107Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2901,9 +2901,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:25.629Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2923,9 +2923,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:30.378Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2945,9 +2945,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:35.515Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2967,9 +2967,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:43.957Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -2989,9 +2989,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:48.810Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3011,9 +3011,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:54.188Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3033,9 +3033,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:00.078Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3055,9 +3055,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:05.621Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3077,9 +3077,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:10.733Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3099,9 +3099,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:15.133Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3121,9 +3121,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:19.919Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3143,9 +3143,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:24.705Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3165,9 +3165,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:29.980Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3187,9 +3187,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:35.067Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3209,9 +3209,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:39.527Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3231,9 +3231,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:45.017Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3253,9 +3253,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:49.580Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3275,9 +3275,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:55.201Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3297,9 +3297,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:05:59.960Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3319,9 +3319,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:04.915Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3341,9 +3341,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:09.740Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3363,9 +3363,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:15.726Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3385,9 +3385,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:20.972Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3407,9 +3407,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:26.022Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3429,9 +3429,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:31.511Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3451,9 +3451,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:35.523Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3473,9 +3473,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:40.522Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3495,9 +3495,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:46.360Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3517,9 +3517,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:51.016Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3539,9 +3539,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:06:56.681Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3561,9 +3561,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:01.247Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3583,9 +3583,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:06.712Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3605,9 +3605,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:12.483Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3627,9 +3627,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:17.693Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3649,9 +3649,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:22.420Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3671,9 +3671,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:28.235Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3693,9 +3693,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:33.295Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3715,9 +3715,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:38.796Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3737,9 +3737,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:45.273Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3759,9 +3759,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:51.005Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3781,9 +3781,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:07:56.952Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -3803,9 +3803,9 @@
         "automatedSpec": null
       },
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:02.821Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4059,9 +4059,9 @@
       "jiraId": "10437",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:20.626Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4075,9 +4075,9 @@
       "jiraId": "10438",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:25.593Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4091,9 +4091,9 @@
       "jiraId": "10439",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:29.878Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4107,9 +4107,9 @@
       "jiraId": "10440",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:40.580Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4123,9 +4123,9 @@
       "jiraId": "10441",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:44.300Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4139,9 +4139,9 @@
       "jiraId": "10442",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:08:49.034Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4155,9 +4155,9 @@
       "jiraId": "10443",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:00.299Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4171,9 +4171,9 @@
       "jiraId": "10444",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:04.644Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4187,9 +4187,9 @@
       "jiraId": "10445",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:09.529Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4203,9 +4203,9 @@
       "jiraId": "10446",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:24.179Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4219,9 +4219,9 @@
       "jiraId": "10447",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:27.612Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4235,9 +4235,9 @@
       "jiraId": "10448",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:31.764Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4251,9 +4251,9 @@
       "jiraId": "10449",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:36.108Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4267,9 +4267,9 @@
       "jiraId": "10450",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:40.354Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4283,9 +4283,9 @@
       "jiraId": "10451",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:44.581Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4299,9 +4299,9 @@
       "jiraId": "10452",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:48.253Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4315,9 +4315,9 @@
       "jiraId": "10453",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:52.606Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4331,9 +4331,9 @@
       "jiraId": "10454",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:09:56.370Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4347,9 +4347,9 @@
       "jiraId": "10455",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:10:00.284Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -4363,9 +4363,9 @@
       "jiraId": "10456",
       "xray": null,
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
+      "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:10:05.449Z",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-09T14:37:06.046Z",
       "lastRunId": "SYNC-20261009-130902",
       "lastError": null,
       "duplicates": []
@@ -5402,8 +5402,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5414,7 +5414,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:13:29.957Z",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5424,8 +5424,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5435,8 +5435,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5446,8 +5446,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5457,8 +5457,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5468,8 +5468,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5479,8 +5479,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5490,8 +5490,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5501,8 +5501,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5512,8 +5512,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5523,8 +5523,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5534,8 +5534,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5545,8 +5545,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5556,8 +5556,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5567,8 +5567,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5578,8 +5578,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5590,7 +5590,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T13:57:11.711Z",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5600,8 +5600,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5611,8 +5611,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5622,8 +5622,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5633,8 +5633,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5644,8 +5644,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5655,8 +5655,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5666,8 +5666,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5677,8 +5677,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5688,8 +5688,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5699,8 +5699,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5710,8 +5710,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5721,8 +5721,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5732,8 +5732,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5743,8 +5743,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5754,8 +5754,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5765,8 +5765,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5776,8 +5776,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5787,8 +5787,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5798,8 +5798,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5809,8 +5809,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5820,8 +5820,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5831,8 +5831,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5842,8 +5842,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5853,8 +5853,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5864,8 +5864,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5875,8 +5875,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5886,8 +5886,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5897,8 +5897,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5908,8 +5908,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5919,8 +5919,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5930,8 +5930,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5941,8 +5941,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5952,8 +5952,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5963,8 +5963,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5974,8 +5974,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5985,8 +5985,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -5996,8 +5996,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6007,8 +6007,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6018,8 +6018,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6029,8 +6029,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6040,8 +6040,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6051,8 +6051,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6062,8 +6062,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6073,8 +6073,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6084,8 +6084,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6095,8 +6095,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6106,8 +6106,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6117,8 +6117,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6128,8 +6128,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6139,8 +6139,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6150,8 +6150,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6161,8 +6161,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6172,8 +6172,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6183,8 +6183,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6194,8 +6194,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6205,8 +6205,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6216,8 +6216,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6227,8 +6227,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6238,8 +6238,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6249,8 +6249,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6260,8 +6260,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6271,8 +6271,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6282,8 +6282,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6293,8 +6293,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6304,8 +6304,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6315,8 +6315,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6326,8 +6326,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6337,8 +6337,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6348,8 +6348,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6359,8 +6359,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6370,8 +6370,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6381,8 +6381,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6392,8 +6392,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6403,8 +6403,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6414,8 +6414,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6425,8 +6425,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6436,8 +6436,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6447,8 +6447,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6458,8 +6458,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6469,8 +6469,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6480,8 +6480,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6491,8 +6491,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6502,8 +6502,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6513,8 +6513,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6524,8 +6524,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6535,8 +6535,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6546,8 +6546,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6557,8 +6557,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6568,8 +6568,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6579,8 +6579,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6590,8 +6590,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6601,8 +6601,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6612,8 +6612,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6623,8 +6623,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6634,8 +6634,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6645,8 +6645,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6656,8 +6656,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6667,8 +6667,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6678,8 +6678,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6689,8 +6689,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6700,8 +6700,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6711,8 +6711,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6722,8 +6722,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6733,8 +6733,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6744,8 +6744,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6755,8 +6755,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6766,8 +6766,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T15:45:11.118Z",
       "lastError": null
     },
     {
@@ -6777,8 +6777,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T15:45:11.118Z",
       "lastError": null
     },
     {
@@ -6788,8 +6788,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6799,8 +6799,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6810,8 +6810,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6821,8 +6821,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6832,8 +6832,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6843,8 +6843,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6854,8 +6854,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6865,8 +6865,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6876,8 +6876,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6887,8 +6887,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6898,8 +6898,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6909,8 +6909,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6920,8 +6920,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6931,8 +6931,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6942,8 +6942,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6953,8 +6953,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6964,8 +6964,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6975,8 +6975,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6986,8 +6986,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -6997,8 +6997,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7008,8 +7008,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7019,8 +7019,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7030,8 +7030,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7041,8 +7041,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7052,8 +7052,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7063,8 +7063,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7074,8 +7074,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7085,8 +7085,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7096,8 +7096,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7107,8 +7107,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7118,8 +7118,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7129,8 +7129,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7140,8 +7140,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7151,8 +7151,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7162,8 +7162,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7173,8 +7173,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7184,8 +7184,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7195,8 +7195,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7206,8 +7206,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7217,8 +7217,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7228,8 +7228,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7239,8 +7239,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7250,8 +7250,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7261,8 +7261,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7272,8 +7272,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7283,8 +7283,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7294,8 +7294,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7305,8 +7305,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7316,8 +7316,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7327,8 +7327,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7338,8 +7338,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7349,8 +7349,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7360,8 +7360,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7371,8 +7371,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7382,8 +7382,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7393,8 +7393,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7404,8 +7404,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7415,8 +7415,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7426,8 +7426,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7437,8 +7437,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7448,8 +7448,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7459,8 +7459,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7470,8 +7470,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7481,8 +7481,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7492,8 +7492,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7503,8 +7503,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7514,8 +7514,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7525,8 +7525,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7536,8 +7536,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7547,8 +7547,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7558,8 +7558,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7569,8 +7569,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7580,8 +7580,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7591,8 +7591,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7602,8 +7602,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7613,8 +7613,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7624,8 +7624,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7635,8 +7635,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7646,8 +7646,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7657,8 +7657,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7668,8 +7668,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7679,8 +7679,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7690,8 +7690,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7701,8 +7701,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7712,8 +7712,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7723,8 +7723,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7734,8 +7734,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7745,8 +7745,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7756,8 +7756,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7767,8 +7767,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7778,8 +7778,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7789,8 +7789,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7800,8 +7800,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7811,8 +7811,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7822,8 +7822,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7833,8 +7833,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7844,8 +7844,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7855,8 +7855,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7866,8 +7866,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7877,8 +7877,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7888,8 +7888,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7899,8 +7899,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7910,8 +7910,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7921,8 +7921,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7932,8 +7932,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7943,8 +7943,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7954,8 +7954,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {
@@ -7965,8 +7965,8 @@
       "linkType": "Test",
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
-      "verificationStatus": "NOT_RUN",
-      "verifiedAt": null,
+      "verificationStatus": "PASS",
+      "verifiedAt": "2026-10-09T14:36:49.830Z",
       "lastError": null
     },
     {

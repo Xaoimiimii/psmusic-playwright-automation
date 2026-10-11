@@ -59,7 +59,7 @@ problems. Links point to the reference sections.
 - **Symptom:** `auth-check` and `getProjectSettings` work, but `createTest` returns `"Create issue failed!"` even
   with only `summary` + `project`; `getTests`/`getTestSets`/`getTestPlans` return
   `"Get approximate count for JQL failed!"` with any JQL or `projectId`; `getTest` returns `null` for a Test that exists.
-  Observed on MSC on 2026-10-09 (`project-map.json` `xray.accessBlocker`).
+  Observed on MSC on 2026-10-09 (`project-map.json` `xray.accessBlocker`). **Resolved the same day by replacing the API key**: the project permission scheme was already correct, so the previous key's user was the cause.
 - **Cause (likely, not verified):** Xray acts in Jira through its app user and the API key's user. If the project's
   permission scheme does not give the app (role *atlassian-addons-project-access*) or that user *Browse projects* and
   *Create issues* in the project, Xray cannot search or create issues there.

@@ -131,9 +131,9 @@ Scope all player locators to **`[class*="playerWrapper"] [class*="player-control
 | 4 | Repeat | `button:has(svg.lucide-repeat)` / `[class*="repeat-btn"]` | M/F | |
 | 5 | Rate | `[class*="rating-btn"]`; gets extra class `_rated_…` when the user already reviewed | F | Guest: opens auth modal |
 | 6 | Download | `button` index 6 | F | NOT TESTED |
-| 7 | Volume | `button` index 7 | F | |
+| 7 | Mute / Unmute | `[class*="volume-control-container"] button`; `data-tooltip` is the translated "Mute" / "Unmute" (EN) | F | No accessible name (icon only). Verified at runtime 2026-10-09 |
 | - | Favorite (heart) | `[class*="player-main-row"] [class*="icon-button"]:has(svg.lucide-heart)` | M | **A `div`, not a button.** Favorited state: `svg[fill="white"]`, not favorited: `fill="transparent"` |
-| - | Volume slider | `input[type=range][class*="volume-range-input"]` (min 0, max 1, default 0.7) | F | |
+| - | Volume slider | `input[type=range][class*="volume-range-input"]` (min 0, max 1, step 0.01, default 0.7) | F | The song page renders the volume container **3 times**: scope to the player bar. Runtime 2026-10-09 (guest, song 1): default `audio.volume` 0.7 / slider 0.7; slider 0.3 → audio 0.3; Mute → 0 and tooltip "Unmute"; Unmute → 0.3 and tooltip "Mute". Matches `PlayerControl.jsx` `toggleMute` (restores the last non-zero volume, fallback 0.5) |
 | - | Seek slider | `input[type=range][class*="seek-range-input"]` (max = duration in s) | F | |
 | - | Title / artist / time | `[class*="player-main-row"]` text: title, artists, `mm:ss` elapsed, `mm:ss` total | F | |
 | - | Audio element | `audio` (single element; `currentTime`, `paused`) | S | Best oracle for "is playing" |

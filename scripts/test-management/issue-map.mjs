@@ -9,6 +9,9 @@
 //   verify <localId> <PASS|FAIL|UNVERIFIED> [error]
 //   links <relationshipKey> [limit]            Planned issue links whose both ends exist, with resolved keys
 //   link-set <relationshipKey> <from> <to> <status> [verification] [error]
+//   updates                                    Entities in Jira whose planned fields changed (planHash drift)
+//   update-payload <localId> <labels,csv>      editJiraIssue payload; keeps labels people added (MANAGED_LABEL_GROUPS)
+//   mark-updated <localId>                     Record a verified update
 //   summary                                    Counts per type / status
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -60,6 +63,17 @@ export function relationshipBlocker(rel) {
   return null;
 }
 
+/**
+ * Labels written by build-plan.mjs whose value can change over an entity's life. When the plan drops one of them,
+ * the update removes it from Jira; any other label on the issue (including labels people added) is kept.
+ */
+const MANAGED_LABEL_GROUPS = [
+  ['automated', 'partially-automated', 'not-automated'],
+  ['p1', 'p2', 'p3'],
+  ['smoke'],
+  ['has-defect', 'blocked', 'provisional', 'needs-confirmation', 'needs-triage'],
+];
+
 const relId = (r) => `${r.relationshipKey ?? r.kind}|${r.from}|${r.to}`;
 
 const commands = {
@@ -69,8 +83,12 @@ const commands = {
     for (const e of plan.entities) {
       const existing = map.entities[e.localId];
       if (existing) {
-        existing.planHash = planHash(e);
-        if (!DONE.has(existing.creationStatus)) existing.summary = e.summary;
+        // For an issue that exists, planHash is the hash of what was last written to Jira; `updates` compares it
+        // with the plan. Only entities not yet in Jira follow the plan directly.
+        if (!DONE.has(existing.creationStatus)) {
+          existing.planHash = planHash(e);
+          existing.summary = e.summary;
+        }
         if (e.approved && existing.creationStatus === 'skipped' && existing.lastError === 'not approved in plan.json') {
           Object.assign(existing, { creationStatus: 'planned', lastError: null });
         }
@@ -187,6 +205,43 @@ const commands = {
     rel.lastError = error.length ? error.join(' ') : null;
     saveMap(map);
     return { relationshipKey, from, to, status, verification: rel.verificationStatus };
+  },
+
+  /** Entities in Jira whose planned fields changed since they were last written (planHash drift). */
+  updates() {
+    const map = loadMap();
+    return plan.entities
+      .filter((e) => DONE.has(map.entities[e.localId]?.creationStatus) && map.entities[e.localId].planHash !== planHash(e))
+      .map((e) => ({ localId: e.localId, key: map.entities[e.localId].jiraKey, type: e.type }));
+  },
+
+  /**
+   * MCP editJiraIssue payload for one drifted entity. `currentLabels` (comma-separated) are the labels read from
+   * Jira just before the edit: labels people added are kept; of the sync's own labels only those in a managed group
+   * that the plan no longer lists are removed (MANAGED_LABEL_GROUPS).
+   */
+  'update-payload'(localId, currentLabels = '') {
+    const map = loadMap();
+    const e = plan.entities.find((x) => x.localId === localId);
+    if (!e || !DONE.has(map.entities[localId]?.creationStatus)) throw new Error(`${localId} is not in Jira`);
+    const current = currentLabels.split(',').map((l) => l.trim()).filter(Boolean);
+    const managed = new Set(MANAGED_LABEL_GROUPS.flat());
+    const removed = current.filter((l) => managed.has(l) && !e.labels.includes(l));
+    const labels = [...new Set([...current.filter((l) => !removed.includes(l)), ...e.labels])].sort();
+    return {
+      issueIdOrKey: map.entities[localId].jiraKey,
+      fields: { summary: e.summary, description: e.description, labels, ...(e.priority ? { priority: { name: e.priority } } : {}) },
+      labelChanges: { added: e.labels.filter((l) => !current.includes(l)), removed },
+    };
+  },
+
+  /** Records a verified update: planHash follows the plan again. */
+  'mark-updated'(localId) {
+    const map = loadMap();
+    const e = plan.entities.find((x) => x.localId === localId);
+    Object.assign(map.entities[localId], { planHash: planHash(e), summary: e.summary, creationStatus: 'updated', lastRunId: map.lastRunId, lastError: null });
+    saveMap(map);
+    return { localId, status: 'updated' };
   },
 
   summary() {

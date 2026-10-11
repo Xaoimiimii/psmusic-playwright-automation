@@ -16,6 +16,9 @@ export const uiText = {
   play: 'Play',
   pause: 'Pause',
   download: 'Download',
+  /** Player bar volume button tooltip (`mute` / `unmute`); the button has no other accessible name. */
+  mute: 'Mute',
+  unmute: 'Unmute',
   artists: 'Artists',
   otherSongsBy: 'Other songs by',
   startListening: 'Start Listening',

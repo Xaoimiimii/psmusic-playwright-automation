@@ -18,6 +18,10 @@ export class PlayerBar {
   /** A `div`, not a button; its `lucide-heart` icon is the only stable hook. */
   readonly favoriteButton: Locator;
   readonly rateButton: Locator;
+  /** Range input 0–1 (step 0.01). The song page renders more copies, hence the scope to `root`. */
+  readonly volumeSlider: Locator;
+  /** Icon-only button; its `data-tooltip` reads Mute or Unmute (`uiText.mute` / `uiText.unmute`). */
+  readonly muteButton: Locator;
   /** The single `<audio>` element of `PlayerContext`; it stays mounted on `/auth`. */
   private readonly audio: Locator;
 
@@ -27,7 +31,24 @@ export class PlayerBar {
       .locator('[class*="player-main-row"] [class*="icon-button"]')
       .filter({ has: page.locator('svg.lucide-heart') });
     this.rateButton = this.root.locator('[class*="rating-btn"]');
+    const volumeControl = this.root.locator('[class*="volume-control-container"]');
+    this.volumeSlider = volumeControl.locator('input[type="range"]');
+    this.muteButton = volumeControl.locator('button');
     this.audio = page.locator('audio');
+  }
+
+  async setVolume(level: number): Promise<void> {
+    await this.volumeSlider.fill(String(level));
+  }
+
+  /** Mutes when sound is on, unmutes when muted. */
+  async toggleMute(): Promise<void> {
+    await this.muteButton.click();
+  }
+
+  /** Volume actually applied to the audio element (0–1), the oracle behind the slider. */
+  async audioVolume(): Promise<number> {
+    return this.audio.evaluate((element: HTMLAudioElement) => element.volume);
   }
 
   async toggleFavorite(): Promise<void> {

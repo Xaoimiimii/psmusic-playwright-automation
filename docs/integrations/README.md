@@ -38,7 +38,7 @@ Related, outside this folder:
                 ▼
    /sync-jira-xray ──┬─► Atlassian MCP (OAuth) ─────────► Jira: Epic, Story, Risk, Bug, parent, issue links
                      │
-                     └─► Xray adapter (BLOCKED on MSC) ─► Xray GraphQL /api/v2/graphql:
+                     └─► Xray adapter (scripts/xray) ───► Xray GraphQL /api/v2/graphql:
                           client_id/secret → token        Test type + steps, Test Set, Test Plan, Test Execution
                 │
                 ▼
@@ -91,7 +91,7 @@ steps matter. See [xray-cloud-rest-api.md §4](xray-cloud-rest-api.md#4-creating
 5. [x] Ask a Jira admin for an Xray API key; check it with the authenticate call (no data is written).
 6. [x] Build the Xray adapter (see [Follow-up implementation plan](#follow-up-implementation-plan)).
        `/import-xray-results` is still not executable.
-6a. [ ] Jira admin: give Xray access to MSC (see
+6a. [x] Jira admin: give Xray access to MSC (done 2026-10-09 by replacing the API key) (see
        [troubleshooting](troubleshooting.md#xray-authenticates-but-cannot-see-or-create-jira-issues)). Until then
        `/sync-jira-xray` runs Jira-only steps.
 7. [ ] Run `/plan-jira-xray`, review the plan, then `/sync-jira-xray --dry-run`, `/sync-jira-xray` and `/verify-jira-xray`.
@@ -102,8 +102,8 @@ steps matter. See [xray-cloud-rest-api.md §4](xray-cloud-rest-api.md#4-creating
 |---|---|---|
 | `/discover-jira-xray` | Operational (Jira part via MCP); Xray part needs credentials + adapter | Read-only MCP tools exist and were exercised |
 | `/plan-jira-xray` | Operational | Local analysis only; writes `test-management/state/plan.json` |
-| `/sync-jira-xray` | Partially operational | Jira entities and links via MCP (first run 2026-10-09: `test-management/reports/`). Xray steps blocked: Xray cannot access MSC issues ([troubleshooting](troubleshooting.md#xray-authenticates-but-cannot-see-or-create-jira-issues)) |
-| `/verify-jira-xray` | Partially operational | Jira checks via MCP; Xray membership/test-type checks blocked by the same Xray access problem |
+| `/sync-jira-xray` | Operational | Jira via MCP, Xray via `scripts/test-management/sync-xray.mjs`. First full run 2026-10-09: `test-management/reports/sync-20261009-130902.md` |
+| `/verify-jira-xray` | Operational | Jira checks via MCP (`verify-jira.mjs`); Xray type, steps, coverage and membership via `sync-xray.mjs verify` / `members` |
 | `/import-xray-results` | **Scaffold, not executable** | Needs the adapter, Xray credentials, and a JUnit reporter in `playwright.config.ts` |
 
 ## Follow-up implementation plan
@@ -113,7 +113,7 @@ steps matter. See [xray-cloud-rest-api.md §4](xray-cloud-rest-api.md#4-creating
 | 1 | **Done 2026-10-09.** `scripts/xray/xray-client.mjs`: authenticate, GraphQL POST, retry on 429/5xx with backoff, token redaction | Node built-in `fetch`; no new dependency. Reads `XRAY_*` from `.env` |
 | 2 | **Done 2026-10-09, except `import-junit` and `--dry-run`.** `scripts/xray/xray.mjs` CLI with subcommands: `auth-check`, `project-settings`, `get-tests`, `create-test`, `add-tests-to-set`, `add-tests-to-plan`, `get-test-set`, `get-test-plan`, `import-junit` | Each subcommand prints JSON so commands can parse it; `--dry-run` prints the request without sending |
 | 3 | `scripts/test-management/validate-state.mjs`: JSON Schema check of `issue-map.json` and `plan.json` | Use the schema in `test-management/state/` |
-| 4 | Playwright JUnit reporter with Xray options and a `test_key` annotation helper | Changes `playwright.config.ts` and test files: needs an explicit request |
+| 4 | **Done and verified 2026-10-09** (trial Test Execution MSC-230). Playwright JUnit reporter with Xray options and a `test_key` annotation helper | Changes `playwright.config.ts` and test files: needs an explicit request |
 | 5 | **Done 2026-10-09.** Read MSC's Xray project settings and fill `project-map.json` `xray` | Remaining: a Jira admin fixes Xray's access to MSC (`xray.accessBlocker`) |
 | 6 | Optional CI step that imports results after the regression run | Needs `XRAY_CLIENT_ID`/`XRAY_CLIENT_SECRET` as GitHub secrets |
 

@@ -44,3 +44,6 @@ Thumbs.db
 .playwright-mcp/
 # Jira/Xray sync: raw API responses kept only for debugging
 /test-management/tmp/
+
+# JUnit report for Xray import (playwright.config.ts)
+/xray-report.xml

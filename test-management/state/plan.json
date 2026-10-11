@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T13:21:57.236Z",
-  "gitCommit": "4b84597250a192e8388de0599cdc67187a9e64d9",
+  "generatedAt": "2026-10-09T15:43:43.033Z",
+  "gitCommit": "7c6cd3b602585cf38b868e54bd40a5e243fdb32f",
   "sources": [
     {
       "path": "docs/requirements/user-stories.md",
@@ -25,7 +25,7 @@
     },
     {
       "path": "docs/test-case-implementation-progress.md",
-      "sha256": "dec5075b02fad6fa18e767e4104023d07337a4657446e7de50a5a500bbb34437"
+      "sha256": "f2a7c755d806386688fa54208180f07e432d25fe4496de96e02665e7524b2e40"
     },
     {
       "path": "docs/exploration/exploration-validation.md",
@@ -3153,13 +3153,13 @@
       "localId": "TS-PLAY-06",
       "type": "test",
       "summary": "TS-PLAY-06 Volume and mute",
-      "description": "**Objective:** Volume defaults and mute behave as agreed.\n**Preconditions:** Song playing in a fresh session.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-06\n**Risk:** PR-08 | **Condition:** TC-PR08-6\n**Rule:** -\n**Dependencies:** None.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Volume defaults and mute behave as agreed.\n**Preconditions:** Song playing in a fresh session.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-06\n**Risk:** PR-08 | **Condition:** TC-PR08-6\n**Rule:** -\n**Dependencies:** None.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-06"
       ],
@@ -3174,7 +3174,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/volume.spec.ts > TS-PLAY-06 volume defaults to 70% and mute restores the previous volume"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-06"
     },
@@ -9445,7 +9445,8 @@
         "TS-SONG-03",
         "TS-SONG-05",
         "TS-SONG-06",
-        "TS-SONG-07"
+        "TS-SONG-07",
+        "TS-PLAY-06"
       ],
       "blocking": false
     },
@@ -9523,10 +9524,6 @@
     },
     {
       "localId": "TS-PLAY-05",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-06",
       "gap": "P1 scenario classified AUTOMATE but not implemented yet."
     },
     {

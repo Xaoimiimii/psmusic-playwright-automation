@@ -191,6 +191,31 @@ and per test: `testInfo.annotations.push({ type: 'test_key', description: '<TEST
 Repository impact: `embedAttachmentsAsProperty` embeds screenshots in the XML. Screenshots of an authenticated page
 can show personal data; keep it off in CI unless reviewed (see authentication-and-security.md §6).
 
+**Applied in this repository (2026-10-09):**
+
+- `playwright.config.ts` has the `junit` reporter (`xray-report.xml`, `embedAnnotationsAsProperties: true`,
+  `textContentAnnotations: ['test_description']`, **no** `embedAttachmentsAsProperty`).
+- The automatic `xrayTestKey` fixture (`src/fixtures/test.ts`) takes the first scenario ID (`TS-AREA-nn`) in the test's
+  title path, test title first, then the enclosing `describe` titles. It looks that ID up in `src/data/xray-test-keys.ts`
+  and pushes a `test_key` annotation. No spec file contains a key.
+- `src/data/xray-test-keys.ts` is generated from `issue-map.json` by `npm run xray:keys`; `--check` reports drift.
+- Verified without the SUT: a probe spec run with the real fixture produced `<property name="test_key" value="MSC-110">`
+  (from a `describe` title) and `MSC-142` (from a test title). `--list` of the real suite: 37 Playwright tests, all
+  resolve to a key, covering the 25 automated scenarios. 7 scenarios have more than one Playwright test under one key
+  (TS-AUTHZ-02 has 7).
+- `node scripts/xray/xray.mjs import-junit xray-report.xml [testPlanKey]` refuses a report with any testcase that
+  has no `test_key`, so an import cannot create new Generic Tests.
+- **Known defects:** `knownDefect()` marks a test `test.fail()`, so JUnit reports a reproduced defect as a pass.
+  `scripts/xray/junit-for-xray.mjs` flips only those testcases before import: defect reproduced → `<failure>` (Xray
+  FAILED); defect no longer reproduced → no failure plus a `testrun_comment` asking for review (Xray PASSED).
+  `prepare-junit` shows the changes without uploading.
+- **LIVE (trial 2026-10-09, Test Execution MSC-230, `tests/auth/logout.spec.ts`):** (1) **Manual** Tests accept JUnit
+  results through `test_key`; the Test keeps type Manual. (2) Several testcases with one `test_key` become **one test
+  run** with one entry per testcase in `results`; the run status is FAILED if any entry failed (MSC-110: FAILED +
+  PASSED → FAILED). (3) No Test was created by the import. (4) Without `info`, the execution summary is
+  "Execution results [<timestamp>]" and it is linked to no Test Plan; pass a Test Plan key to `import-junit` for
+  planned runs.
+
 ### 6.4 Before and after an import
 
 Before: the report's every `test_key` exists in `issue-map.json` with `xray.testType = Generic` (or the behavior in
