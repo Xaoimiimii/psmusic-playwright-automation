@@ -73,9 +73,9 @@ title, and applies:
 | `scenario` label | `TS-AUTH-01` | Title |
 | Display name | `<describe title> › <test title>` when the scenario ID is in the describe block | Title path |
 | Tags | `smoke`, `critical`, `regression`, `api`, … | Playwright `tag` |
-| `known-defect` tag, `known_defect` label, issue link | Reference passed to `knownDefect()` | `recordedBugs` (bug `BUG-<reference>`) |
+| `known-defect` tag, `known_defect` label, issue link | Bug local ID passed to `knownDefect()`, e.g. `BUG-A-7` | `recordedBugs` (type-checked: `RecordedBugId`) |
 | Layer | `UI`, `API` or `UI + API`: what the test actually exercised | Runtime (browser context created / API client called outside preconditions) |
-| `failure_signal` | `backend-5xx`, `network-error`, `page-error`, on failed tests only | Runtime (§6) |
+| `failure_signal` | `backend-5xx`, `network-error`, `page-error`, `slow-response`, on failed tests only | Runtime (§6) |
 
 **Owner** is not set: the project records no test ownership, and an invented owner would be misleading.
 
@@ -183,7 +183,9 @@ reproduce a failure. Never point the suite at an environment with real users (`c
   (unexpected pass) and lands in *Known defect no longer reproduces*.
 - **Failure signals**: while a test runs, the API wrapper and the browser collector record 5xx responses
   (`backend-5xx`), requests that got no response (`network-error`, except `ERR_ABORTED` from SPA navigation) and
-  uncaught JavaScript errors in the page (`page-error`). They become labels only if the test fails.
+  uncaught JavaScript errors in the page (`page-error`), and API responses slower than `PSMUSIC_SLOW_RESPONSE_MS`
+  (default 4000 ms), including requests still unanswered when a UI test failed (`slow-response`). They become labels
+  only if the test fails, and are the main evidence of failure triage ([`failure-triage.md`](failure-triage.md)).
 - **Global set-up failure** (PSMusic unreachable): no test runs; Allure shows it under **Global Errors**, and the CI run
   summary shows the message.
 
@@ -199,6 +201,7 @@ Defined in `allurerc.mjs`, first match wins:
 | Environment or infrastructure | `network-error` signal, or connection/certificate/browser-launch errors |
 | API / backend failure | `backend-5xx` signal, or `Received: 5xx` in an assertion |
 | Application error in the page | `page-error` signal |
+| Slow API response observed | `slow-response` signal |
 | Test data or set-up failure | `Test setup:` errors (thrown by `registerOrThrow`, `loginOrThrow`, `…OrThrow` helpers) |
 | Automation script error | `TypeError`, `ReferenceError`, … in test code |
 | Locator matches several elements | Playwright strict mode violation |
@@ -207,7 +210,9 @@ Defined in `allurerc.mjs`, first match wins:
 | Assertion failed: observed behavior differs | `Expected … Received` assertion |
 | Unclassified failure: needs triage | anything else failed or broken |
 
-**Limitations.** Categories are triage hints, not root causes:
+**Limitations.** Categories are triage hints, not root causes. The evidence-based classification (product, test,
+infrastructure, flaky, unknown) with recorded-Bug matching is failure triage ([`failure-triage.md`](failure-triage.md)),
+shown in the CI run summary:
 
 - Signals come first because they record what happened, but a signal does not prove causation: a 5xx on an
   unrelated call can coexist with a locator bug.

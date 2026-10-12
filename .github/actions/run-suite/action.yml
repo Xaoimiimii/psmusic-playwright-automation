@@ -4,7 +4,7 @@
 #
 # The caller sets PSMUSIC_UI_URL, PSMUSIC_API_URL and PSMUSIC_SERVICE_KEY in the job env.
 name: Run PSMusic test suite
-description: npm ci, Chromium, Playwright run, run summary, optional Xray Test Execution, Allure report and artifacts
+description: npm ci, Chromium, Playwright run, run summary, failure triage, optional Xray Test Execution, Allure report and artifacts
 
 inputs:
   title:
@@ -96,6 +96,17 @@ runs:
         XRAY_TEST_PLAN: ${{ inputs.xray-test-plan }}
       run: node scripts/ci/xray-execution.mjs import
 
+    # Report-only: classifies each failed test from the recorded evidence and matches recorded Bugs by stable IDs.
+    # Writes reports/triage.json and triage.md and the run summary; no Jira call (docs/failure-triage.md).
+    - name: Triage failures (report-only)
+      if: ${{ !cancelled() }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        SUITE_TITLE: ${{ inputs.title }}
+        SUITE_ID: ${{ inputs.artifact-suffix }}
+      run: node scripts/triage/triage.mjs
+
     - name: Generate Allure report
       if: ${{ !cancelled() }}
       shell: bash
@@ -114,7 +125,7 @@ runs:
         retention-days: ${{ inputs.retention-days }}
         if-no-files-found: warn
 
-    - name: Upload Playwright report, failure screenshots and JUnit
+    - name: Upload Playwright report, failure screenshots, JUnit and triage
       id: playwright-artifact
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
@@ -124,6 +135,8 @@ runs:
           ${{ inputs.working-directory }}/reports/playwright-report/
           ${{ inputs.working-directory }}/reports/test-results/
           ${{ inputs.working-directory }}/reports/xray-report.xml
+          ${{ inputs.working-directory }}/reports/triage.json
+          ${{ inputs.working-directory }}/reports/triage.md
         retention-days: ${{ inputs.retention-days }}
         if-no-files-found: ignore
 

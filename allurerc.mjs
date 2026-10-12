@@ -2,8 +2,10 @@ import { defineConfig } from 'allure';
 
 // Failure categories, first match wins. They are triage hints, not root causes (docs/reporting.md §7):
 // - Labels set by the framework come first, because they record what was observed during the run:
-//   `known_defect` (knownDefect() was reached) and `failure_signal` (a 5xx, a network error or an uncaught
-//   page error was seen by the API wrapper or the browser evidence collector, src/reporting/test-observations.ts).
+//   `known_defect` (knownDefect() was reached) and `failure_signal` (a 5xx, a network error, an uncaught
+//   page error or an API response slower than PSMUSIC_SLOW_RESPONSE_MS was seen by the API wrapper or the
+//   browser evidence collector, src/reporting/test-observations.ts).
+// - These are quick symptom groups. The evidence-based triage decision is scripts/triage (docs/failure-triage.md).
 // - Error-text patterns follow, for failures with no such signal. They cannot tell a wrong locator from a
 //   missing element, or a slow environment from a real hang: those categories are named for the symptom.
 const categories = [
@@ -45,6 +47,11 @@ const categories = [
     id: 'page-error',
     name: 'Application error in the page: uncaught JavaScript exception',
     matchers: { statuses: ['failed', 'broken'], labels: { failure_signal: '^page-error$' } },
+  },
+  {
+    id: 'slow-backend',
+    name: 'Slow API response observed (environment or performance; check before blaming the test)',
+    matchers: { statuses: ['failed', 'broken'], labels: { failure_signal: '^slow-response$' } },
   },
   {
     id: 'test-data',

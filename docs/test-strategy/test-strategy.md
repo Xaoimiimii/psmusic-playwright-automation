@@ -437,6 +437,12 @@ Every failure is classified before it is reported. See also `levels/system-integ
 | Environment / test-data issue | SUT not reachable, no popular data, missing secret | Skipped with a reason |
 | Test defect | Locator broken by an app change, bad wait | Fixed in this repository. Quarantine only with an owner and a deadline |
 
+**Implementation (2026-10-12):** failure triage ([`../failure-triage.md`](../failure-triage.md)) proposes the class for every
+failed test in the CI run summary, report-only: App defect → `PRODUCT_DEFECT` (only a reproduced known defect is
+*confirmed*; any other is *suspected* and reviewed), External outage and Environment → `INFRASTRUCTURE_FAILURE`,
+Test defect → `TEST_DEFECT`, passed on retry → `FLAKY_OR_INCONCLUSIVE`; Integration / contract and anything without
+enough evidence → `UNKNOWN`. It does not change the job result: the actions in the table stay manual.
+
 Retries: at most 1 in CI (the current config has 2). A test that passes on retry is reported as flaky, never silently green.
 
 ### 11.4 Reporting

@@ -1,4 +1,5 @@
 import { test, type APIRequestContext, type APIResponse, type Request } from '@playwright/test';
+import { env } from '../config/env';
 import { recordFailureSignal, recordLayer } from './test-observations';
 import { redactHeader, redactHeaders, redactJson, redactText, truncate } from './redaction';
 
@@ -64,6 +65,7 @@ async function reportedCall(
       }
       const elapsed = Math.round(performance.now() - started);
       if (response.status() >= 500) recordFailureSignal('backend-5xx', `${method} ${url.pathname} -> ${response.status()}`);
+      if (elapsed >= env.slowResponseMs) recordFailureSignal('slow-response', `${method} ${url.pathname} -> ${response.status()} in ${elapsed} ms`);
       await attachExchange(`${request}\n\n${await describeResponse(response, elapsed)}`);
       return response;
     },

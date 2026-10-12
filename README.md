@@ -15,6 +15,7 @@ UI + API + E2E test automation framework (TypeScript, Playwright Test, Allure, G
 | [Implementation Progress](docs/test-case-implementation-progress.md) | Which scenarios are automated (Yes / Partial / No), run results and open findings per area. |
 | [Exploration findings](docs/exploration/) | Observed facts about the SUT from the browser, the application repository and its documentation; [`exploration-validation.md`](docs/exploration/exploration-validation.md) reconciles them. |
 | [CI/CD](docs/ci-cd.md) | Workflows, triggers, suites, configuration, failure investigation, application-repository triggers. |
+| [Failure triage](docs/failure-triage.md) | Evidence-based classification of failed tests (product / test / infrastructure / flaky / unknown) and recorded-Bug matching; report-only. |
 | [Jira/Xray integration](docs/integrations/README.md) | How testware is planned, synced to Jira/Xray, verified, and how results are imported. |
 
 ## 2. Technology Stack
@@ -39,12 +40,13 @@ UI + API + E2E test automation framework (TypeScript, Playwright Test, Allure, G
 
 ```text
 psmusic-playwright-automation/
-├── package.json / package-lock.json         # scripts: test, test:smoke, test:regression, typecheck, allure:*, report:metadata, xray:keys, jira:export
+├── package.json / package-lock.json         # scripts: test, test:smoke, test:regression, test:unit, typecheck, triage, allure:*, report:metadata, xray:keys, jira:export
 ├── playwright.config.ts                     # Chromium project, globalSetup, CI-aware retries/workers/trace, 5 reporters
+├── playwright.unit.config.ts                # unit tests of the tooling (tests-unit/): no browser, no PSMusic
 ├── allurerc.mjs                             # Allure 3: single-file report, failure categories, local history → reports/allure-report/
 ├── tsconfig.json
 ├── reports/                                 # run output, git-ignored: test-results/, playwright-report/, allure-results/,
-│                                            #   allure-report/, test-results.json, xray-report.xml
+│                                            #   allure-report/, test-results.json, xray-report.xml, triage.json/.md
 ├── .env.example                             # PSMUSIC_* (tests) and ATLASSIAN_*/JIRA_*/XRAY_* (integration)
 ├── .mcp.json                                # Atlassian Rovo MCP server
 ├── CLAUDE.md                                # repository rules
@@ -55,7 +57,7 @@ psmusic-playwright-automation/
 │   ├── workflows/ci.yml                     # PR/push: build + type-check, then @smoke
 │   ├── workflows/regression.yml             # nightly/manual: every test
 │   ├── workflows/post-deployment.yml        # repository_dispatch from app's QA deploy: @smoke
-│   └── actions/run-suite/                   # shared composite action: install, run, summary, Allure, artifacts
+│   └── actions/run-suite/                   # shared composite action: install, run, summary, triage, Xray, Allure, artifacts
 ├── ci-templates/psmusic-app/                # workflows to copy into the application repository
 │   ├── pre-merge-validation.yml             # app PR: docker compose up, run @critical
 │   └── deploy-qa.yml                        # app QA deploy → dispatch post-deployment here
@@ -66,12 +68,14 @@ psmusic-playwright-automation/
 │   ├── integrations/                        # Jira/Xray API research, capability matrix, auth, troubleshooting
 │   ├── ci-cd.md
 │   ├── reporting.md                         # Allure report content, metadata, evidence, categories
+│   ├── failure-triage.md                    # failure classification rules, Bug matching, phase 2 plan
 │   ├── runbook.md                           # following results, failure triage, next commands
 │   └── test-case-implementation-progress.md
 ├── scripts/                                 # every script explained in scripts/README.md
-│   ├── ci/                                  # write-ci-summary (GitHub run summary), write-trigger-summary (post-deployment origin)
+│   ├── ci/                                  # write-ci-summary (GitHub run summary), write-trigger-summary (post-deployment origin), xray-execution
 │   ├── test-management/                     # build-plan, jira-export, sync-xray, verify-jira, issue-map, export-test-keys, export-test-metadata
-│   └── xray/                                # xray-client (auth, retry, redaction), xray CLI, junit-for-xray
+│   ├── triage/                              # failure triage: collect, classify, bug-index, triage (report-only)
+│   └── xray/                                # xray-client (auth, retry, redaction), jira-client, xray CLI, junit-for-xray
 ├── test-management/
 │   ├── config/project-map.json              # verified Jira/Xray project configuration (no secrets)
 │   ├── state/plan.json, issue-map.json      # planned entities; local ID → Jira key mapping (+ JSON Schemas)
@@ -86,7 +90,8 @@ psmusic-playwright-automation/
 │   ├── data/                                # users, catalog, messages, login-cases, access-control, player, xray-test-keys (generated)
 │   ├── reporting/                           # Allure: metadata, @step, API exchanges, failure evidence, masking, environment
 │   └── support/                             # browser-setup, session, network, jwt, set-cookie, lyrics, known-defect, xray
-└── tests/                                   # tests
+├── tests/                                   # tests
+└── tests-unit/                              # unit tests of the tooling, with fixtures from a real run
 ```
 
 | Folder | Responsibility |
@@ -402,7 +407,7 @@ flowchart TD
 
 ## 7. CI/CD
 
-All workflows run the tests through one composite action, [`.github/actions/run-suite`](.github/actions/run-suite/action.yml): `npm ci` → optional type-check → install Chromium → `playwright test [--grep]` → run summary → Allure report → artifacts (kept 14 days, uploaded even when tests fail).
+All workflows run the tests through one composite action, [`.github/actions/run-suite`](.github/actions/run-suite/action.yml): `npm ci` → optional type-check → install Chromium → `playwright test [--grep]` → run summary → optional Xray Test Execution → failure triage (report-only) → Allure report → artifacts (kept 14 days, uploaded even when tests fail) → optional Xray web links.
 
 ```mermaid
 flowchart LR
@@ -420,12 +425,12 @@ flowchart LR
     CI --> RS
     REG --> RS
     POST --> RS
-    RS --> OUT["run summary · allure-* · playwright-* artifacts"]
+    RS --> OUT["run summary + failure triage · allure-* · playwright-* artifacts"]
 ```
 
 | Workflow | Trigger | Tests | Target |
 |---|---|---|---|
-| `ci.yml` | PR / push to `main`, manual | `@smoke` (after build + type-check) | Deployed environment; skipped with a warning if variables are unset |
+| `ci.yml` | PR / push to `main`, manual | `@smoke` (after build, type-check and tooling unit tests) | Deployed environment; skipped with a warning if variables are unset |
 | `regression.yml` | Daily 01:00 UTC, manual | All | Deployed environment |
 | `post-deployment.yml` | `repository_dispatch` `psmusic-qa-deployed`, manual | `@smoke` | QA environment |
 | `pre-merge-validation.yml` *(app repo)* | App PR to `main` | `@critical` | The PR's code built with docker compose on the runner |
@@ -533,6 +538,8 @@ cp .env.example .env            # fill in PSMUSIC_SERVICE_KEY (and URLs if not l
 | Allure report | `npm run allure:generate` → `reports/allure-report/index.html`; `npm run allure:open` |
 | Playwright report | `npx playwright show-report` |
 | Xray key map | `npm run xray:keys` |
+| Failure triage of the last run | `npm run triage` → `reports/triage.md`, `reports/triage.json` ([`docs/failure-triage.md`](docs/failure-triage.md)) |
+| Unit tests of the tooling | `npm run test:unit` (no browser, no PSMusic) |
 
 **Tags**
 
@@ -563,7 +570,8 @@ All run output goes to `reports/` (git-ignored). `reports/allure-results/` is em
 | Each test registers its own throwaway user | `buildUser`, `registeredUser` |
 | Fail fast on missing config or unreachable SUT | `config/env.ts`, `global-setup.ts` |
 | Third-party tracker blocked, UI language pinned | `support/browser-setup.ts` |
-| Tests assert the user story, not current behavior; defects are marked, not hidden | `knownDefect()` → `test.fail()`, reported as Xray FAILED via `junit-for-xray.mjs` |
+| Tests assert the user story, not current behavior; defects are marked, not hidden | `knownDefect('<Bug ID>')` → `test.fail()`, reported as Xray FAILED via `junit-for-xray.mjs` |
+| A failed test is not assumed to be a product defect | Failure triage: evidence-based category, only known defects confirmed, Bugs matched by stable IDs, report-only (`scripts/triage`) |
 | Scenario IDs in titles drive traceability; no keys in specs | `xrayTestKey` fixture, generated `xray-test-keys.ts` |
 | Secrets kept out of evidence | No CI traces, `withoutToken()`, JWT masking in run summary, no JUnit attachments |
 | Suites chosen by tag, not by file list | `@smoke` / `@critical` / `@regression` |

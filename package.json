@@ -9,6 +9,8 @@
     "test:auth": "playwright test tests/auth",
     "test:smoke": "playwright test --grep @smoke",
     "test:regression": "playwright test",
+    "test:unit": "playwright test -c playwright.unit.config.ts",
+    "triage": "node scripts/triage/triage.mjs",
     "allure:generate": "allure generate reports/allure-results",
     "allure:open": "allure open reports/allure-report",
     "report:metadata": "node scripts/test-management/export-test-metadata.mjs",

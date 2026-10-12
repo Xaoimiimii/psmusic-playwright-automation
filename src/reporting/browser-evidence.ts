@@ -59,6 +59,9 @@ export class BrowserEvidence {
       call.status = response.status();
       call.durationMs = Date.now() - call.startedAt;
       if (call.status >= 500) recordFailureSignal('backend-5xx', `browser: ${call.method} ${call.path} -> ${call.status}`);
+      if (call.durationMs >= env.slowResponseMs) {
+        recordFailureSignal('slow-response', `browser: ${call.method} ${call.path} -> ${call.status} in ${call.durationMs} ms`);
+      }
     });
     context.on('requestfailed', (request) => {
       const call = byRequest.get(request);
@@ -75,6 +78,7 @@ export class BrowserEvidence {
    */
   async attachIfFailed(testInfo: TestInfo): Promise<void> {
     if (testInfo.status === testInfo.expectedStatus) return;
+    this.recordPendingSlowCalls();
     try {
       await testInfo.attach('Failure context', { body: await this.failureContext(), contentType: 'text/plain' });
       if (this.apiCalls.length > 0) {
@@ -107,6 +111,19 @@ export class BrowserEvidence {
     lines.push('', `Uncaught page errors (${this.pageErrors.length})`, ...this.indented(this.pageErrors));
     lines.push('', `Console errors and warnings (${this.consoleEntries.length})`, ...this.indented(this.consoleEntries));
     return lines.join('\n');
+  }
+
+  /**
+   * A call still unanswered when the test failed (e.g. a login still loading when the assertion timed out) is
+   * the slow response that matters most, and the 'response' event never fires for it.
+   */
+  private recordPendingSlowCalls(): void {
+    const now = Date.now();
+    for (const call of this.apiCalls) {
+      if (call.status === undefined && !call.failure && now - call.startedAt >= env.slowResponseMs) {
+        recordFailureSignal('slow-response', `browser: ${call.method} ${call.path} -> no response after ${now - call.startedAt} ms`);
+      }
+    }
   }
 
   private apiTraffic(): string {

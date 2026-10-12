@@ -1,0 +1,912 @@
+{
+ "config": {
+  "rootDir": "/repo/tests"
+ },
+ "suites": [
+  {
+   "title": "auth\\login.spec.ts",
+   "file": "auth/login.spec.ts",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "US-002 Log in",
+     "file": "auth/login.spec.ts",
+     "line": 19,
+     "column": 6,
+     "specs": [
+      {
+       "title": "TS-AUTH-01 valid login creates a session",
+       "ok": true,
+       "tags": [
+        "smoke",
+        "critical"
+       ],
+       "tests": [
+        {
+         "timeout": 30000,
+         "annotations": [
+          {
+           "type": "test_key",
+           "description": "MSC-3"
+          }
+         ],
+         "expectedStatus": "passed",
+         "projectId": "chromium",
+         "projectName": "chromium",
+         "results": [
+          {
+           "retry": 0,
+           "status": "passed",
+           "duration": 4609,
+           "errors": [],
+           "steps": [
+            {
+             "title": "Open the login page",
+             "duration": 526
+            },
+            {
+             "title": "Log in as \"pwqa_user\"",
+             "duration": 224,
+             "steps": [
+              {
+               "title": "Enter username \"pwqa_user\" and a 15-character password",
+               "duration": 173
+              },
+              {
+               "title": "Submit the login form",
+               "duration": 50
+              }
+             ]
+            },
+            {
+             "title": "UI: success message, Home, signed-in header",
+             "duration": 1319
+            },
+            {
+             "title": "API: token, user and refresh cookie",
+             "duration": 9
+            },
+            {
+             "title": "access token is not readable from script storage",
+             "duration": 6
+            }
+           ],
+           "annotations": [
+            {
+             "type": "test_key",
+             "description": "MSC-3"
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "231ca1f0f4db3e4958c3-45a31693a18be809c3e0",
+       "file": "auth/login.spec.ts",
+       "line": 20,
+       "column": 7
+      }
+     ],
+     "suites": []
+    }
+   ]
+  },
+  {
+   "title": "auth\\logout.spec.ts",
+   "file": "auth/logout.spec.ts",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "US-004 Log out",
+     "file": "auth/logout.spec.ts",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "TS-AUTH-11 logout clears the session",
+       "ok": false,
+       "tags": [
+        "critical"
+       ],
+       "tests": [
+        {
+         "timeout": 30000,
+         "annotations": [
+          {
+           "type": "test_key",
+           "description": "MSC-111"
+          }
+         ],
+         "expectedStatus": "passed",
+         "projectId": "chromium",
+         "projectName": "chromium",
+         "results": [
+          {
+           "retry": 0,
+           "status": "failed",
+           "duration": 8521,
+           "error": {
+            "message": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+            "stack": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\logout.spec.ts:46:102\n    at /repo\\tests\\auth\\logout.spec.ts:40:5",
+            "location": {
+             "file": "/repo\\tests\\auth\\logout.spec.ts",
+             "column": 102,
+             "line": 46
+            },
+            "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m       expect(\u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson())\u001b[33m.\u001b[39mtoEqual({ isSuccess\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m message\u001b[33m:\u001b[39m serverMessage\u001b[33m.\u001b[39mlogoutSuccess })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'RefreshToken cookie removed'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m\n \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'UI: still a guest after a reload'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/repo\\tests\\auth\\logout.spec.ts",
+              "column": 102,
+              "line": 46
+             },
+             "message": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  44 |       expect(response.status()).toBe(200);\n  45 |       expect(await response.json()).toEqual({ isSuccess: true, message: serverMessage.logoutSuccess });\n> 46 |       await expect.poll(() => hasRefreshCookie(context), { message: 'RefreshToken cookie removed' }).toBe(false);\n     |                                                                                                      ^\n  47 |     });\n  48 |\n  49 |     await test.step('UI: still a guest after a reload', async () => {\n    at /repo\\tests\\auth\\logout.spec.ts:46:102\n    at /repo\\tests\\auth\\logout.spec.ts:40:5"
+            }
+           ],
+           "steps": [
+            {
+             "title": "API: logout succeeds and the refresh cookie is deleted",
+             "duration": 5354,
+             "error": {
+              "message": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+              "stack": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\logout.spec.ts:46:102\n    at /repo\\tests\\auth\\logout.spec.ts:40:5",
+              "location": {
+               "file": "/repo\\tests\\auth\\logout.spec.ts",
+               "column": 102,
+               "line": 46
+              },
+              "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m       expect(\u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson())\u001b[33m.\u001b[39mtoEqual({ isSuccess\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m message\u001b[33m:\u001b[39m serverMessage\u001b[33m.\u001b[39mlogoutSuccess })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'RefreshToken cookie removed'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m\n \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'UI: still a guest after a reload'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+             },
+             "steps": [
+              {
+               "title": "Log out from the user menu",
+               "duration": 316
+              }
+             ]
+            }
+           ],
+           "annotations": [
+            {
+             "type": "test_key",
+             "description": "MSC-111"
+            }
+           ],
+           "attachments": [
+            {
+             "name": "Failure context",
+             "contentType": "text/plain",
+             "body": "UGFnZXMgb3BlbiBhdCB0aGUgZW5kIG9mIHRoZSB0ZXN0CiAgMS4gaHR0cHM6Ly9wc211c2ljLm5ldGxpZnkuYXBwLyAgdGl0bGU6ICJQU011c2ljIgoKQnJvd3NlcjogY2hyb21pdW0gMTUzLjAuODAxMC4xMiwgdmlld3BvcnQgMTI4MHg3MjAKCkZhaWx1cmUgc2lnbmFscyAoMCkKICBub25lIG9ic2VydmVkCgpVbmNhdWdodCBwYWdlIGVycm9ycyAoMCkKICBub25lCgpDb25zb2xlIGVycm9ycyBhbmQgd2FybmluZ3MgKDApCiAgbm9uZQ=="
+            }
+           ]
+          },
+          {
+           "retry": 1,
+           "status": "failed",
+           "duration": 8724,
+           "error": {
+            "message": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+            "stack": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\logout.spec.ts:46:102\n    at /repo\\tests\\auth\\logout.spec.ts:40:5",
+            "location": {
+             "file": "/repo\\tests\\auth\\logout.spec.ts",
+             "column": 102,
+             "line": 46
+            },
+            "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m       expect(\u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson())\u001b[33m.\u001b[39mtoEqual({ isSuccess\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m message\u001b[33m:\u001b[39m serverMessage\u001b[33m.\u001b[39mlogoutSuccess })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'RefreshToken cookie removed'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m\n \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'UI: still a guest after a reload'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/repo\\tests\\auth\\logout.spec.ts",
+              "column": 102,
+              "line": 46
+             },
+             "message": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  44 |       expect(response.status()).toBe(200);\n  45 |       expect(await response.json()).toEqual({ isSuccess: true, message: serverMessage.logoutSuccess });\n> 46 |       await expect.poll(() => hasRefreshCookie(context), { message: 'RefreshToken cookie removed' }).toBe(false);\n     |                                                                                                      ^\n  47 |     });\n  48 |\n  49 |     await test.step('UI: still a guest after a reload', async () => {\n    at /repo\\tests\\auth\\logout.spec.ts:46:102\n    at /repo\\tests\\auth\\logout.spec.ts:40:5"
+            }
+           ],
+           "steps": [
+            {
+             "title": "API: logout succeeds and the refresh cookie is deleted",
+             "duration": 5351,
+             "error": {
+              "message": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+              "stack": "Error: RefreshToken cookie removed\n\nRefreshToken cookie removed\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\logout.spec.ts:46:102\n    at /repo\\tests\\auth\\logout.spec.ts:40:5",
+              "location": {
+               "file": "/repo\\tests\\auth\\logout.spec.ts",
+               "column": 102,
+               "line": 46
+              },
+              "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m       expect(\u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson())\u001b[33m.\u001b[39mtoEqual({ isSuccess\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m message\u001b[33m:\u001b[39m serverMessage\u001b[33m.\u001b[39mlogoutSuccess })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'RefreshToken cookie removed'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m\n \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'UI: still a guest after a reload'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+             },
+             "steps": [
+              {
+               "title": "Log out from the user menu",
+               "duration": 316
+              }
+             ]
+            }
+           ],
+           "annotations": [
+            {
+             "type": "test_key",
+             "description": "MSC-111"
+            }
+           ],
+           "attachments": [
+            {
+             "name": "Failure context",
+             "contentType": "text/plain",
+             "body": "UGFnZXMgb3BlbiBhdCB0aGUgZW5kIG9mIHRoZSB0ZXN0CiAgMS4gaHR0cHM6Ly9wc211c2ljLm5ldGxpZnkuYXBwLyAgdGl0bGU6ICJQU011c2ljIgoKQnJvd3NlcjogY2hyb21pdW0gMTUzLjAuODAxMC4xMiwgdmlld3BvcnQgMTI4MHg3MjAKCkZhaWx1cmUgc2lnbmFscyAoMCkKICBub25lIG9ic2VydmVkCgpVbmNhdWdodCBwYWdlIGVycm9ycyAoMCkKICBub25lCgpDb25zb2xlIGVycm9ycyBhbmQgd2FybmluZ3MgKDApCiAgbm9uZQ=="
+            }
+           ]
+          }
+         ],
+         "status": "unexpected"
+        }
+       ],
+       "id": "68b4c1a99ac3ce3ed9d6-c3b24a34fdf5006ca957",
+       "file": "auth/logout.spec.ts",
+       "line": 36,
+       "column": 7
+      }
+     ],
+     "suites": [
+      {
+       "title": "TS-AUTH-10 logout lands on Home from every page",
+       "file": "auth/logout.spec.ts",
+       "line": 11,
+       "column": 8,
+       "specs": [
+        {
+         "title": "from a protected page (/favorites)",
+         "ok": false,
+         "tags": [
+          "critical"
+         ],
+         "tests": [
+          {
+           "timeout": 30000,
+           "annotations": [
+            {
+             "type": "test_key",
+             "description": "MSC-110"
+            }
+           ],
+           "expectedStatus": "passed",
+           "projectId": "chromium",
+           "projectName": "chromium",
+           "results": [
+            {
+             "retry": 0,
+             "status": "failed",
+             "duration": 9255,
+             "error": {
+              "message": "Error: signed out\n\nsigned out\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+              "stack": "Error: signed out\n\nsigned out\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\logout.spec.ts:17:85",
+              "location": {
+               "file": "/repo\\tests\\auth\\logout.spec.ts",
+               "column": 85,
+               "line": 17
+              },
+              "snippet": "\u001b[0m \u001b[90m 15 |\u001b[39m\n \u001b[90m 16 |\u001b[39m       \u001b[36mawait\u001b[39m header\u001b[33m.\u001b[39mlogout()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 17 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'signed out'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 18 |\u001b[39m\n \u001b[90m 19 |\u001b[39m       knownDefect(\u001b[32m'BUG-US-004-AC-01'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'logout from /favorites lands on /auth instead of /'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 20 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(appUrl(\u001b[32m'/'\u001b[39m))\u001b[33m;\u001b[39m\u001b[0m"
+             },
+             "errors": [
+              {
+               "location": {
+                "file": "/repo\\tests\\auth\\logout.spec.ts",
+                "column": 85,
+                "line": 17
+               },
+               "message": "Error: signed out\n\nsigned out\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  15 |\n  16 |       await header.logout();\n> 17 |       await expect.poll(() => hasRefreshCookie(context), { message: 'signed out' }).toBe(false);\n     |                                                                                     ^\n  18 |\n  19 |       knownDefect('BUG-US-004-AC-01', 'logout from /favorites lands on /auth instead of /');\n  20 |       await expect(page).toHaveURL(appUrl('/'));\n    at /repo\\tests\\auth\\logout.spec.ts:17:85"
+              }
+             ],
+             "steps": [
+              {
+               "title": "Open the Favorites page",
+               "duration": 706
+              },
+              {
+               "title": "Log out from the user menu",
+               "duration": 324
+              }
+             ],
+             "annotations": [
+              {
+               "type": "test_key",
+               "description": "MSC-110"
+              }
+             ],
+             "attachments": [
+              {
+               "name": "Failure context",
+               "contentType": "text/plain",
+               "body": "UGFnZXMgb3BlbiBhdCB0aGUgZW5kIG9mIHRoZSB0ZXN0CiAgMS4gaHR0cHM6Ly9wc211c2ljLm5ldGxpZnkuYXBwL2F1dGggIHRpdGxlOiAiUFNNdXNpYyIKCkJyb3dzZXI6IGNocm9taXVtIDE1My4wLjgwMTAuMTIsIHZpZXdwb3J0IDEyODB4NzIwCgpGYWlsdXJlIHNpZ25hbHMgKDApCiAgbm9uZSBvYnNlcnZlZAoKVW5jYXVnaHQgcGFnZSBlcnJvcnMgKDApCiAgbm9uZQoKQ29uc29sZSBlcnJvcnMgYW5kIHdhcm5pbmdzICgwKQogIG5vbmU="
+              }
+             ]
+            },
+            {
+             "retry": 1,
+             "status": "failed",
+             "duration": 9495,
+             "error": {
+              "message": "Error: signed out\n\nsigned out\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+              "stack": "Error: signed out\n\nsigned out\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\logout.spec.ts:17:85",
+              "location": {
+               "file": "/repo\\tests\\auth\\logout.spec.ts",
+               "column": 85,
+               "line": 17
+              },
+              "snippet": "\u001b[0m \u001b[90m 15 |\u001b[39m\n \u001b[90m 16 |\u001b[39m       \u001b[36mawait\u001b[39m header\u001b[33m.\u001b[39mlogout()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 17 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'signed out'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 18 |\u001b[39m\n \u001b[90m 19 |\u001b[39m       knownDefect(\u001b[32m'BUG-US-004-AC-01'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'logout from /favorites lands on /auth instead of /'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 20 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(appUrl(\u001b[32m'/'\u001b[39m))\u001b[33m;\u001b[39m\u001b[0m"
+             },
+             "errors": [
+              {
+               "location": {
+                "file": "/repo\\tests\\auth\\logout.spec.ts",
+                "column": 85,
+                "line": 17
+               },
+               "message": "Error: signed out\n\nsigned out\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  15 |\n  16 |       await header.logout();\n> 17 |       await expect.poll(() => hasRefreshCookie(context), { message: 'signed out' }).toBe(false);\n     |                                                                                     ^\n  18 |\n  19 |       knownDefect('BUG-US-004-AC-01', 'logout from /favorites lands on /auth instead of /');\n  20 |       await expect(page).toHaveURL(appUrl('/'));\n    at /repo\\tests\\auth\\logout.spec.ts:17:85"
+              }
+             ],
+             "steps": [
+              {
+               "title": "Open the Favorites page",
+               "duration": 711
+              },
+              {
+               "title": "Log out from the user menu",
+               "duration": 329
+              }
+             ],
+             "annotations": [
+              {
+               "type": "test_key",
+               "description": "MSC-110"
+              }
+             ],
+             "attachments": [
+              {
+               "name": "Failure context",
+               "contentType": "text/plain",
+               "body": "UGFnZXMgb3BlbiBhdCB0aGUgZW5kIG9mIHRoZSB0ZXN0CiAgMS4gaHR0cHM6Ly9wc211c2ljLm5ldGxpZnkuYXBwL2F1dGggIHRpdGxlOiAiUFNNdXNpYyIKCkJyb3dzZXI6IGNocm9taXVtIDE1My4wLjgwMTAuMTIsIHZpZXdwb3J0IDEyODB4NzIwCgpGYWlsdXJlIHNpZ25hbHMgKDApCiAgbm9uZSBvYnNlcnZlZAoKVW5jYXVnaHQgcGFnZSBlcnJvcnMgKDApCiAgbm9uZQoKQ29uc29sZSBlcnJvcnMgYW5kIHdhcm5pbmdzICgwKQogIG5vbmU="
+              }
+             ]
+            }
+           ],
+           "status": "unexpected"
+          }
+         ],
+         "id": "68b4c1a99ac3ce3ed9d6-0094f6a78676da65f2cc",
+         "file": "auth/logout.spec.ts",
+         "line": 12,
+         "column": 9
+        }
+       ],
+       "suites": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "auth\\session.spec.ts",
+   "file": "auth/session.spec.ts",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "US-003 Stay signed in",
+     "file": "auth/session.spec.ts",
+     "line": 22,
+     "column": 6,
+     "specs": [
+      {
+       "title": "TS-AUTH-08 a failed refresh logs the user out cleanly",
+       "ok": false,
+       "tags": [
+        "critical"
+       ],
+       "tests": [
+        {
+         "timeout": 30000,
+         "annotations": [
+          {
+           "type": "controlled-response",
+           "description": "The first GET /api/song/favorites is answered with 401 and the refresh cookie is replaced by an invalid value. Real expiry is deferred to D-TOK (TR-09).",
+           "location": {
+            "file": "/repo\\tests\\auth\\session.spec.ts",
+            "line": 108,
+            "column": 7
+           }
+          },
+          {
+           "type": "test_key",
+           "description": "MSC-108"
+          }
+         ],
+         "expectedStatus": "passed",
+         "projectId": "chromium",
+         "projectName": "chromium",
+         "results": [
+          {
+           "retry": 0,
+           "status": "failed",
+           "duration": 8213,
+           "error": {
+            "message": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+            "stack": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\session.spec.ts:128:107\n    at /repo\\tests\\auth\\session.spec.ts:126:5",
+            "location": {
+             "file": "/repo\\tests\\auth\\session.spec.ts",
+             "column": 107,
+             "line": 128
+            },
+            "snippet": "\u001b[0m \u001b[90m 126 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'refresh is refused and the session is ended'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 127 |\u001b[39m       expect((\u001b[36mawait\u001b[39m authBody(\u001b[36mawait\u001b[39m refreshResponse))\u001b[33m.\u001b[39misSuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 128 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'refresh cookie removed by logout'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m expect(header\u001b[33m.\u001b[39muserMenuButton)\u001b[33m.\u001b[39mtoBeHidden()\u001b[33m;\u001b[39m\n \u001b[90m 130 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 131 |\u001b[39m\u001b[0m"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/repo\\tests\\auth\\session.spec.ts",
+              "column": 107,
+              "line": 128
+             },
+             "message": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  126 |     await test.step('refresh is refused and the session is ended', async () => {\n  127 |       expect((await authBody(await refreshResponse)).isSuccess).toBe(false);\n> 128 |       await expect.poll(() => hasRefreshCookie(context), { message: 'refresh cookie removed by logout' }).toBe(false);\n      |                                                                                                           ^\n  129 |       await expect(header.userMenuButton).toBeHidden();\n  130 |     });\n  131 |\n    at /repo\\tests\\auth\\session.spec.ts:128:107\n    at /repo\\tests\\auth\\session.spec.ts:126:5"
+            }
+           ],
+           "steps": [
+            {
+             "title": "Open Favorites from the sidebar",
+             "duration": 41
+            },
+            {
+             "title": "refresh is refused and the session is ended",
+             "duration": 5032,
+             "error": {
+              "message": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+              "stack": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\session.spec.ts:128:107\n    at /repo\\tests\\auth\\session.spec.ts:126:5",
+              "location": {
+               "file": "/repo\\tests\\auth\\session.spec.ts",
+               "column": 107,
+               "line": 128
+              },
+              "snippet": "\u001b[0m \u001b[90m 126 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'refresh is refused and the session is ended'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 127 |\u001b[39m       expect((\u001b[36mawait\u001b[39m authBody(\u001b[36mawait\u001b[39m refreshResponse))\u001b[33m.\u001b[39misSuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 128 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'refresh cookie removed by logout'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m expect(header\u001b[33m.\u001b[39muserMenuButton)\u001b[33m.\u001b[39mtoBeHidden()\u001b[33m;\u001b[39m\n \u001b[90m 130 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 131 |\u001b[39m\u001b[0m"
+             }
+            }
+           ],
+           "annotations": [
+            {
+             "type": "controlled-response",
+             "description": "The first GET /api/song/favorites is answered with 401 and the refresh cookie is replaced by an invalid value. Real expiry is deferred to D-TOK (TR-09).",
+             "location": {
+              "file": "/repo\\tests\\auth\\session.spec.ts",
+              "line": 108,
+              "column": 7
+             }
+            },
+            {
+             "type": "test_key",
+             "description": "MSC-108"
+            }
+           ],
+           "attachments": [
+            {
+             "name": "Failure context",
+             "contentType": "text/plain",
+             "body": "UGFnZXMgb3BlbiBhdCB0aGUgZW5kIG9mIHRoZSB0ZXN0CiAgMS4gaHR0cHM6Ly9wc211c2ljLm5ldGxpZnkuYXBwL2F1dGggIHRpdGxlOiAiUFNNdXNpYyIKCkJyb3dzZXI6IGNocm9taXVtIDE1My4wLjgwMTAuMTIsIHZpZXdwb3J0IDEyODB4NzIwCgpGYWlsdXJlIHNpZ25hbHMgKDApCiAgbm9uZSBvYnNlcnZlZAoKVW5jYXVnaHQgcGFnZSBlcnJvcnMgKDApCiAgbm9uZQoKQ29uc29sZSBlcnJvcnMgYW5kIHdhcm5pbmdzICgxKQogIFtlcnJvcl0gRmFpbGVkIHRvIGxvYWQgcmVzb3VyY2U6IHRoZSBzZXJ2ZXIgcmVzcG9uZGVkIHdpdGggYSBzdGF0dXMgb2YgNDAxIChVbmF1dGhvcml6ZWQpIChodHRwczovL3BzbXVzaWMtNXpmeC5vbnJlbmRlci5jb20vYXBpL3NvbmcvZmF2b3JpdGVzOjAp"
+            }
+           ]
+          },
+          {
+           "retry": 1,
+           "status": "failed",
+           "duration": 8828,
+           "error": {
+            "message": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+            "stack": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\session.spec.ts:128:107\n    at /repo\\tests\\auth\\session.spec.ts:126:5",
+            "location": {
+             "file": "/repo\\tests\\auth\\session.spec.ts",
+             "column": 107,
+             "line": 128
+            },
+            "snippet": "\u001b[0m \u001b[90m 126 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'refresh is refused and the session is ended'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 127 |\u001b[39m       expect((\u001b[36mawait\u001b[39m authBody(\u001b[36mawait\u001b[39m refreshResponse))\u001b[33m.\u001b[39misSuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 128 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'refresh cookie removed by logout'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m expect(header\u001b[33m.\u001b[39muserMenuButton)\u001b[33m.\u001b[39mtoBeHidden()\u001b[33m;\u001b[39m\n \u001b[90m 130 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 131 |\u001b[39m\u001b[0m"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/repo\\tests\\auth\\session.spec.ts",
+              "column": 107,
+              "line": 128
+             },
+             "message": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  126 |     await test.step('refresh is refused and the session is ended', async () => {\n  127 |       expect((await authBody(await refreshResponse)).isSuccess).toBe(false);\n> 128 |       await expect.poll(() => hasRefreshCookie(context), { message: 'refresh cookie removed by logout' }).toBe(false);\n      |                                                                                                           ^\n  129 |       await expect(header.userMenuButton).toBeHidden();\n  130 |     });\n  131 |\n    at /repo\\tests\\auth\\session.spec.ts:128:107\n    at /repo\\tests\\auth\\session.spec.ts:126:5"
+            }
+           ],
+           "steps": [
+            {
+             "title": "Open Favorites from the sidebar",
+             "duration": 57
+            },
+            {
+             "title": "refresh is refused and the session is ended",
+             "duration": 5047,
+             "error": {
+              "message": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+              "stack": "Error: refresh cookie removed by logout\n\nrefresh cookie removed by logout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /repo\\tests\\auth\\session.spec.ts:128:107\n    at /repo\\tests\\auth\\session.spec.ts:126:5",
+              "location": {
+               "file": "/repo\\tests\\auth\\session.spec.ts",
+               "column": 107,
+               "line": 128
+              },
+              "snippet": "\u001b[0m \u001b[90m 126 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'refresh is refused and the session is ended'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 127 |\u001b[39m       expect((\u001b[36mawait\u001b[39m authBody(\u001b[36mawait\u001b[39m refreshResponse))\u001b[33m.\u001b[39misSuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 128 |\u001b[39m       \u001b[36mawait\u001b[39m expect\u001b[33m.\u001b[39mpoll(() \u001b[33m=>\u001b[39m hasRefreshCookie(context)\u001b[33m,\u001b[39m { message\u001b[33m:\u001b[39m \u001b[32m'refresh cookie removed by logout'\u001b[39m })\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m expect(header\u001b[33m.\u001b[39muserMenuButton)\u001b[33m.\u001b[39mtoBeHidden()\u001b[33m;\u001b[39m\n \u001b[90m 130 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 131 |\u001b[39m\u001b[0m"
+             }
+            }
+           ],
+           "annotations": [
+            {
+             "type": "controlled-response",
+             "description": "The first GET /api/song/favorites is answered with 401 and the refresh cookie is replaced by an invalid value. Real expiry is deferred to D-TOK (TR-09).",
+             "location": {
+              "file": "/repo\\tests\\auth\\session.spec.ts",
+              "line": 108,
+              "column": 7
+             }
+            },
+            {
+             "type": "test_key",
+             "description": "MSC-108"
+            }
+           ],
+           "attachments": [
+            {
+             "name": "Failure context",
+             "contentType": "text/plain",
+             "body": "UGFnZXMgb3BlbiBhdCB0aGUgZW5kIG9mIHRoZSB0ZXN0CiAgMS4gaHR0cHM6Ly9wc211c2ljLm5ldGxpZnkuYXBwL2F1dGggIHRpdGxlOiAiUFNNdXNpYyIKCkJyb3dzZXI6IGNocm9taXVtIDE1My4wLjgwMTAuMTIsIHZpZXdwb3J0IDEyODB4NzIwCgpGYWlsdXJlIHNpZ25hbHMgKDApCiAgbm9uZSBvYnNlcnZlZAoKVW5jYXVnaHQgcGFnZSBlcnJvcnMgKDApCiAgbm9uZQoKQ29uc29sZSBlcnJvcnMgYW5kIHdhcm5pbmdzICgxKQogIFtlcnJvcl0gRmFpbGVkIHRvIGxvYWQgcmVzb3VyY2U6IHRoZSBzZXJ2ZXIgcmVzcG9uZGVkIHdpdGggYSBzdGF0dXMgb2YgNDAxIChVbmF1dGhvcml6ZWQpIChodHRwczovL3BzbXVzaWMtNXpmeC5vbnJlbmRlci5jb20vYXBpL3NvbmcvZmF2b3JpdGVzOjAp"
+            }
+           ]
+          }
+         ],
+         "status": "unexpected"
+        }
+       ],
+       "id": "828995e00f4107a18f5f-c8f49510b6c7bdb24c7b",
+       "file": "auth/session.spec.ts",
+       "line": 108,
+       "column": 7
+      }
+     ],
+     "suites": []
+    }
+   ]
+  },
+  {
+   "title": "profile\\profile.spec.ts",
+   "file": "profile/profile.spec.ts",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "US-023 View my profile (provisional)",
+     "file": "profile/profile.spec.ts",
+     "line": 8,
+     "column": 6,
+     "specs": [
+      {
+       "title": "TS-PROF-02 a user cannot read another user's profile",
+       "ok": true,
+       "tags": [
+        "critical",
+        "api"
+       ],
+       "tests": [
+        {
+         "timeout": 30000,
+         "annotations": [
+          {
+           "type": "pending-decision",
+           "description": "The refusal status is not decided; any non-2xx is accepted, and no field of the other user may be returned.",
+           "location": {
+            "file": "/repo\\tests\\profile\\profile.spec.ts",
+            "line": 38,
+            "column": 7
+           }
+          },
+          {
+           "type": "test_key",
+           "description": "MSC-119"
+          },
+          {
+           "type": "known-defect",
+           "description": "BUG-US-023-AC-03: GET /api/user/{id} returns any user's UserDTO, email included, with 200 (no ownership check; source and runtime 2026-10-08)"
+          },
+          {
+           "type": "fail",
+           "location": {
+            "file": "/repo\\src\\support\\known-defect.ts",
+            "line": 15,
+            "column": 8
+           }
+          }
+         ],
+         "expectedStatus": "failed",
+         "projectId": "chromium",
+         "projectName": "chromium",
+         "results": [
+          {
+           "retry": 0,
+           "status": "failed",
+           "duration": 5955,
+           "error": {
+            "message": "Error: refused, got 200\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m",
+            "stack": "Error: refused, got 200\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n    at /repo\\tests\\profile\\profile.spec.ts:52:64",
+            "location": {
+             "file": "/repo\\tests\\profile\\profile.spec.ts",
+             "column": 64,
+             "line": 52
+            },
+            "snippet": "\u001b[0m \u001b[90m 50 |\u001b[39m\n \u001b[90m 51 |\u001b[39m     knownDefect(\u001b[32m'BUG-US-023-AC-03'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'GET /api/user/{id} returns any user\\'s UserDTO, email included, with 200 (no ownership check; source and runtime 2026-10-08)'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 52 |\u001b[39m     expect(response\u001b[33m.\u001b[39mok()\u001b[33m,\u001b[39m \u001b[32m`refused, got ${response.status()}`\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 53 |\u001b[39m     expect(text\u001b[33m,\u001b[39m \u001b[32m'other user\\'s email not returned'\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(otherRegisteredUser\u001b[33m.\u001b[39memail)\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m     expect(text\u001b[33m,\u001b[39m \u001b[32m'other user\\'s username not returned'\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(otherRegisteredUser\u001b[33m.\u001b[39musername)\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/repo\\tests\\profile\\profile.spec.ts",
+              "column": 64,
+              "line": 52
+             },
+             "message": "Error: refused, got 200\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  50 |\n  51 |     knownDefect('BUG-US-023-AC-03', 'GET /api/user/{id} returns any user\\'s UserDTO, email included, with 200 (no ownership check; source and runtime 2026-10-08)');\n> 52 |     expect(response.ok(), `refused, got ${response.status()}`).toBe(false);\n     |                                                                ^\n  53 |     expect(text, 'other user\\'s email not returned').not.toContain(otherRegisteredUser.email);\n  54 |     expect(text, 'other user\\'s username not returned').not.toContain(otherRegisteredUser.username);\n  55 |   });\n    at /repo\\tests\\profile\\profile.spec.ts:52:64"
+            }
+           ],
+           "steps": [
+            {
+             "title": "POST /api/auth/login",
+             "duration": 1101
+            },
+            {
+             "title": "POST /api/auth/login",
+             "duration": 2287
+            },
+            {
+             "title": "GET /api/user/936",
+             "duration": 240
+            }
+           ],
+           "annotations": [
+            {
+             "type": "pending-decision",
+             "description": "The refusal status is not decided; any non-2xx is accepted, and no field of the other user may be returned.",
+             "location": {
+              "file": "/repo\\tests\\profile\\profile.spec.ts",
+              "line": 38,
+              "column": 7
+             }
+            },
+            {
+             "type": "test_key",
+             "description": "MSC-119"
+            },
+            {
+             "type": "known-defect",
+             "description": "BUG-US-023-AC-03: GET /api/user/{id} returns any user's UserDTO, email included, with 200 (no ownership check; source and runtime 2026-10-08)"
+            },
+            {
+             "type": "fail",
+             "location": {
+              "file": "/repo\\src\\support\\known-defect.ts",
+              "line": 15,
+              "column": 8
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "82a39b0479e42f8df0ef-c2f96d9ebe277c91cf14",
+       "file": "profile/profile.spec.ts",
+       "line": 38,
+       "column": 7
+      }
+     ],
+     "suites": []
+    }
+   ]
+  },
+  {
+   "title": "song\\song-details.spec.ts",
+   "file": "song/song-details.spec.ts",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "US-011 Song details",
+     "file": "song/song-details.spec.ts",
+     "line": 13,
+     "column": 6,
+     "specs": [
+      {
+       "title": "TS-SONG-06 heart state after in-app navigation and reload",
+       "ok": true,
+       "tags": [
+        "critical"
+       ],
+       "tests": [
+        {
+         "timeout": 30000,
+         "annotations": [
+          {
+           "type": "pending-data",
+           "description": "Favorite half only. The star (review) half needs a permanent review and waits for the write environment (D-WR, TR-01).",
+           "location": {
+            "file": "/repo\\tests\\song\\song-details.spec.ts",
+            "line": 147,
+            "column": 7
+           }
+          },
+          {
+           "type": "test_key",
+           "description": "MSC-146"
+          },
+          {
+           "type": "known-defect",
+           "description": "BUG-US-011-AC-06: F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty"
+          },
+          {
+           "type": "fail",
+           "location": {
+            "file": "/repo\\src\\support\\known-defect.ts",
+            "line": 15,
+            "column": 8
+           }
+          }
+         ],
+         "expectedStatus": "failed",
+         "projectId": "chromium",
+         "projectName": "chromium",
+         "results": [
+          {
+           "retry": 0,
+           "status": "failed",
+           "duration": 12806,
+           "error": {
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\nExpected: \u001b[32m\"white\"\u001b[39m\nReceived: \u001b[31m\"transparent\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\u001b[22m\n\u001b[2m    14 × locator resolved to <svg width=\"22\" height=\"22\" stroke=\"white\" stroke-width=\"2\" fill=\"transparent\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-heart\" xmlns=\"http://www.w3.org/2000/svg\">…</svg>\u001b[22m\n\u001b[2m       - unexpected value \"transparent\"\u001b[22m\n",
+            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\nExpected: \u001b[32m\"white\"\u001b[39m\nReceived: \u001b[31m\"transparent\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\u001b[22m\n\u001b[2m    14 × locator resolved to <svg width=\"22\" height=\"22\" stroke=\"white\" stroke-width=\"2\" fill=\"transparent\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-heart\" xmlns=\"http://www.w3.org/2000/svg\">…</svg>\u001b[22m\n\u001b[2m       - unexpected value \"transparent\"\u001b[22m\n\n    at /repo\\tests\\song\\song-details.spec.ts:178:42\n    at /repo\\tests\\song\\song-details.spec.ts:174:7",
+            "location": {
+             "file": "/repo\\tests\\song\\song-details.spec.ts",
+             "column": 42,
+             "line": 178
+            },
+            "snippet": "\u001b[0m \u001b[90m 176 |\u001b[39m         \u001b[36mawait\u001b[39m expect(songPage\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoHaveText(player\u001b[33m.\u001b[39mtitle)\u001b[33m;\u001b[39m\n \u001b[90m 177 |\u001b[39m         knownDefect(\u001b[32m'BUG-US-011-AC-06'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 178 |\u001b[39m         \u001b[36mawait\u001b[39m expect(songPage\u001b[33m.\u001b[39mheartIcon)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'fill'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'white'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 179 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 180 |\u001b[39m     } \u001b[36mfinally\u001b[39m {\n \u001b[90m 181 |\u001b[39m       \u001b[90m// Restores the shared favorite counter of song 1.\u001b[39m\u001b[0m"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/repo\\tests\\song\\song-details.spec.ts",
+              "column": 42,
+              "line": 178
+             },
+             "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\nExpected: \u001b[32m\"white\"\u001b[39m\nReceived: \u001b[31m\"transparent\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\u001b[22m\n\u001b[2m    14 × locator resolved to <svg width=\"22\" height=\"22\" stroke=\"white\" stroke-width=\"2\" fill=\"transparent\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-heart\" xmlns=\"http://www.w3.org/2000/svg\">…</svg>\u001b[22m\n\u001b[2m       - unexpected value \"transparent\"\u001b[22m\n\n\n  176 |         await expect(songPage.title).toHaveText(player.title);\n  177 |         knownDefect('BUG-US-011-AC-06', 'F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty');\n> 178 |         await expect(songPage.heartIcon).toHaveAttribute('fill', 'white');\n      |                                          ^\n  179 |       });\n  180 |     } finally {\n  181 |       // Restores the shared favorite counter of song 1.\n    at /repo\\tests\\song\\song-details.spec.ts:178:42\n    at /repo\\tests\\song\\song-details.spec.ts:174:7"
+            }
+           ],
+           "steps": [
+            {
+             "title": "POST /api/auth/login",
+             "duration": 1106
+            },
+            {
+             "title": "POST /api/song/1/favorite-toggle",
+             "duration": 205
+            },
+            {
+             "title": "Precondition: sign the browser in as \"pwqa_user\" through the API",
+             "duration": 1088,
+             "steps": [
+              {
+               "title": "POST /api/auth/login",
+               "duration": 1088
+              }
+             ]
+            },
+            {
+             "title": "GET /api/song/1/player",
+             "duration": 89
+            },
+            {
+             "title": "UI: in-app navigation shows a filled heart",
+             "duration": 2643,
+             "steps": [
+              {
+               "title": "Open the Favorites page",
+               "duration": 393
+              },
+              {
+               "title": "Open song \"Chờ Anh Nhé\" from the playlist",
+               "duration": 22
+              }
+             ]
+            },
+            {
+             "title": "UI: a hard reload still shows a filled heart",
+             "duration": 6179,
+             "error": {
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\nExpected: \u001b[32m\"white\"\u001b[39m\nReceived: \u001b[31m\"transparent\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\u001b[22m\n\u001b[2m    14 × locator resolved to <svg width=\"22\" height=\"22\" stroke=\"white\" stroke-width=\"2\" fill=\"transparent\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-heart\" xmlns=\"http://www.w3.org/2000/svg\">…</svg>\u001b[22m\n\u001b[2m       - unexpected value \"transparent\"\u001b[22m\n",
+              "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\nExpected: \u001b[32m\"white\"\u001b[39m\nReceived: \u001b[31m\"transparent\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('main').locator('[class*=\"song-view-container\"]').locator('[class*=\"action-buttons\"] > [class*=\"icon-button\"]').first().locator('svg')\u001b[22m\n\u001b[2m    14 × locator resolved to <svg width=\"22\" height=\"22\" stroke=\"white\" stroke-width=\"2\" fill=\"transparent\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-heart\" xmlns=\"http://www.w3.org/2000/svg\">…</svg>\u001b[22m\n\u001b[2m       - unexpected value \"transparent\"\u001b[22m\n\n    at /repo\\tests\\song\\song-details.spec.ts:178:42\n    at /repo\\tests\\song\\song-details.spec.ts:174:7",
+              "location": {
+               "file": "/repo\\tests\\song\\song-details.spec.ts",
+               "column": 42,
+               "line": 178
+              },
+              "snippet": "\u001b[0m \u001b[90m 176 |\u001b[39m         \u001b[36mawait\u001b[39m expect(songPage\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoHaveText(player\u001b[33m.\u001b[39mtitle)\u001b[33m;\u001b[39m\n \u001b[90m 177 |\u001b[39m         knownDefect(\u001b[32m'BUG-US-011-AC-06'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 178 |\u001b[39m         \u001b[36mawait\u001b[39m expect(songPage\u001b[33m.\u001b[39mheartIcon)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'fill'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'white'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 179 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 180 |\u001b[39m     } \u001b[36mfinally\u001b[39m {\n \u001b[90m 181 |\u001b[39m       \u001b[90m// Restores the shared favorite counter of song 1.\u001b[39m\u001b[0m"
+             }
+            },
+            {
+             "title": "GET /api/song/1/player",
+             "duration": 103
+            },
+            {
+             "title": "POST /api/song/1/favorite-toggle",
+             "duration": 95
+            }
+           ],
+           "annotations": [
+            {
+             "type": "pending-data",
+             "description": "Favorite half only. The star (review) half needs a permanent review and waits for the write environment (D-WR, TR-01).",
+             "location": {
+              "file": "/repo\\tests\\song\\song-details.spec.ts",
+              "line": 147,
+              "column": 7
+             }
+            },
+            {
+             "type": "test_key",
+             "description": "MSC-146"
+            },
+            {
+             "type": "known-defect",
+             "description": "BUG-US-011-AC-06: F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty"
+            },
+            {
+             "type": "fail",
+             "location": {
+              "file": "/repo\\src\\support\\known-defect.ts",
+              "line": 15,
+              "column": 8
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "ac7facd7dab5d8e4367a-fe5243ab525da653ad81",
+       "file": "song/song-details.spec.ts",
+       "line": 147,
+       "column": 7
+      }
+     ],
+     "suites": []
+    }
+   ]
+  }
+ ],
+ "errors": [],
+ "stats": {
+  "startTime": "2026-10-12T07:11:06.646Z",
+  "duration": 160042.70200000002,
+  "expected": 33,
+  "skipped": 0,
+  "unexpected": 3,
+  "flaky": 0
+ }
+}

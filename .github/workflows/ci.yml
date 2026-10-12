@@ -36,6 +36,10 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
+      # Unit tests of the repository's own tooling (failure triage); no browser, no PSMusic.
+      - name: Unit tests (tooling)
+        run: npm run test:unit
+
       # Generated from test-management/state/*.json; fails when someone re-planned or synced without regenerating
       # (fix: npm run report:metadata && npm run xray:keys, then commit). Details: docs/reporting.md §3.
       - name: Check generated test data is up to date

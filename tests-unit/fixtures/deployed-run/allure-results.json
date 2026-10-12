@@ -1,0 +1,138 @@
+[
+ {
+  "fullName": "auth/session.spec.ts › US-003 Stay signed in › TS-AUTH-08 a failed refresh logs the user out cleanly",
+  "status": "failed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-08"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/logout.spec.ts › US-004 Log out › TS-AUTH-11 logout clears the session",
+  "status": "failed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-11"
+   }
+  ]
+ },
+ {
+  "fullName": "song/song-details.spec.ts › US-011 Song details › TS-SONG-06 heart state after in-app navigation and reload",
+  "status": "passed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-SONG-06"
+   },
+   {
+    "name": "known_defect",
+    "value": "BUG-US-011-AC-06"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/logout.spec.ts › US-004 Log out › TS-AUTH-10 logout lands on Home from every page › from a public page (/song/:id)",
+  "status": "passed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-10"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/logout.spec.ts › US-004 Log out › TS-AUTH-11 logout clears the session",
+  "status": "failed",
+  "parameters": [
+   {
+    "name": "Retry",
+    "value": "1",
+    "excluded": true
+   }
+  ],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-11"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/login.spec.ts › US-002 Log in › TS-AUTH-01 valid login creates a session",
+  "status": "passed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-01"
+   }
+  ]
+ },
+ {
+  "fullName": "profile/profile.spec.ts › US-023 View my profile (provisional) › TS-PROF-02 a user cannot read another user's profile",
+  "status": "passed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-PROF-02"
+   },
+   {
+    "name": "known_defect",
+    "value": "BUG-US-023-AC-03"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/logout.spec.ts › US-004 Log out › TS-AUTH-10 logout lands on Home from every page › from a protected page (/favorites)",
+  "status": "failed",
+  "parameters": [
+   {
+    "name": "Retry",
+    "value": "1",
+    "excluded": true
+   }
+  ],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-10"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/logout.spec.ts › US-004 Log out › TS-AUTH-10 logout lands on Home from every page › from a protected page (/favorites)",
+  "status": "failed",
+  "parameters": [],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-10"
+   }
+  ]
+ },
+ {
+  "fullName": "auth/session.spec.ts › US-003 Stay signed in › TS-AUTH-08 a failed refresh logs the user out cleanly",
+  "status": "failed",
+  "parameters": [
+   {
+    "name": "Retry",
+    "value": "1",
+    "excluded": true
+   }
+  ],
+  "labels": [
+   {
+    "name": "scenario",
+    "value": "TS-AUTH-08"
+   }
+  ]
+ }
+]

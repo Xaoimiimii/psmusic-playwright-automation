@@ -130,7 +130,7 @@ test.describe('US-003 Stay signed in', () => {
     });
 
     await test.step('the app lands on Home with the Login button', async () => {
-      knownDefect('US-003-AC-05', 'after a failed refresh on /favorites the app lands on /auth instead of / (same redirect as US-004-AC-01)');
+      knownDefect('BUG-A-7', 'after a failed refresh on /favorites the app lands on /auth instead of / (same redirect as US-004-AC-01)');
       await expect(page).toHaveURL(appUrl('/'));
       await expect(header.loginButton).toBeVisible();
     });

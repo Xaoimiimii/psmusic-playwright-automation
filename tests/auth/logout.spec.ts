@@ -16,7 +16,7 @@ test.describe('US-004 Log out', () => {
       await header.logout();
       await expect.poll(() => hasRefreshCookie(context), { message: 'signed out' }).toBe(false);
 
-      knownDefect('US-004-AC-01', 'logout from /favorites lands on /auth instead of /');
+      knownDefect('BUG-US-004-AC-01', 'logout from /favorites lands on /auth instead of /');
       await expect(page).toHaveURL(appUrl('/'));
       await expect(header.loginButton).toBeVisible();
     });

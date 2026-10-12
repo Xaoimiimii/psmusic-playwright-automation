@@ -174,7 +174,7 @@ test.describe('US-011 Song details', () => {
       await test.step('UI: a hard reload still shows a filled heart', async () => {
         await page.reload();
         await expect(songPage.title).toHaveText(player.title);
-        knownDefect('US-011-AC-06', 'F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty');
+        knownDefect('BUG-US-011-AC-06', 'F-5: on hard reload the detail call is sent before auth/refresh, without a token, so the heart is empty');
         await expect(songPage.heartIcon).toHaveAttribute('fill', 'white');
       });
     } finally {

@@ -107,8 +107,9 @@ function outcome() {
 /** Test Plan key for a plan local ID (e.g. PLAN-REGRESSION) from issue-map.json: reuses the existing plan. */
 function testPlanKey(localId) {
   if (!localId) return undefined;
-  const entity = readJson(fromRoot('test-management/state/issue-map.json')).entities.find((x) => x.localId === localId && x.type === 'testPlan');
-  if (!entity?.jiraKey) throw new Error(`Test Plan ${localId} has no Jira key in test-management/state/issue-map.json`);
+  // issue-map.json `entities` is keyed by local ID (issue-map.mjs).
+  const entity = readJson(fromRoot('test-management/state/issue-map.json')).entities[localId];
+  if (entity?.type !== 'testPlan' || !entity.jiraKey) throw new Error(`Test Plan ${localId} has no Jira key in test-management/state/issue-map.json`);
   return entity.jiraKey;
 }
 

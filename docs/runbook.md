@@ -40,25 +40,33 @@ warning *"Smoke tests skipped"*.
 
 ## 3. When a test fails
 
-### 3.1 First triage by Allure category
+### 3.1 Start from the triage summary
+
+The run summary has a **Failure triage (report-only)** section ([`failure-triage.md`](failure-triage.md)): for each
+failed test, a category with its confidence, the reasons, the evidence that is missing, and the recorded Bug it
+relates to (by `knownDefect()` or the plan's relations, never by title). Only a reproduced known defect is
+*confirmed*; everything else needs your review. It writes nothing to Jira. Locally: `npm run triage` after a run.
+
+### 3.2 Allure category
 
 | Category | Usually means | Next step |
 |---|---|---|
 | Environment or infrastructure | PSMusic, the network or the browser was unavailable | Check the environment is up; re-run the workflow. Not a product bug |
 | API / backend failure (5xx) | The API returned a server error | Open the HTTP exchange / Browser API traffic; reproduce with the same call; report to the backend if it reproduces |
+| Slow API response observed | An API call took longer than `PSMUSIC_SLOW_RESPONSE_MS` (default 4 s) or was still pending | Check the environment (cold start on the free hosting tier); re-run. Not a product bug unless the same call is slow on a healthy environment |
 | Application error in the page | Uncaught JavaScript exception in the web app | Read *Failure context* → *Uncaught page errors*; likely a frontend bug |
 | Test data or set-up failure | A precondition (register, login, song data) could not be created | Check the HTTP exchange under *Before Hooks*; often environment or data, not the feature under test |
 | Automation script error | Exception in test code (`TypeError` …) | Fix the test code |
 | Locator matches several elements | Locator too broad after a UI change | Fix the page object |
 | UI element not found or not actionable | Wrong locator, page too slow, or the app did not render it | Compare the screenshot and *error-context* with the expected page; decide which of the three |
-| Timeout | Slow environment, missing wait, or a hang | Re-run locally with a trace (§3.2) |
-| Assertion failed | The app behaved differently from the expected result | Compare with the story / acceptance criterion in the description; if the app is wrong, it is a defect (§3.3) |
-| Known defect no longer reproduces | A recorded bug looks fixed | §3.4 |
+| Timeout | Slow environment, missing wait, or a hang | Re-run locally with a trace (§3.3) |
+| Assertion failed | The app behaved differently from the expected result | Compare with the story / acceptance criterion in the description; if the app is wrong, it is a defect (§3.4) |
+| Known defect no longer reproduces | A recorded bug looks fixed | §3.5 |
 | Unclassified | None of the above | Read the error and the failed step |
 
 The category is a hint. Always read the error, the failed step and the evidence before deciding.
 
-### 3.2 Reproduce locally
+### 3.3 Reproduce locally
 
 ```bash
 # same settings as CI (1 worker, 1 retry, no trace), PowerShell: $env:CI='true'; npx playwright test ...
@@ -78,16 +86,16 @@ npm run allure:open
 
 Local runs need PSMusic running and `.env` filled from `.env.example`.
 
-### 3.3 Decide: product defect, test defect, or environment
+### 3.4 Decide: product defect, test defect, or environment
 
 | Finding | Do this |
 |---|---|
-| **Product defect** (the app breaks a story / acceptance criterion) | Record it (bug in Jira, linked to the story and the failed Test; see `.claude/rules/traceability-rules.md`). If the defect will stay open, mark the test with `knownDefect('US-xxx-AC-yy', 'what is observed')` immediately before the failing assertion. Do **not** change the assertion to match the wrong behavior |
+| **Product defect** (the app breaks a story / acceptance criterion) | Record it (bug in Jira, linked to the story and the failed Test; see `.claude/rules/traceability-rules.md`). If the defect will stay open, add the Bug to the plan and sync it (its local ID `BUG-…` then exists in `src/data/test-metadata.ts` after `npm run report:metadata`), and mark the test with `knownDefect('BUG-…', 'what is observed')` immediately before the failing assertion. The Bug ID is type-checked. Do **not** change the assertion to match the wrong behavior |
 | **Test defect** (locator, wait, data, wrong expectation) | Fix the page object, fixture or test data; re-run the test locally until it passes |
 | **Environment / third party** | Re-run when the environment is back; note it in the PR or the stand-up, no bug |
 | **Flaky** (passed on retry) | Do not ignore: find the cause from the first attempt's evidence. Retries are a safety net, not a fix |
 
-### 3.4 Known defect fixed
+### 3.5 Known defect fixed
 
 The category *Known defect no longer reproduces* (or an "unexpected pass" in the summary) means the assertion that
 used to fail now passes.
@@ -126,6 +134,8 @@ git add src/data/test-metadata.ts src/data/xray-test-keys.ts && git commit -m "R
 | `npm run test:smoke` | `@smoke` tests (CI suite) |
 | `npm run test:auth` | Tests in `tests/auth` |
 | `npx playwright test --grep @critical` | `@critical` tests (pre-merge suite) |
+| `npm run test:unit` | Unit tests of the tooling (failure triage); no browser, no PSMusic. Also in the CI build job |
+| `npm run triage` | Failure triage of the last run: `reports/triage.md` and `reports/triage.json` |
 | `npm run allure:generate` | Build `reports/allure-report/index.html` from `reports/allure-results/` |
 | `npm run allure:open` | Open the Allure report |
 | `npm run report:metadata` | Regenerate Allure metadata from the Jira/Xray plan |
