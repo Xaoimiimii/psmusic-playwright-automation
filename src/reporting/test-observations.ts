@@ -11,7 +11,7 @@
  * `failure_signal` labels only when the test fails, so Allure categories can
  * group failures by what was observed instead of by error text alone (allurerc.mjs).
  */
-export type FailureSignal = 'backend-5xx' | 'network-error' | 'page-error';
+export type FailureSignal = 'backend-5xx' | 'network-error' | 'page-error' | 'slow-response';
 
 /** Layers the test actually exercised: a browser page, and/or direct API calls. */
 export type TestLayer = 'UI' | 'API';

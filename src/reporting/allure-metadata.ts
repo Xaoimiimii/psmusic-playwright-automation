@@ -1,7 +1,7 @@
 import type { TestInfo } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import { env } from '../config/env';
-import { recordedBugs, scenarioMetadata, type ScenarioMetadata, type TraceRef } from '../data/test-metadata';
+import { recordedBugs, scenarioMetadata, type RecordedBugId, type ScenarioMetadata, type TraceRef } from '../data/test-metadata';
 import { scenarioFor, xrayTestKeyFor } from '../support/xray';
 import { failureSignals, observedLayers } from './test-observations';
 
@@ -68,10 +68,11 @@ export async function applyOutcomeMetadata(testInfo: TestInfo): Promise<void> {
   if (layers.length > 0) await allure.layer(layers.join(' + '));
 
   for (const annotation of testInfo.annotations.filter((a) => a.type === 'known-defect')) {
+    // knownDefect() writes "<Bug local ID>: <observed>".
     const reference = annotation.description?.split(':')[0].trim() ?? '';
     await allure.label('known_defect', reference);
     await allure.tag('known-defect');
-    const bug: TraceRef | undefined = recordedBugs[reference];
+    const bug: TraceRef | undefined = recordedBugs[reference as RecordedBugId];
     if (bug?.jiraKey && env.jiraSiteUrl) await allure.issue(jiraUrl(bug.jiraKey), `${bug.jiraKey} ${bug.name}`);
   }
 

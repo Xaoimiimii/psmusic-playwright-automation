@@ -28,12 +28,13 @@ APPLICATION REPOSITORY (templates in ci-templates/psmusic-app/)                 
 ```
 
 Every workflow runs the tests through the same composite action, `.github/actions/run-suite`
-(install, optional type-check, Chromium, Playwright, run summary, Allure, artifacts). The application repository's
+(install, optional type-check, Chromium, Playwright, run summary, failure triage, optional Xray Test Execution,
+Allure, artifacts). The application repository's
 pre-merge workflow uses it too, from its checkout of this repository, so a pre-merge run looks like any other run.
 
 | Workflow | File | Jobs |
 |---|---|---|
-| CI | `.github/workflows/ci.yml` | `build`: install dependencies, type-check, and check that the generated `src/data/test-metadata.ts` and `xray-test-keys.ts` match the plan ([`reporting.md`](reporting.md) §3). `smoke-tests`: run `@smoke` tests, then generate and upload the reports |
+| CI | `.github/workflows/ci.yml` | `build`: install dependencies, type-check, unit-test the tooling (`npm run test:unit`), and check that the generated `src/data/test-metadata.ts` and `xray-test-keys.ts` match the plan ([`reporting.md`](reporting.md) §3). `smoke-tests`: run `@smoke` tests, then generate and upload the reports |
 | Regression | `.github/workflows/regression.yml` | `regression-tests`: install, type-check, run every test, then generate and upload the reports |
 | Post-deployment | `.github/workflows/post-deployment.yml` | `post-deployment-tests`: record which deployment started the run, run `@smoke`, upload the reports |
 | Pre-merge validation | `ci-templates/psmusic-app/pre-merge-validation.yml` (runs in the application repository) | `pre-merge`: build and start the PR's code, run `@critical` from a checkout of this repository |
@@ -185,7 +186,10 @@ described in [`reporting.md`](reporting.md).
    - a results table (total, passed, failed, flaky, skipped, duration),
    - each failed test with its file, line and error message (click to expand),
    - each flaky test with the error of its first attempt,
-   - known-defect tests in the run.
+   - known-defect tests in the run,
+   - **Failure triage (report-only)**: per failed test a category (product, test, infrastructure, flaky, unknown)
+     with its confidence and reasons, and the recorded Bug it relates to ([`failure-triage.md`](failure-triage.md)).
+     Only a reproduced known defect is *confirmed*; nothing is written to Jira.
 
    This summary is written by `scripts/ci/write-ci-summary.mjs` from Playwright's `reports/test-results.json`. Tokens (JWTs) in
    error messages are masked. Failed tests are also listed as annotations, and the failed step's log shows the full error.
@@ -195,7 +199,7 @@ described in [`reporting.md`](reporting.md).
 | Artifact | Contents | How to open |
 |---|---|---|
 | `allure-smoke` / `allure-regression` / `allure-post-deployment` / `allure-pre-merge` (in the application repository) | `reports/allure-report/index.html` (whole report in one file) and the raw `reports/allure-results/` | Unzip and open `reports/allure-report/index.html` in a browser. Shows steps, errors, screenshots and retries |
-| `playwright-smoke` / `playwright-regression` / `playwright-post-deployment` / `playwright-pre-merge` | `reports/playwright-report/` (HTML report), `reports/test-results/` and `reports/xray-report.xml` (JUnit sent to Xray) | `npx playwright show-report <unzipped>/reports/playwright-report`, or look at the files in `reports/test-results/` directly |
+| `playwright-smoke` / `playwright-regression` / `playwright-post-deployment` / `playwright-pre-merge` | `reports/playwright-report/` (HTML report), `reports/test-results/`, `reports/xray-report.xml` (JUnit sent to Xray) and `reports/triage.json` / `triage.md` | `npx playwright show-report <unzipped>/reports/playwright-report`, or look at the files in `reports/test-results/` directly |
 
 What is in the evidence:
 
@@ -206,7 +210,7 @@ What is in the evidence:
 | Page structure at failure (accessibility snapshot) | `reports/test-results/<test>/error-context.md`, attached in Allure |
 | API failures | An **HTTP exchange** attachment per call (method, URL, status, duration, headers and bodies, credentials masked), plus the assertion error. Setup failures (`Test setup: register ... failed with 400 ...`) include the status and the response text |
 | Browser console, page errors and the page's API calls (UI tests) | **Failure context** and **Browser API traffic** attachments in Allure, on failure only |
-| Likely cause | Allure **Categories** tab: triage hints from observed signals (5xx, network error, page error) and error patterns ([`reporting.md`](reporting.md) §7) |
+| Likely cause | **Failure triage** in the run summary and `reports/triage.json` / `triage.md` in the `playwright-*` artifact ([`failure-triage.md`](failure-triage.md)); Allure **Categories** tab: symptom groups from observed signals (5xx, network error, page error, slow response) and error patterns ([`reporting.md`](reporting.md) §7) |
 | Retries and flaky tests | Allure (retries per test), the job log (`flaky` count), `-retry1` folders in `reports/test-results/` |
 | Full console log | Job log. Use **Download log archive** from the run's ⋯ menu |
 
@@ -376,8 +380,9 @@ existing plan is reused and no key is hard-coded. Script: [`scripts/ci/xray-exec
 |---|---|
 | Run tests | Unchanged. Writes `reports/xray-report.xml` (JUnit with `test_key`) and `reports/test-results.json` |
 | **Record the run in Xray** (`xray-execution.mjs import`) | Looks for a Test Execution labelled `ci-<suite>-<runId>-<attempt>`. None: creates one with the multipart JUnit import (summary, description, label, Test Plan, Xray test environment). Found (the step was repeated): imports into it, so no duplicate. **No results** (install, browser or set-up failed): still creates one, `[NOT RUN] …`, with no tests. Reads the issue back (type, label) and checks every `test_key` has a test run. Adds `Xray Test Execution=<key> (<url>)` to the Allure environment |
+| Triage failures (report-only) | Not Xray-specific, runs in every suite: classifies failed tests and matches recorded Bugs ([`failure-triage.md`](failure-triage.md)); reads the Test Execution key for its links |
 | Generate Allure report | The report's **Environment** widget now shows the Xray key, the CI run attempt URL, commit, branch and environment |
-| Upload artifacts | The Playwright artifact now also holds `reports/xray-report.xml` |
+| Upload artifacts | The Playwright artifact now also holds `reports/xray-report.xml` and `reports/triage.json` / `triage.md` |
 | **Link the run and its reports from Xray** (`xray-execution.mjs link`) | Adds three **Web links** to the Test Execution, then reads them back (table in the run summary) |
 
 Neither step fails the job (the test step decides that). A problem is an `::error` annotation on the run plus a ❌

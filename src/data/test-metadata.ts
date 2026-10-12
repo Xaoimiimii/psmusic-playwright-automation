@@ -4220,79 +4220,82 @@ export const scenarioMetadata: Readonly<Record<string, ScenarioMetadata>> = {
   }
 };
 
-/** Acceptance-criterion reference (as passed to knownDefect) -> recorded bug. */
-export const recordedBugs: Readonly<Record<string, TraceRef>> = {
-  "A-7": {
+/** Local ID of a recorded Bug: the only reference knownDefect() accepts, so a typo fails the type-check. */
+export type RecordedBugId = 'BUG-A-7' | 'BUG-A-11' | 'BUG-US-004-AC-01' | 'BUG-US-007-AC-05' | 'BUG-US-009-AC-05' | 'BUG-US-011-AC-06' | 'BUG-US-015-AC-01' | 'BUG-US-017-AC-05' | 'BUG-US-017-AC-09' | 'BUG-US-017-AC-10' | 'BUG-US-020-AC-05' | 'BUG-US-022-AC-14' | 'BUG-US-022-AC-15' | 'BUG-US-022-AC-17' | 'BUG-US-023-AC-03';
+
+/** Bug local ID (as passed to knownDefect) -> recorded bug. */
+export const recordedBugs: Readonly<Record<RecordedBugId, TraceRef>> = {
+  "BUG-A-7": {
     "id": "BUG-A-7",
     "name": "After a failed refresh on /favorites the app logs out but lands on /auth (same redirect mechanism as US-004-AC-01)",
     "jiraKey": "MSC-92"
   },
-  "A-11": {
+  "BUG-A-11": {
     "id": "BUG-A-11",
     "name": "On the deployed environment the logout deletion cookie is sent without Secure and with SameSite=Lax, the browser ignores it, and the session is restored on the next load. Locally it works",
     "jiraKey": "MSC-93"
   },
-  "US-004-AC-01": {
+  "BUG-US-004-AC-01": {
     "id": "BUG-US-004-AC-01",
     "name": "Lands on /auth when logging out from /favorites (expected: Logout lands on /)",
     "jiraKey": "MSC-79"
   },
-  "US-007-AC-05": {
+  "BUG-US-007-AC-05": {
     "id": "BUG-US-007-AC-05",
     "name": "API 204, blank page (expected: Unknown category: visible not-found, API 404)",
     "jiraKey": "MSC-80"
   },
-  "US-009-AC-05": {
+  "BUG-US-009-AC-05": {
     "id": "BUG-US-009-AC-05",
     "name": "API 204, only a Play button (expected: Unknown artist: visible not-found, API 404)",
     "jiraKey": "MSC-81"
   },
-  "US-011-AC-06": {
+  "BUG-US-011-AC-06": {
     "id": "BUG-US-011-AC-06",
     "name": "False after a hard reload (detail request runs before session restore) (expected: Heart/star filled for a favorited/reviewed song)",
     "jiraKey": "MSC-83"
   },
-  "US-015-AC-01": {
+  "BUG-US-015-AC-01": {
     "id": "BUG-US-015-AC-01",
     "name": "Song-page counter stale until reload (expected: Like count increases after favoriting)",
     "jiraKey": "MSC-84"
   },
-  "US-017-AC-05": {
+  "BUG-US-017-AC-05": {
     "id": "BUG-US-017-AC-05",
     "name": "Shows 30/9/2026 (client vi-VN format) (expected: New review shows yyyy-MM-dd)",
     "jiraKey": "MSC-85"
   },
-  "US-017-AC-09": {
+  "BUG-US-017-AC-09": {
     "id": "BUG-US-017-AC-09",
     "name": "Server accepts (expected: Server rejects a second review by the same user)",
     "jiraKey": "MSC-86"
   },
-  "US-017-AC-10": {
+  "BUG-US-017-AC-10": {
     "id": "BUG-US-017-AC-10",
     "name": "Server accepts (expected: Server rejects rating outside 1 to 5)",
     "jiraKey": "MSC-87"
   },
-  "US-020-AC-05": {
+  "BUG-US-020-AC-05": {
     "id": "BUG-US-020-AC-05",
     "name": "Blank main area, console warning (expected: Unknown route: visible not-found page)",
     "jiraKey": "MSC-82"
   },
-  "US-022-AC-14": {
+  "BUG-US-022-AC-14": {
     "id": "BUG-US-022-AC-14",
     "name": "/evaluation and push-keyword still sent (expected: After Decline nothing is sent)",
     "jiraKey": "MSC-88"
   },
-  "US-022-AC-15": {
+  "BUG-US-022-AC-15": {
     "id": "BUG-US-022-AC-15",
     "name": "AnonymousId and UserId still sent (expected: After Decline no identity is sent)",
     "jiraKey": "MSC-89"
   },
-  "US-022-AC-17": {
+  "BUG-US-022-AC-17": {
     "id": "BUG-US-022-AC-17",
     "name": "/recommendation with identity sent while the banner is shown (expected: Before any choice nothing is sent)",
     "jiraKey": "MSC-90"
   },
-  "US-023-AC-03": {
+  "BUG-US-023-AC-03": {
     "id": "BUG-US-023-AC-03",
     "name": "GET /api/user/{id} returns any user, with email (expected: A user cannot read another user's profile)",
     "jiraKey": "MSC-91"

@@ -48,7 +48,7 @@ test.describe('US-023 View my profile (provisional)', () => {
     const response = await userApi.byId(other!.id, token!);
     const text = await response.text();
 
-    knownDefect('US-023-AC-03', 'GET /api/user/{id} returns any user\'s UserDTO, email included, with 200 (no ownership check; source and runtime 2026-10-08)');
+    knownDefect('BUG-US-023-AC-03', 'GET /api/user/{id} returns any user\'s UserDTO, email included, with 200 (no ownership check; source and runtime 2026-10-08)');
     expect(response.ok(), `refused, got ${response.status()}`).toBe(false);
     expect(text, 'other user\'s email not returned').not.toContain(otherRegisteredUser.email);
     expect(text, 'other user\'s username not returned').not.toContain(otherRegisteredUser.username);
