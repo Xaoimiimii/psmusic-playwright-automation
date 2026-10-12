@@ -398,7 +398,7 @@ flowchart TD
 3. Import: `node scripts/xray/xray.mjs prepare-junit reports/xray-report.xml` (dry run), then `node scripts/xray/xray.mjs import-junit reports/xray-report.xml [testPlanKey]`. The import refuses any testcase without a `test_key`, so it never creates stray Generic Tests.
 4. **Known defects:** `knownDefect()` marks a test `test.fail()`, so Playwright reports a reproduced defect as passed. `junit-for-xray.mjs` flips those testcases before upload: defect reproduced → Xray FAILED; defect no longer reproduced → Xray PASSED with a review comment.
 
-Importing results from CI is not wired yet (needs `XRAY_CLIENT_ID` / `XRAY_CLIENT_SECRET` as GitHub secrets; `docs/integrations/README.md` follow-up #6). Credentials: `ATLASSIAN_*`, `JIRA_*`, `XRAY_*` in `.env` — never read by the tests. `scripts/test-management/jira-export.mjs` (`npm run jira:export`) also generates Jira CSV import files from the same Markdown.
+**From CI:** Regression and Post-deployment create one Xray Test Execution per run attempt (also when no test ran, as `[NOT RUN]`), attach it to the matching Test Plan, and add Web links to the CI run and its Allure / Playwright artifacts; the Allure report names the execution ([`docs/ci-cd.md`](docs/ci-cd.md) §9). Needs the `XRAY_*` / `JIRA_*` secrets. Credentials: `ATLASSIAN_*`, `JIRA_*`, `XRAY_*` in `.env` — never read by the tests. `scripts/test-management/jira-export.mjs` (`npm run jira:export`) also generates Jira CSV import files from the same Markdown.
 
 ## 7. CI/CD
 

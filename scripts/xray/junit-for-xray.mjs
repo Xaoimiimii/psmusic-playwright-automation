@@ -11,6 +11,12 @@
 const escapeXml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const unescapeXml = (s) => s.replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&');
 
+/** Number of <testcase> elements in a JUnit report. */
+export const countTestcases = (xml) => (xml.match(/<testcase /g) ?? []).length;
+
+/** Testcases without a test_key property: Xray would create a new Generic Test for each (xray doc §6.2). */
+export const countUnkeyedTestcases = (xml) => countTestcases(xml) - (xml.match(/name="test_key"/g) ?? []).length;
+
 /** Returns { xml, changes } where changes lists each testcase whose status was flipped. */
 export function knownDefectsToXrayStatus(xml) {
   const changes = [];

@@ -21,7 +21,7 @@
 // Mutations that create issues are never retried: after an unknown outcome, search first (xray-cloud-rest-api.md §9).
 // Core (auth, retry, redaction) lives in xray-client.mjs.
 import fs from 'node:fs';
-import { knownDefectsToXrayStatus } from './junit-for-xray.mjs';
+import { countUnkeyedTestcases, knownDefectsToXrayStatus } from './junit-for-xray.mjs';
 import { authenticate, graphql, importJunit, redact } from './xray-client.mjs';
 
 const baseUrl = (process.env.XRAY_BASE_URL || 'https://xray.cloud.getxray.app').replace(/\/+$/, '');
@@ -43,7 +43,7 @@ const commands = {
     if (changes.length) console.error(`known-defect status changes: ${JSON.stringify(changes)}`);
     const projectKey = process.env.JIRA_PROJECT_KEY;
     if (!projectKey) throw new Error('JIRA_PROJECT_KEY is not set');
-    const unkeyed = (xml.match(/<testcase /g) ?? []).length - (xml.match(/name="test_key"/g) ?? []).length;
+    const unkeyed = countUnkeyedTestcases(xml);
     if (unkeyed > 0) throw new Error(`${unkeyed} testcase(s) have no test_key property: Xray would create new Generic Tests for them`);
     return importJunit(xml, { projectKey, testPlanKey });
   },

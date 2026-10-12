@@ -12,10 +12,10 @@ try {
 const baseUrl = (process.env.XRAY_BASE_URL || 'https://xray.cloud.getxray.app').replace(/\/+$/, '');
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/** Removes anything that looks like a bearer token or the client secret from a message. */
+/** Removes anything that looks like a bearer token, the Xray client secret or the Jira API token from a message. */
 export function redact(text) {
   let out = String(text).replace(/eyJ[\w-]+\.[\w-]+\.[\w-]+/g, '<redacted-token>');
-  for (const secret of [process.env.XRAY_CLIENT_SECRET, process.env.XRAY_CLIENT_ID]) {
+  for (const secret of [process.env.XRAY_CLIENT_SECRET, process.env.XRAY_CLIENT_ID, process.env.JIRA_API_TOKEN]) {
     if (secret) out = out.split(secret).join('<redacted>');
   }
   return out;
@@ -82,5 +82,26 @@ export async function importJunit(xml, { projectKey, testPlanKey, testExecKey } 
   });
   const text = await response.text();
   if (!response.ok) throw new Error(`import junit: HTTP ${response.status} ${redact(text).slice(0, 1000)}`);
+  return JSON.parse(text);
+}
+
+/**
+ * POST /api/v2/import/execution/junit/multipart (xray-cloud-rest-api.md §6.1). Always creates a new Test Execution
+ * whose Jira fields come from `info` = { fields: { project, summary, issuetype, description, labels },
+ * xrayFields?: { testPlanKey?, environments? } } (shape from Xray's "Import Execution Results - REST v2" page).
+ * Returns `{ id, key, self }`. Never retried, for the same reason as importJunit.
+ */
+export async function importJunitMultipart(xml, info) {
+  if (!token) await authenticate();
+  const form = new FormData();
+  form.append('results', new Blob([xml], { type: 'text/xml' }), 'results.xml');
+  form.append('info', new Blob([JSON.stringify(info)], { type: 'application/json' }), 'info.json');
+  const response = await fetch(`${baseUrl}/api/v2/import/execution/junit/multipart`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: form,
+  });
+  const text = await response.text();
+  if (!response.ok) throw new Error(`import junit multipart: HTTP ${response.status} ${redact(text).slice(0, 1000)}`);
   return JSON.parse(text);
 }

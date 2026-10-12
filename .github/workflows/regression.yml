@@ -23,6 +23,15 @@ jobs:
       PSMUSIC_SERVICE_KEY: ${{ secrets.PSMUSIC_SERVICE_KEY }}
       # Optional, not a secret: links Allure results to their Jira issues (docs/reporting.md).
       ATLASSIAN_SITE_URL: ${{ vars.ATLASSIAN_SITE_URL }}
+      # Optional name of the environment in PSMUSIC_UI_URL (e.g. qa): shown in Allure and Xray.
+      PSMUSIC_ENVIRONMENT: ${{ vars.PSMUSIC_ENVIRONMENT }}
+      # Xray Test Execution per run, linked to this run and its reports (docs/ci-cd.md section 9).
+      # Without these secrets the step only warns. ATLASSIAN_CLOUD_ID (variable) is needed for scoped tokens.
+      XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
+      XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+      JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+      JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      ATLASSIAN_CLOUD_ID: ${{ vars.ATLASSIAN_CLOUD_ID }}
     steps:
       - uses: actions/checkout@v4
 
@@ -33,3 +42,5 @@ jobs:
           title: Regression tests
           typecheck: 'true'
           artifact-suffix: regression
+          xray-import: 'true'
+          xray-test-plan: PLAN-REGRESSION

@@ -61,12 +61,15 @@ function origin(url: string | undefined): string {
 export function allureEnvironmentInfo(): Record<string, string> {
   const {
     CI, GITHUB_ACTIONS, GITHUB_SHA, GITHUB_REF_NAME, GITHUB_HEAD_REF, GITHUB_WORKFLOW, GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID,
+    GITHUB_RUN_ATTEMPT, PSMUSIC_ENVIRONMENT,
   } = process.env;
   const commit = GITHUB_SHA?.slice(0, 12) ?? git('rev-parse --short=12 HEAD') ?? 'unknown';
   const branch = GITHUB_HEAD_REF || GITHUB_REF_NAME || git('rev-parse --abbrev-ref HEAD') || 'unknown';
   const dirty = !GITHUB_ACTIONS && git('status --porcelain') ? ' (with uncommitted changes)' : '';
 
   const info: Record<string, string> = {
+    // Optional name (e.g. "qa"), set by the workflows; the origins below identify the environment either way.
+    'Test environment': PSMUSIC_ENVIRONMENT || 'not named',
     'PSMusic UI': origin(process.env.PSMUSIC_UI_URL),
     'PSMusic API': origin(process.env.PSMUSIC_API_URL),
     Execution: GITHUB_ACTIONS ? `GitHub Actions: ${GITHUB_WORKFLOW ?? 'workflow'}` : CI ? 'CI' : 'Local',
@@ -79,6 +82,8 @@ export function allureEnvironmentInfo(): Record<string, string> {
     'Node.js': process.version,
     OS: `${os.type()} ${os.release()} (${os.arch()})`,
   };
-  if (GITHUB_RUN_ID) info['CI run'] = `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`;
+  // Attempt URL: a re-run keeps the run ID, so the ID alone does not say which attempt produced this report.
+  // The Xray Test Execution key is added after the run by scripts/ci/xray-execution.mjs.
+  if (GITHUB_RUN_ID) info['CI run'] = `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/attempts/${GITHUB_RUN_ATTEMPT ?? '1'}`;
   return info;
 }

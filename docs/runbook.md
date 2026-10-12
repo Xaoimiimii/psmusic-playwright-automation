@@ -25,7 +25,9 @@ Manual run: Actions → pick the workflow → **Run workflow** → branch `main`
    - known-defect tests in the run.
 2. **Artifacts** (bottom of the summary page, kept 14 days):
    - `allure-<suite>`: unzip, open `reports/allure-report/index.html` in a browser. This is the main report.
-   - `playwright-<suite>`: Playwright HTML report and the raw screenshots.
+   - `playwright-<suite>`: Playwright HTML report, the raw screenshots and the JUnit file sent to Xray.
+   - **Regression and Post-deployment only:** the run summary names the run's **Xray Test Execution**. From Jira,
+     that execution's **Web links** lead back to this run attempt and its artifacts ([`ci-cd.md`](ci-cd.md) §9).
 3. **In the Allure report**, start from:
    - **Categories**: failures grouped by likely cause (triage hint, not proof);
    - the failed test → error, failed step, **Attachments** (screenshot, error-context, Failure context,
@@ -103,7 +105,7 @@ used to fail now passes.
 | Test design documents (stories, scenarios, risks) | `/plan-jira-xray` (writes `test-management/state/plan.json`) → review → `/sync-jira-xray --dry-run` → `/sync-jira-xray` → `/verify-jira-xray` | Then the two commands below |
 | `plan.json` or `issue-map.json` (after plan or sync) | `npm run report:metadata` (regenerates `src/data/test-metadata.ts`) and `npm run xray:keys` (regenerates `src/data/xray-test-keys.ts`) | Commit both files; CI fails the build job if you forget |
 | Want Jira CSV import files | `npm run jira:export` | — |
-| Want results in Xray | `node scripts/xray/xray.mjs prepare-junit reports/xray-report.xml` (dry run), then `node scripts/xray/xray.mjs import-junit reports/xray-report.xml [testPlanKey]` | Check the Test Execution in Xray. Not wired in CI yet |
+| Want results in Xray | `node scripts/xray/xray.mjs prepare-junit reports/xray-report.xml` (dry run), then `node scripts/xray/xray.mjs import-junit reports/xray-report.xml [testPlanKey]` | Check the Test Execution in Xray. Regression and Post-deployment do this themselves ([`ci-cd.md`](ci-cd.md) §9) |
 
 **CI build job fails at *Check generated test data is up to date***:
 
