@@ -13,6 +13,19 @@
           "linkedAt": "2026-10-12T07:36:43.004Z"
         }
       ]
+    },
+    "b8698e9cde403dea": {
+      "bug": "MSC-93",
+      "bugId": "BUG-A-11",
+      "createdByTriage": false,
+      "runs": [
+        {
+          "testExecution": "MSC-233",
+          "testKey": "MSC-111",
+          "testRunId": "6acc8dea90dd9bd1a7517409",
+          "linkedAt": "2026-10-12T07:49:26.990Z"
+        }
+      ]
     }
   }
 }
