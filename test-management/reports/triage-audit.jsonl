@@ -1,0 +1,2 @@
+{"at":"2026-10-12T07:36:37.127Z","actor":"Nhu","phase":"intent","proposal":"P2","operation":"addDefectsToTestRun","testRun":"6acc8dea90dd9bd1a751740a","bug":"MSC-91","testExecution":"MSC-233","test":"MSC-119","decision":null}
+{"at":"2026-10-12T07:36:42.965Z","actor":"Nhu","phase":"outcome","proposal":"P2","operation":"addDefectsToTestRun","testRun":"6acc8dea90dd9bd1a751740a","bug":"MSC-91","verified":true}

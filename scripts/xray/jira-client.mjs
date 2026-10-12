@@ -55,6 +55,17 @@ export const getIssue = (key, fields) =>
 export const getRemoteLinks = (key) => jira('GET', `/rest/api/3/issue/${encodeURIComponent(key)}/remotelink`, null, { retry: true });
 
 /**
+ * Creates an issue through REST v2, whose `description` is a wiki-markup string (v3 would need ADF; see
+ * jira-cloud-rest-api.md §1). Never retried: a timed-out create may have succeeded, so callers search first.
+ * Returns { id, key, self }.
+ */
+export const createIssue = (fields) => jira('POST', '/rest/api/2/issue', { fields });
+
+/** Issue link, e.g. ("Relates", "MSC-1", "MSC-2"). Not retried; callers read the links back. */
+export const createIssueLink = (type, inwardKey, outwardKey) =>
+  jira('POST', '/rest/api/3/issueLink', { type: { name: type }, inwardIssue: { key: inwardKey }, outwardIssue: { key: outwardKey } });
+
+/**
  * Creates a Web link, or updates the one with the same `globalId` on this issue (Jira's documented behavior for
  * POST remotelink), so a repeated call never adds a second link. Safe to retry for that reason.
  */

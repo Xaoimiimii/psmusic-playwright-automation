@@ -52,7 +52,7 @@ Run the commands, not these files directly. Flow: **plan → sync → verify →
 |---|---|---|---|
 | `xray/xray.mjs` | Command line for Xray Cloud: `auth-check`, read-only queries, `prepare-junit` (dry run of an import) and `import-junit` (uploads `reports/xray-report.xml` as a Test Execution) | `node scripts/xray/xray.mjs <command>`; also by `sync-xray.mjs` | **Yes** for `import-junit` and the `create-*` / `add-*` commands |
 | `xray/xray-client.mjs` | Library only: Xray login, GraphQL calls with retry, hiding secrets in output | Imported by `xray.mjs`, `sync-xray.mjs` and `ci/xray-execution.mjs` | — |
-| `xray/jira-client.mjs` | Library only: Jira Cloud REST with API token (CI has no MCP): search, read an issue, read and upsert Web links | Imported by `ci/xray-execution.mjs` | — |
+| `xray/jira-client.mjs` | Library only: Jira Cloud REST with API token (CI has no MCP): search, read and create issues, issue links, read and upsert Web links | Imported by `ci/xray-execution.mjs` and `triage/jira-actions.mjs` | — |
 | `xray/junit-for-xray.mjs` | Fixes known-defect results before upload: Playwright counts a reproduced defect as passed, Xray must show it FAILED; a fixed one becomes PASSED with a review comment | Called by `xray.mjs prepare-junit` / `import-junit` | No |
 
 ## `triage/`: failure triage (report-only)
@@ -64,7 +64,10 @@ Details: [`docs/failure-triage.md`](../docs/failure-triage.md). Unit-tested by `
 | `triage/triage.mjs` | Classifies each failed test of the last run, matches recorded Bugs, writes `reports/triage.json`, `reports/triage.md` and the run summary. Never fails the job | After every test run in CI (run-suite); locally `npm run triage` | No |
 | `triage/collect.mjs` | Library: reads the Playwright JSON report and Allure results into one record per failed / known-defect test (attempts, failing step, masked error, signals) | Imported by `triage.mjs` | — |
 | `triage/classify.mjs` | Library: category + confidence rules, fingerprint, recommendation | Imported by `triage.mjs` | — |
-| `triage/bug-index.mjs` | Library: recorded Bugs and their relations to Tests from `plan.json` / `issue-map.json`; matching by stable IDs | Imported by `triage.mjs` | — |
+| `triage/bug-index.mjs` | Library: recorded Bugs and their relations to Tests from `plan.json` / `issue-map.json` (and earlier triage decisions, `triage-map.json`); matching by stable IDs | Imported by `triage.mjs` | — |
+| `triage/triage-jira.mjs` | Phase 2 command. `plan`: proposals from a `triage.json`, checked live, saved under `test-management/reports/`. `apply`: only approved proposals, only with `TRIAGE_JIRA_WRITES=enabled`, never in CI; reads back, audits, records `triage-map.json` | `/triage-jira`; `npm run triage:jira` | **Yes** (`apply`: Xray test-run defects, reviewed Bugs) |
+| `triage/proposals.mjs` | Library: proposals and Bug drafts from a triage record (pure) | Imported by `triage-jira.mjs` | — |
+| `triage/jira-actions.mjs` | Library: live checks, writes and read-back over injected Jira/Xray access | Imported by `triage-jira.mjs` | — |
 
 ## Credentials
 

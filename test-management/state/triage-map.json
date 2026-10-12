@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "fingerprints": {
+    "1d8d12af2e4b95b0": {
+      "bug": "MSC-91",
+      "bugId": "BUG-US-023-AC-03",
+      "createdByTriage": false,
+      "runs": [
+        {
+          "testExecution": "MSC-233",
+          "testKey": "MSC-119",
+          "testRunId": "6acc8dea90dd9bd1a751740a",
+          "linkedAt": "2026-10-12T07:36:43.004Z"
+        }
+      ]
+    }
+  }
+}

@@ -165,7 +165,7 @@ export function fingerprint(outcome) {
 /** What a reviewer should do. Never "create a Bug": in report-only mode nothing is written to Jira. */
 export function recommend(classification, bugMatch) {
   const exact = bugMatch.bugs.find((b) => b.relation === 'known-defect');
-  const strong = bugMatch.bugs.filter((b) => b.relation === 'detected-by-test' || b.relation === 'same-criterion');
+  const strong = bugMatch.bugs.filter((b) => ['previous-triage', 'detected-by-test', 'same-criterion'].includes(b.relation));
   const name = (b) => `${b.id}${b.jiraKey ? ` (${b.jiraKey})` : ''}`;
 
   if (classification.notice === 'known-defect-not-reproduced') {

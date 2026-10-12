@@ -31,6 +31,7 @@ There is **no Xray MCP server** configured in this repository, and the Atlassian
 | 16 | Verify Xray membership / coverage | **Not supported** | `getTestSet{tests}`, `getTestPlan{tests}`, `getTestExecution{tests}`, `getTestRuns`, `getCoverableIssues` | — | Xray API key | — |
 | 17 | Verify Jira hierarchy and links | `getJiraIssue` (`view: "evidence"` returns `issuelinks` and `parent`; live) | — | `GET /rest/api/3/issue/{key}?fields=parent,issuelinks` | *Browse projects* | — |
 | 18 | Store sync markers on an issue | `editJiraEntityProperty` / `getJiraEntityProperty` (key must start with `atlassian-mcp.`) | — | `PUT/GET /rest/api/3/issue/{key}/properties/{propertyKey}` (≤ 32 768 chars) | *Edit issues* | Not executed |
+| 18b | Add a Bug as a defect of a test run | **Not supported** | `getTestRun` + `addDefectsToTestRun` (live 2026-10-12; Xray then adds Jira *Defect* links to the Test and Test Execution) | — | Xray API key | Step-level defects not tried |
 | 19 | Delete anything | `deleteJiraIssue` exists but the `delete_jira` group is **disabled by default** and needs admin enablement | `deleteTest`, `deleteTestSet`, … | `DELETE /rest/api/3/issue/{key}` | — | **Prohibited by every command in this repo** |
 
 ## Consequences for the commands

@@ -11,6 +11,9 @@ Local state for syncing this repository's testware with Jira and Xray. How it is
 | `state/plan.json` | `/plan-jira-xray` | Yes | Planned entities and relationships with local IDs |
 | `state/issue-map.json` | `/sync-jira-xray` | Yes | Local ID → Jira key / id, Xray data, creation and verification status |
 | `reports/<command>-<YYYYMMDD-HHmmss>.md` | Every command | Yes (redacted) | Run reports |
+| `state/triage-map.json` | `/triage-jira` (`triage-jira.mjs apply`) | Yes | Failure fingerprint → Bug linked or created by an approved triage write, and the runs it was linked for ([`docs/failure-triage.md`](../docs/failure-triage.md) §7) |
+| `reports/triage-audit.jsonl` | `/triage-jira` | Yes | Append-only audit of every triage write: intent, outcome, read-back |
+| `reports/triage-plan-<YYYYMMDD-HHmmss>.json` | `/triage-jira` (`plan`) | Yes | Proposals as checked at plan time; the input of `apply` |
 | `tmp/` | Debugging only | **No** (git-ignored) | Raw API responses |
 
 ## Local IDs

@@ -1,8 +1,9 @@
 # Failure triage
 
 Classifies every failed test of a run from the evidence the framework recorded, and matches it to recorded Bugs by
-stable identifiers. **Phase 1, report-only** (2026-10-12): it never creates, edits or links a Jira issue. It runs
-after every test run in CI (all suites) and locally with `npm run triage`.
+stable identifiers. **Phase 1, report-only**: it never creates, edits or links a Jira issue. It runs after every test
+run in CI (all suites) and locally with `npm run triage`. **Phase 2** (§7) turns a triage into Jira/Xray changes, only
+those a person approves, from a local command (`/triage-jira`); CI never writes.
 
 Code: [`scripts/triage/`](../scripts/triage/) (`collect.mjs` evidence, `classify.mjs` rules, `bug-index.mjs` Bug
 matching, `triage.mjs` command). Unit tests: [`tests-unit/triage.spec.ts`](../tests-unit/triage.spec.ts).
@@ -19,12 +20,12 @@ Rules it follows: [`.claude/rules/traceability-rules.md`](../.claude/rules/trace
 | Triage summary per failure | Done | Run summary, `reports/triage.md`, `reports/triage.json` |
 | Search recorded Bugs before proposing one; stable identifiers, not titles | Done | §4. Source: `plan.json` / `issue-map.json` (the synced copy of Jira). The live Jira status of a Bug is not read in phase 1 |
 | No duplicate Bugs for repeated failures | Done | Phase 1 creates nothing. Repeated failures are grouped (same Bug or same fingerprint) |
-| Link confirmed product defects to Test and execution | **Phase 2** | Recommended in the report (`reuse-existing-bug`); the write needs the approval-gated command (§7) |
+| Link confirmed product defects to Test and execution | Done (phase 2) | The Bug becomes a defect of the failed Xray test run; Xray then adds Jira *Defect* links to the Test and the Test Execution (§7.4) |
 | Exploratory Bugs keep their provenance; no invented CI execution | Done | Provenance labels (`found-by-exploration`, `needs-confirmation`) are shown; a reproduced Bug is reported as *reproduced by this run*, never as found by it |
 | Uncertain failures stay recommendations | Done | Only a reproduced known defect is *confirmed*; everything else has `reviewRequired: true` |
-| Report-only first; Jira writes separately configurable and approved | Done | Phase 1 contains no Jira client at all |
+| Report-only first; Jira writes separately configurable and approved | Done | Phase 1 has no Jira client. Phase 2 writes need `TRIAGE_JIRA_WRITES=enabled`, an explicit `--approve` list, and refuse to run in CI |
 | Never close, resolve, reassign or re-prioritize Bugs | Done | No such code; a fixed known defect gives `verify-fix`, a human acts |
-| Every automated Jira mutation logged | **Phase 2** | Nothing is mutated in phase 1 |
+| Every automated Jira mutation logged | Done (phase 2) | `test-management/reports/triage-audit.jsonl`: intent before, outcome (with read-back) after each write |
 | Unit tests: classification, duplicate detection, missing evidence; fixtures before live changes | Done | 24 tests, real and synthetic fixtures (§6) |
 
 **Changes made to support it** (the framework did not record enough evidence before):
@@ -92,6 +93,7 @@ Relations, strongest first (`bug-index.mjs`). Titles and error text are never co
 | Relation | From | Exact? |
 |---|---|---|
 | `known-defect` | The test called `knownDefect(<Bug ID>)` | Yes: the failure is that Bug |
+| `previous-triage` | The same fingerprint was linked to a Bug by an earlier reviewed phase-2 write (`test-management/state/triage-map.json`) | Strong candidate |
 | `detected-by-test` | `bugFoundByTest` in `plan.json` (the Bug's *Detected by*) | Candidate |
 | `same-criterion` | Bug and Test name the same acceptance criterion (*Story / AC* field) | Candidate |
 | `same-story` | `bugAffectsStory` ∩ `testCoversRequirement` | Weak candidate |
@@ -121,7 +123,7 @@ Locally after a run: `npm run triage` (prints the summary, writes both files).
 
 ## 6. Verification (2026-10-12)
 
-`npm run test:unit` (also in the CI build job): 24 tests over
+`npm run test:unit` (also in the CI build job): 36 tests (24 phase 1, 12 phase 2 with an in-memory Jira/Xray) over
 
 - **a real run** (`tests-unit/fixtures/deployed-run/`): auth, profile and song specs in CI mode against the deployed
   environment, reduced to the 5 failing / known-defect tests; paths and test user names replaced, screenshots and
@@ -142,18 +144,73 @@ The three suspected ones are the known deployed-environment defect A-11 (`explor
 §10): triage points at the right recorded Bug without confirming it, which is the intended behavior. No live
 `slow-response` case was observed that day (the API was warm); that rule is covered by synthetic fixtures only.
 
-## 7. Phase 2 (not built): approved Jira changes
+## 7. Phase 2: approved Jira/Xray changes
 
-Planned as a local command run by a person, never by CI, like `/sync-jira-xray`:
+Code: [`scripts/triage/proposals.mjs`](../scripts/triage/proposals.mjs) (proposals, Bug draft; pure),
+[`jira-actions.mjs`](../scripts/triage/jira-actions.mjs) (live checks, writes, read-back),
+[`triage-jira.mjs`](../scripts/triage/triage-jira.mjs) (command). Claude Code: `/triage-jira <triage.json>`.
+Unit tests: [`tests-unit/triage-jira.spec.ts`](../tests-unit/triage-jira.spec.ts).
 
-1. Read `triage.json`; propose only `reuse-existing-bug` links (Bug ↔ failed test run) and, for reviewed failures,
-   a Bug **draft**.
-2. Before any write: read the Bug's live status, re-check duplicates, show the exact change; write only on approval.
-3. Allowed: add the Bug as a defect of the Xray test run; create a reviewed Bug draft. Never: close, resolve,
-   reassign, re-prioritize, or edit an existing Bug's description or provenance.
-4. Append every write (who, when, issue, request, result, read-back) to a log committed under
-   `test-management/reports/`; CI artifacts expire after 14 days and cannot be the audit trail.
-5. Prerequisite: verify on one MSC test run that Xray accepts a defect on a test run (GraphQL), and its direction.
+### 7.1 Workflow
+
+1. **Input**: a `triage.json`. From CI: the `playwright-<suite>` artifact of the run (it names the run's Test
+   Execution). Locally: `reports/triage.json` after `xray.mjs import-junit`, with `--test-execution <KEY>`.
+2. **Plan** (read-only): `npm run triage:jira -- plan --triage <file> [--test-execution KEY] [--decide …]`. Each
+   failure becomes one proposal, checked against live Jira/Xray, saved as
+   `test-management/reports/triage-plan-<timestamp>.json` and printed.
+3. **Decide**: for `needs-decision` rows the reviewer adds `--decide <fingerprint>=<BUG-…|KEY|new|skip>:<reason>`
+   and plans again. The reason is mandatory and goes into the audit log.
+4. **Apply**: `TRIAGE_JIRA_WRITES=enabled npm run triage:jira -- apply --plan <plan> --approve P2,P5`. Each approved
+   proposal is checked again, written, read back and audited. The command stops at the first error.
+5. **Commit** `test-management/state/triage-map.json`, `test-management/reports/triage-audit.jsonl` and the plan.
+
+### 7.2 Proposals
+
+| Type | When, without a reviewer decision | Write |
+|---|---|---|
+| `link-defect` | A reproduced known defect (confirmed), or the same fingerprint linked before (`previous-triage`) | `addDefectsToTestRun` on the failed test run |
+| `create-bug` | Never: only `--decide <fp>=new:<reason>` | Bug (REST v2, wiki markup) labelled `found-by-automation`, `needs-confirmation`, `triage-<fingerprint>`; *Relates* link to each story the Test covers; then `addDefectsToTestRun` |
+
+| Status | Meaning | Can be approved |
+|---|---|---|
+| `ready` | Checks passed | Yes |
+| `needs-decision` | Suspected or unknown, with candidate Bugs listed | No |
+| `skipped` | Infrastructure, test or flaky failure, a notice, or a reviewer `skip` | No |
+| `blocked` | No Xray key or Test Execution, no test run, Bug not in Jira, Bug *Done* (a possible regression: decide by hand), not a Bug, or several Bugs with the same fingerprint label | No |
+| `already-done` | Recorded in `triage-map.json` for this execution, or the Bug is already a defect of the run | No |
+
+A Bug draft holds only facts from the triage record: test, Xray key, failing step, attempts, environment, commit,
+Test Execution, CI link, an 8-line masked assertion excerpt, the automated classification and the reviewer's reason.
+No priority, assignee or screenshots. A `create-bug` repeated after an interruption finds the Bug by its
+`triage-<fingerprint>` label and links it instead of creating a second one.
+
+### 7.3 Safety
+
+- Writes only with `TRIAGE_JIRA_WRITES=enabled` and an `--approve` list; `apply` exits in CI (`GITHUB_ACTIONS`).
+- Live checks run at plan time **and** again right before each write.
+- Never: close, resolve, transition, reassign, re-prioritize, or edit an existing Bug's fields, description or
+  provenance. A linked exploratory Bug keeps `found-by-exploration`; the run is added as evidence, not as its origin.
+- Audit (`triage-audit.jsonl`, append-only, committed): `at`, `actor` (git user name, not an e-mail), `phase`
+  (`intent` / `outcome` / `error`), operation, targets, decision, `verified`. An `intent` without an `outcome`
+  marks an interrupted write to check before retrying.
+- State (`triage-map.json`): fingerprint → Bug and the runs it was linked for. Read by phase 1 (`previous-triage`)
+  and by phase 2 (`already-done`). A Bug created by triage is known there until it is added to `docs/` and the plan.
+
+### 7.4 Verified live (2026-10-12)
+
+TS-PROF-02 and TS-AUTH-11 run in CI mode against the deployed environment, imported with `xray.mjs import-junit`
+→ Test Execution **MSC-233** (both runs FAILED; TS-PROF-02 is the reproduced known defect BUG-US-023-AC-03).
+
+- `plan`: P1 TS-AUTH-11 `needs-decision` (suspected, candidates MSC-93, MSC-79), P2 TS-PROF-02 `ready` (test run
+  FAILED, MSC-91 *To Do*). Only P2 was applied: the TS-AUTH-11 decision belongs to a reviewer.
+- `apply --approve P2`: outcome `linked`, read back. Independent Xray query: the MSC-119 run in MSC-233 has
+  `defects: ["10318"]` (MSC-91); the MSC-111 run is untouched. MSC-91's status, priority, assignee and description
+  are unchanged.
+- **Xray adds the Jira links itself**: MSC-91 gained *Defect* links "created by" MSC-119 (Test) and MSC-233 (Test
+  Execution). That is where a reviewer sees them: the Bug's *Linked work items* section, and the test run's
+  *Defects* section in the Test Execution. Phase 2 therefore creates no Jira link of its own for `link-defect`.
+- `plan` again: P2 `already-done`. Audit: one `intent` and one `outcome` (`verified: true`) line.
+- **Not exercised live**: `create-bug` (no reviewed new defect existed; covered by unit tests with fakes only).
 
 ## 8. Limitations
 

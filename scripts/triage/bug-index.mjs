@@ -13,7 +13,7 @@ function criteriaOf(description = '') {
  * Index of Bugs and Tests. `issueMap` supplies Jira keys; Bugs without one are kept (planned, not in Jira yet)
  * so a match is still reported, with jiraKey null.
  */
-export function buildBugIndex(plan, issueMap) {
+export function buildBugIndex(plan, issueMap, triageMap) {
   const entities = Array.isArray(plan.entities) ? plan.entities : Object.values(plan.entities ?? {});
   const mapped = issueMap?.entities ?? {};
   const relationships = plan.relationships ?? [];
@@ -43,11 +43,18 @@ export function buildBugIndex(plan, issueMap) {
       stories: related(test.localId, 'testCoversRequirement'),
     });
   }
-  return { bugs, tests };
+  // Reviewed phase-2 decisions (test-management/state/triage-map.json): fingerprint -> Bug linked or created then.
+  // A Bug created by triage is not in plan.json until someone adds it to the design documents; it is known here.
+  const triaged = new Map();
+  for (const [fingerprint, entry] of Object.entries(triageMap?.fingerprints ?? {})) {
+    const known = [...bugs.values()].find((b) => b.jiraKey === entry.bug);
+    triaged.set(fingerprint, known ?? { id: entry.bugId ?? entry.bug, jiraKey: entry.bug, summary: '(created by triage; not in plan.json)', criteria: [], stories: [], detectedBy: [], provenance: entry.createdByTriage ? ['found-by-automation'] : [] });
+  }
+  return { bugs, tests, triaged };
 }
 
 /** Strength of each relation, strongest first. Only `known-defect` is an exact match. */
-export const RELATIONS = ['known-defect', 'detected-by-test', 'same-criterion', 'same-story'];
+export const RELATIONS = ['known-defect', 'previous-triage', 'detected-by-test', 'same-criterion', 'same-story'];
 
 /**
  * Existing Bugs related to a failed test, strongest relation first.
@@ -69,6 +76,10 @@ export function matchBugs(outcome, index) {
     if (bug) add(bug, 'known-defect');
     else missing.push(`knownDefect(${outcome.knownDefect}) names no Bug in plan.json`);
   }
+
+  // The same failure (fingerprint) was tied to a Bug by an earlier reviewed triage: a strong candidate, not exact,
+  // because the reviewer decided for that run.
+  if (outcome.fingerprint && index.triaged?.has(outcome.fingerprint)) add(index.triaged.get(outcome.fingerprint), 'previous-triage');
 
   const test = outcome.scenarioId ? index.tests.get(outcome.scenarioId) : undefined;
   if (!outcome.scenarioId) missing.push('test title names no scenario (TS-…): related Bugs cannot be looked up');
