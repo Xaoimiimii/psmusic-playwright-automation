@@ -115,7 +115,7 @@ steps matter. See [xray-cloud-rest-api.md §4](xray-cloud-rest-api.md#4-creating
 | 3 | `scripts/test-management/validate-state.mjs`: JSON Schema check of `issue-map.json` and `plan.json` | Use the schema in `test-management/state/` |
 | 4 | **Done and verified 2026-10-09** (trial Test Execution MSC-230). Playwright JUnit reporter with Xray options and a `test_key` annotation helper | Changes `playwright.config.ts` and test files: needs an explicit request |
 | 5 | **Done 2026-10-09.** Read MSC's Xray project settings and fill `project-map.json` `xray` | Remaining: a Jira admin fixes Xray's access to MSC (`xray.accessBlocker`) |
-| 6 | Optional CI step that imports results after the regression run | Needs `XRAY_CLIENT_ID`/`XRAY_CLIENT_SECRET` as GitHub secrets |
+| 6 | **Done 2026-10-12** (verified locally, MSC-232). CI step that imports results and links the Test Execution to the CI run and reports: `scripts/ci/xray-execution.mjs`, `scripts/xray/jira-client.mjs` ([ci-cd.md](../ci-cd.md) §9) | Remaining: add `XRAY_*` / `JIRA_*` GitHub secrets and check the first real Regression run |
 
 ## Sources consulted (2026-10-09)
 

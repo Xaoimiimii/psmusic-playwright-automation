@@ -195,7 +195,7 @@ described in [`reporting.md`](reporting.md).
 | Artifact | Contents | How to open |
 |---|---|---|
 | `allure-smoke` / `allure-regression` / `allure-post-deployment` / `allure-pre-merge` (in the application repository) | `reports/allure-report/index.html` (whole report in one file) and the raw `reports/allure-results/` | Unzip and open `reports/allure-report/index.html` in a browser. Shows steps, errors, screenshots and retries |
-| `playwright-smoke` / `playwright-regression` / `playwright-post-deployment` / `playwright-pre-merge` | `reports/playwright-report/` (HTML report) and `reports/test-results/` | `npx playwright show-report <unzipped>/reports/playwright-report`, or look at the files in `reports/test-results/` directly |
+| `playwright-smoke` / `playwright-regression` / `playwright-post-deployment` / `playwright-pre-merge` | `reports/playwright-report/` (HTML report), `reports/test-results/` and `reports/xray-report.xml` (JUnit sent to Xray) | `npx playwright show-report <unzipped>/reports/playwright-report`, or look at the files in `reports/test-results/` directly |
 
 What is in the evidence:
 
@@ -362,7 +362,94 @@ cd /tmp/psmusic-pr/PSMusic && docker compose down
 
 `PSMUSIC_SERVICE_KEY` comes from this repository's `.env`.
 
-## 9. Next improvements (in this order)
+## 9. Xray Test Execution per run
+
+**Regression** (into Test Plan `PLAN-REGRESSION` = MSC-228) and **Post-deployment** (into `PLAN-SMOKE` = MSC-229)
+record every run as an Xray Test Execution that links back to the run and its reports. CI smoke on PRs does not,
+so PR pushes do not flood Jira. Enabled per workflow with the run-suite inputs `xray-import: 'true'` and
+`xray-test-plan: <plan local ID>`. The plan key is looked up in `test-management/state/issue-map.json`, so the
+existing plan is reused and no key is hard-coded. Script: [`scripts/ci/xray-execution.mjs`](../scripts/ci/xray-execution.mjs).
+
+### 9.1 What happens in a run
+
+| Step (run-suite) | Does |
+|---|---|
+| Run tests | Unchanged. Writes `reports/xray-report.xml` (JUnit with `test_key`) and `reports/test-results.json` |
+| **Record the run in Xray** (`xray-execution.mjs import`) | Looks for a Test Execution labelled `ci-<suite>-<runId>-<attempt>`. None: creates one with the multipart JUnit import (summary, description, label, Test Plan, Xray test environment). Found (the step was repeated): imports into it, so no duplicate. **No results** (install, browser or set-up failed): still creates one, `[NOT RUN] …`, with no tests. Reads the issue back (type, label) and checks every `test_key` has a test run. Adds `Xray Test Execution=<key> (<url>)` to the Allure environment |
+| Generate Allure report | The report's **Environment** widget now shows the Xray key, the CI run attempt URL, commit, branch and environment |
+| Upload artifacts | The Playwright artifact now also holds `reports/xray-report.xml` |
+| **Link the run and its reports from Xray** (`xray-execution.mjs link`) | Adds three **Web links** to the Test Execution, then reads them back (table in the run summary) |
+
+Neither step fails the job (the test step decides that). A problem is an `::error` annotation on the run plus a ❌
+line in the run summary; missing credentials are a warning ("Xray import skipped").
+
+### 9.2 Where a reviewer finds the links
+
+Open the Test Execution in Jira (from the Test Plan's executions, from a Test's execution history, or with JQL
+`labels = ci-regression-<runId>-<attempt>`). The links are in the issue's **Web links** section, under *Links*:
+
+| Web link (relationship) | URL | Notes |
+|---|---|---|
+| **CI run**: `GitHub Actions: <workflow> run <n> attempt <a>` | `…/actions/runs/<runId>/attempts/<a>` | The exact attempt: a re-run keeps the run ID. Title ends with `(TESTS DID NOT RUN)` when no test ran |
+| **Allure report**: `Allure report: <suite>, run <n> attempt <a>` | `…/actions/runs/<runId>/artifacts/<artifactId>` (the upload step's `artifact-url`) | That run's own artifact, not "latest". Download, unzip, open `allure-report/index.html` |
+| **Playwright report** | `…/artifacts/<artifactId>` | Playwright HTML report, failure screenshots, JUnit file |
+
+The **Description** repeats the facts so they survive after the artifacts expire: suite, workflow and trigger,
+run number / attempt / run ID, automation commit and branch, environment name and UI/API origins, the deployed
+application commit (post-deployment only), and the Playwright counts. The summary carries the same short form:
+`<suite> · <workflow> run <n> attempt <a> · <commit> · <environment>`.
+
+When a report is missing, its link says so and points at the CI run instead:
+`Allure report not produced: tests did not run`, `Allure report not available: the upload failed, see the CI run`,
+or `Allure results only (report generation failed)`.
+
+### 9.3 Why links never point at the wrong run
+
+- **One Test Execution per run attempt and suite.** The label `ci-<suite>-<runId>-<attempt>` is the identity. A new
+  run or a re-run attempt creates a new issue; the links of earlier executions are never edited.
+- **Links are upserted by `globalId`** (`<label>:ci-run`, `:allure`, `:playwright`). Repeating the link step updates
+  the same three links instead of adding copies (Jira's documented `POST …/remotelink` behavior, verified below).
+- Nothing in Jira is overwritten by a later run; old executions keep pointing at their own (possibly expired) run.
+
+### 9.4 Expiry and access
+
+| Target | Kept for | Who can open it |
+|---|---|---|
+| Artifacts (Allure, Playwright) | `retention-days` input, default **14 days** from upload; the expected date is written on the link and in the description | GitHub users with **read access** to this repository (the repository is private). After expiry the link shows "not found" |
+| CI run page and logs | The repository's log retention setting (GitHub default 90 days) | Same |
+| Test Execution, its description and test runs | Permanent (Jira) | Jira users with *Browse* on MSC |
+
+Jira holds no screenshots, logs, error messages or request data: only counts, names, commits and links. The
+evidence stays behind GitHub's access control (section 6, "What is never in the evidence").
+
+### 9.5 Configuration
+
+Repository **Secrets**: `XRAY_CLIENT_ID`, `XRAY_CLIENT_SECRET`, `JIRA_USER_EMAIL`, `JIRA_API_TOKEN`.
+Repository **Variables**: `ATLASSIAN_SITE_URL` (already used for Allure links), `ATLASSIAN_CLOUD_ID` (required for a
+scoped API token), and optionally `PSMUSIC_ENVIRONMENT` (a name such as `qa`, shown in Allure and Xray; the
+post-deployment payload's `environment` overrides it). The Jira account needs *Browse*, *Create issues*, *Edit issues*
+and *Link issues* on MSC (authentication-and-security.md §5). The secrets are in the job env, so the test process can
+see them too; no test reads them and GitHub masks them in logs.
+
+### 9.6 Verified (2026-10-12, local, simulated CI context)
+
+No CI run could be started from the workstation, so the script was run locally with the `GITHUB_*` variables set by
+hand and a real one-test JUnit report. Trial execution **MSC-232** (summary starts with `LOCAL VALIDATION`; its
+GitHub links point at a non-existent run 1):
+
+- Created through the multipart import with summary, wiki-markup description (renders as a table), label; 1 test
+  run (MSC-142) read back through Xray.
+- Three Web links created and read back; the REST response includes `globalId`.
+- Repeating `import` reused MSC-232 (no new issue); repeating `link` kept 3 links; `link` without an Allure artifact
+  changed the Allure link in place to "not available" (same `globalId`), and back.
+- JQL `project = MSC AND created >= -60m` returned only MSC-232; MSC-230/231 unchanged.
+- `[NOT RUN]` path: `createTestExecution(testIssueIds, testEnvironments, jira)` accepted by Xray's schema (an empty
+  `jira` failed only on the required `summary`, nothing created). A real `[NOT RUN]` execution has not been created yet.
+- **Not verified yet:** a real GitHub Actions run (`artifact-url` output, the `/attempts/<n>` URL, secrets), Test
+  Plan membership through `xrayFields.testPlanKey`, and `xrayFields.environments`. Check them on the first
+  Regression run after the secrets are added.
+
+## 10. Next improvements (in this order)
 
 1. **Get A-11 fixed** (logout on the deployed environment, section 4.3), so Regression is green there.
 2. **Add ESLint** to the build job (strategy §11.1 lists it; it is not installed yet).

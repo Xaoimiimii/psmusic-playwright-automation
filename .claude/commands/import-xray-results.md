@@ -15,10 +15,10 @@ Reference: `docs/integrations/xray-cloud-rest-api.md` §6 (endpoints, JUnit mapp
 
 Missing pieces (do not work around them):
 
-1. `scripts/xray/xray.mjs import-junit` and its read subcommands do not exist.
-2. `playwright.config.ts` has no `junit` reporter, and tests carry no `test_key` annotations. Adding them changes test
-   code and config: it needs an explicit request.
-3. `XRAY_CLIENT_ID` / `XRAY_CLIENT_SECRET` are not configured.
+Update 2026-10-12: the pieces this scaffold waited for now exist: `xray.mjs import-junit` / `get-test-execution`,
+the `junit` reporter with `test_key` annotations, and local Xray credentials. CI imports through
+`scripts/ci/xray-execution.mjs` (docs/ci-cd.md §9). This command itself has not been rewritten to use them yet:
+until it is, use the CLI (`docs/runbook.md`) or CI, and treat the steps below as the checklist they follow.
 
 When invoked while any piece is missing: check which ones are missing, write the report saying so, and stop. Do not
 upload with `curl` by hand as a substitute.
