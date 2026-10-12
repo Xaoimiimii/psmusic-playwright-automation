@@ -90,7 +90,7 @@ Local runs need PSMusic running and `.env` filled from `.env.example`.
 
 | Finding | Do this |
 |---|---|
-| **Product defect** (the app breaks a story / acceptance criterion) | Record it (bug in Jira, linked to the story and the failed Test; see `.claude/rules/traceability-rules.md`). If the defect will stay open, add the Bug to the plan and sync it (its local ID `BUG-…` then exists in `src/data/test-metadata.ts` after `npm run report:metadata`), and mark the test with `knownDefect('BUG-…', 'what is observed')` immediately before the failing assertion. The Bug ID is type-checked. Do **not** change the assertion to match the wrong behavior |
+| **Product defect** (the app breaks a story / acceptance criterion) | Record it (bug in Jira, linked to the story and the failed Test; see `.claude/rules/traceability-rules.md`). If a run's triage shows it (a reproduced known defect, or a reviewed new defect), record it with `/triage-jira` ([`failure-triage.md`](failure-triage.md) §7): it links the Bug to the failed Xray test run, or creates a reviewed Bug, only after your approval. If the defect will stay open, add the Bug to the plan and sync it (its local ID `BUG-…` then exists in `src/data/test-metadata.ts` after `npm run report:metadata`), and mark the test with `knownDefect('BUG-…', 'what is observed')` immediately before the failing assertion. The Bug ID is type-checked. Do **not** change the assertion to match the wrong behavior |
 | **Test defect** (locator, wait, data, wrong expectation) | Fix the page object, fixture or test data; re-run the test locally until it passes |
 | **Environment / third party** | Re-run when the environment is back; note it in the PR or the stand-up, no bug |
 | **Flaky** (passed on retry) | Do not ignore: find the cause from the first attempt's evidence. Retries are a safety net, not a fix |
@@ -136,6 +136,7 @@ git add src/data/test-metadata.ts src/data/xray-test-keys.ts && git commit -m "R
 | `npx playwright test --grep @critical` | `@critical` tests (pre-merge suite) |
 | `npm run test:unit` | Unit tests of the tooling (failure triage); no browser, no PSMusic. Also in the CI build job |
 | `npm run triage` | Failure triage of the last run: `reports/triage.md` and `reports/triage.json` |
+| `npm run triage:jira -- plan --triage <file> [--test-execution KEY]` | Phase 2, read-only: proposed Jira/Xray changes. `apply` needs `TRIAGE_JIRA_WRITES=enabled` and `--approve` (prefer `/triage-jira`) |
 | `npm run allure:generate` | Build `reports/allure-report/index.html` from `reports/allure-results/` |
 | `npm run allure:open` | Open the Allure report |
 | `npm run report:metadata` | Regenerate Allure metadata from the Jira/Xray plan |

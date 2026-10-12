@@ -24,6 +24,7 @@ const files = {
   out: fromRoot(args.out ?? 'reports'),
   plan: fromRoot(args.plan ?? 'test-management/state/plan.json'),
   issueMap: fromRoot(args['issue-map'] ?? 'test-management/state/issue-map.json'),
+  triageMap: fromRoot(args['triage-map'] ?? 'test-management/state/triage-map.json'),
   execution: fromRoot('reports/xray-execution.json'),
 };
 
@@ -54,17 +55,17 @@ function build() {
       ? fs.readdirSync(files.allure).filter((f) => f.endsWith('-result.json')).map((f) => readJson(path.join(files.allure, f)))
       : readJson(files.allure);
   const secrets = [process.env.PSMUSIC_SERVICE_KEY, process.env.JIRA_API_TOKEN, process.env.XRAY_CLIENT_SECRET, process.env.XRAY_CLIENT_ID];
-  const index = buildBugIndex(readJson(files.plan), readJsonIfPresent(files.issueMap));
+  const index = buildBugIndex(readJson(files.plan), readJsonIfPresent(files.issueMap), readJsonIfPresent(files.triageMap));
   const context = runContext();
   const link = (key) => (key && context.jiraSite ? `${context.jiraSite}/browse/${key}` : null);
 
   const outcomes = report ? collectOutcomes(report, allureResults, { rootDir: root, secrets }) : [];
-  const records = outcomes.map((outcome) => {
+  const records = outcomes.map((collected) => {
+    const outcome = { ...collected, fingerprint: fingerprint(collected) };
     const bugMatch = matchBugs(outcome, index);
     const classification = classify(outcome, bugMatch);
     return {
       ...outcome,
-      fingerprint: fingerprint(outcome),
       classification,
       bugMatch: {
         match: bugMatch.match,

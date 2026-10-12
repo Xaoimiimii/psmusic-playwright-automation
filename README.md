@@ -15,7 +15,7 @@ UI + API + E2E test automation framework (TypeScript, Playwright Test, Allure, G
 | [Implementation Progress](docs/test-case-implementation-progress.md) | Which scenarios are automated (Yes / Partial / No), run results and open findings per area. |
 | [Exploration findings](docs/exploration/) | Observed facts about the SUT from the browser, the application repository and its documentation; [`exploration-validation.md`](docs/exploration/exploration-validation.md) reconciles them. |
 | [CI/CD](docs/ci-cd.md) | Workflows, triggers, suites, configuration, failure investigation, application-repository triggers. |
-| [Failure triage](docs/failure-triage.md) | Evidence-based classification of failed tests (product / test / infrastructure / flaky / unknown) and recorded-Bug matching; report-only. |
+| [Failure triage](docs/failure-triage.md) | Evidence-based classification of failed tests (product / test / infrastructure / flaky / unknown), recorded-Bug matching, and approved Jira/Xray writes (phase 2). |
 | [Jira/Xray integration](docs/integrations/README.md) | How testware is planned, synced to Jira/Xray, verified, and how results are imported. |
 
 ## 2. Technology Stack
@@ -51,7 +51,7 @@ psmusic-playwright-automation/
 ├── .mcp.json                                # Atlassian Rovo MCP server
 ├── CLAUDE.md                                # repository rules
 ├── .claude/
-│   ├── commands/                            # /discover- /plan- /sync- /verify-jira-xray, /import-xray-results
+│   ├── commands/                            # /discover- /plan- /sync- /verify-jira-xray, /import-xray-results, /triage-jira
 │   └── rules/traceability-rules.md          # coverage, risk, defect and repeatability rules
 ├── .github/
 │   ├── workflows/ci.yml                     # PR/push: build + type-check, then @smoke
@@ -74,7 +74,7 @@ psmusic-playwright-automation/
 ├── scripts/                                 # every script explained in scripts/README.md
 │   ├── ci/                                  # write-ci-summary (GitHub run summary), write-trigger-summary (post-deployment origin), xray-execution
 │   ├── test-management/                     # build-plan, jira-export, sync-xray, verify-jira, issue-map, export-test-keys, export-test-metadata
-│   ├── triage/                              # failure triage: collect, classify, bug-index, triage (report-only)
+│   ├── triage/                              # failure triage: collect, classify, bug-index, triage (report-only); triage-jira (approved writes)
 │   └── xray/                                # xray-client (auth, retry, redaction), jira-client, xray CLI, junit-for-xray
 ├── test-management/
 │   ├── config/project-map.json              # verified Jira/Xray project configuration (no secrets)
@@ -395,6 +395,7 @@ flowchart TD
 | `/sync-jira-xray [--dry-run] [--only …] [--limit n]` | Yes (each write approved) | Operational; reconciles against `issue-map.json` first so interrupted runs never duplicate |
 | `/verify-jira-xray` | No | Operational; PASS / FAIL / UNVERIFIED per entity and link |
 | `/import-xray-results` | — | Scaffold; use the CLI below |
+| `/triage-jira <triage.json>` | Yes (each write approved; never in CI) | Operational; links a recorded Bug to a failed test run or creates a reviewed Bug, from failure triage ([`docs/failure-triage.md`](docs/failure-triage.md) §7) |
 
 **Linking automated results to Xray Tests**
 
@@ -539,6 +540,7 @@ cp .env.example .env            # fill in PSMUSIC_SERVICE_KEY (and URLs if not l
 | Playwright report | `npx playwright show-report` |
 | Xray key map | `npm run xray:keys` |
 | Failure triage of the last run | `npm run triage` → `reports/triage.md`, `reports/triage.json` ([`docs/failure-triage.md`](docs/failure-triage.md)) |
+| Record triage results in Jira/Xray (approved) | `/triage-jira <triage.json>`, or `npm run triage:jira -- plan …` then `apply` |
 | Unit tests of the tooling | `npm run test:unit` (no browser, no PSMusic) |
 
 **Tags**

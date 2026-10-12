@@ -11,6 +11,7 @@
     "test:regression": "playwright test",
     "test:unit": "playwright test -c playwright.unit.config.ts",
     "triage": "node scripts/triage/triage.mjs",
+    "triage:jira": "node scripts/triage/triage-jira.mjs",
     "allure:generate": "allure generate reports/allure-results",
     "allure:open": "allure open reports/allure-report",
     "report:metadata": "node scripts/test-management/export-test-metadata.mjs",

@@ -1,0 +1,69 @@
+{
+  "createdAt": "2026-10-12T07:36:22.964Z",
+  "triageFile": "reports\\triage.json",
+  "proposals": [
+    {
+      "id": "P1",
+      "fingerprint": "b8698e9cde403dea",
+      "test": {
+        "key": "MSC-111",
+        "scenarioId": "TS-AUTH-11",
+        "title": "US-004 Log out › TS-AUTH-11 logout clears the session",
+        "location": "tests/auth/logout.spec.ts:36"
+      },
+      "testExecution": "MSC-233",
+      "classification": {
+        "category": "PRODUCT_DEFECT",
+        "confidence": "suspected"
+      },
+      "triageRecommendation": "review-existing-bug",
+      "type": null,
+      "status": "needs-decision",
+      "candidates": [
+        {
+          "id": "BUG-A-11",
+          "jiraKey": "MSC-93",
+          "relation": "detected-by-test"
+        },
+        {
+          "id": "BUG-US-004-AC-01",
+          "jiraKey": "MSC-79",
+          "relation": "same-story"
+        }
+      ],
+      "reasons": [
+        "PRODUCT_DEFECT (suspected): review, then decide with --decide b8698e9cde403dea=<BUG-…|KEY|new|skip>:<reason>"
+      ]
+    },
+    {
+      "id": "P2",
+      "fingerprint": "1d8d12af2e4b95b0",
+      "test": {
+        "key": "MSC-119",
+        "scenarioId": "TS-PROF-02",
+        "title": "US-023 View my profile (provisional) › TS-PROF-02 a user cannot read another user's profile",
+        "location": "tests/profile/profile.spec.ts:38"
+      },
+      "testExecution": "MSC-233",
+      "classification": {
+        "category": "PRODUCT_DEFECT",
+        "confidence": "confirmed"
+      },
+      "triageRecommendation": "reuse-existing-bug",
+      "type": "link-defect",
+      "status": "ready",
+      "bugKey": "MSC-91",
+      "bugId": "BUG-US-023-AC-03",
+      "relation": "known-defect",
+      "reasons": [
+        "known defect BUG-US-023-AC-03 reproduced"
+      ],
+      "checks": [
+        "test run 6acc8dea90dd9bd1a751740a (FAILED)",
+        "MSC-91 status To Do"
+      ],
+      "testRunId": "6acc8dea90dd9bd1a751740a",
+      "bugIssueId": "10318"
+    }
+  ]
+}

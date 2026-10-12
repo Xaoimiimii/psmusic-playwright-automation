@@ -225,6 +225,18 @@ After (never trust the HTTP 200 alone): `getTestExecution(issueId)` with `tests(
 execution; compare the count and each Test's status with the JUnit report; confirm no new Tests were created
 unexpectedly (`getTests(jql: "project = X AND created >= -15m")`).
 
+### 6.5 Defects on a test run (LIVE 2026-10-12)
+
+Introspected on MSC: `getTestRun(testIssueId: String, testExecIssueId: String)` (issue **ids**, not keys),
+`getTestRunById(id: String)`, `addDefectsToTestRun(id: String!, issues: [String]!): AddDefectsResult { addedDefects warnings }`,
+`removeDefectsFromTestRun`, and `TestRun.defects: [String]` (Jira issue ids). Step-level variants exist
+(`addDefectsToTestRunStep`).
+
+Trial (failure triage phase 2, `docs/failure-triage.md` §7.4): `addDefectsToTestRun` with the Bug **key** `MSC-91`
+on the MSC-119 run of Test Execution MSC-233 → `defects: ["10318"]` read back. **Xray then created two Jira links
+of type *Defect*** on the Bug: MSC-91 "created by" MSC-119 (Test) and "created by" MSC-233 (Test Execution). So the
+*Defect* link type (10007) is Xray's own Bug ↔ Test / execution link, inward description "created by" on the Bug.
+
 ## 7. Reading and verifying (GraphQL, DOC signatures)
 
 ```graphql
