@@ -31,6 +31,14 @@ export const uiText = {
   favoritePlaylist: 'Favorite Playlist',
   discover: 'Discover',
   discoverByGenre: 'Discover by Genre',
+  trendingArtists: 'Trending Artists',
+  seeAll: 'See all',
+  searchPlaceholder: 'Search songs, artists, ...',
+  noSuggestions: 'No suitable suggestions',
+  searchResults: 'Search results',
+  topResult: 'Top result',
+  /** `not_found_msg` followed by the keyword in quotes and a period (`SearchResultPage.jsx`). */
+  noResultsFor: (keyword: string) => `No results found for "${keyword}".`,
   artists: 'Artists',
   otherSongsBy: 'Other songs by',
   startListening: 'Start Listening',
@@ -58,4 +66,7 @@ export const serverMessage = {
   songNotFound: 'Không tìm thấy bài hát',
   /** `RatingController.AddReview` success body; the modal does not display it. */
   reviewSuccess: 'Đánh giá thành công!',
+  /** `SongController.ToggleFavorite`; the player does not display it. */
+  favoriteAdded: 'Đã thêm vào yêu thích',
+  favoriteRemoved: 'Đã bỏ yêu thích',
 } as const;

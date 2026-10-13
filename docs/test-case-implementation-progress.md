@@ -5,7 +5,7 @@
 | Source of test cases | `docs/test-strategy/test-scenarios.md` (117 scenarios, `TS-AREA-nn`) |
 | Automation classification | `docs/test-strategy/automation-analysis.md` §3 |
 | Code inspected | `tests/`, `src/`, `playwright.config.ts` on branch `feature/song-details` |
-| Last reviewed | 2026-10-12 (branch `feature/p1-core-coverage`, P1 Player, Rating, Journeys and Recommendations implementation) |
+| Last reviewed | 2026-10-13 (branch `feature/search-favorites-discovery`, Search, Favorites and Discovery implementation) |
 
 ## Status basis
 
@@ -13,7 +13,7 @@
 - **Partial**: an automated test exists but covers only part of the scenario.
 - **No**: the scenario is defined but no automated test covers it.
 
-**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Player: TS-PLAY-06 (volume and mute) is automated in `tests/player/volume.spec.ts` with the extended `PlayerBar` (2026-10-09, branch `feature/player-automation`). On 2026-10-12 (branch `feature/p1-core-coverage`) the remaining automatable P1 scenarios were added: Player (TS-PLAY-01 to 05, 07, 08) in `tests/player/`, Rating and Review (TS-REV-01, UI halves of TS-REV-02 and TS-REV-04) in `tests/review/`, both Journeys in `tests/journeys/`, and Recommendations TS-REC-12 against the live tracker in `tests/recommendations/`. Every other area is still **No**. Run results and open findings are listed under each area.
+**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Player: TS-PLAY-06 (volume and mute) is automated in `tests/player/volume.spec.ts` with the extended `PlayerBar` (2026-10-09, branch `feature/player-automation`). On 2026-10-12 (branch `feature/p1-core-coverage`) the remaining automatable P1 scenarios were added: Player (TS-PLAY-01 to 05, 07, 08) in `tests/player/`, Rating and Review (TS-REV-01, UI halves of TS-REV-02 and TS-REV-04) in `tests/review/`, both Journeys in `tests/journeys/`, and Recommendations TS-REC-12 against the live tracker in `tests/recommendations/`. On 2026-10-13 (branch `feature/search-favorites-discovery`) the most important Search, Favorites and Discovery scenarios were added: TS-SRCH-01, 03, 05, 08 in `tests/search/`, TS-FAV-01, 03, 04 in `tests/favorites/`, TS-DISC-01, 08, 09 in `tests/discovery/`, and TS-DISC-07 and TS-DISC-12 as rows of `tests/shared/not-found.spec.ts`. Every other area is still **No**. Run results and open findings are listed under each area.
 
 Scenario names and objectives are taken from `test-scenarios.md`. Priorities are the scenario priorities defined there.
 
@@ -98,32 +98,51 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-DISC-01 | Home sections, limits and links | Home shows the agreed sections and navigates correctly. | P3 | No |
+| TS-DISC-01 | Home sections, limits and links | Home shows the agreed sections and navigates correctly. | P3 | Yes |
 | TS-DISC-02 | Popular genres and artists follow 7-day plays | Popularity lists are ordered by plays in the last 7 days and exclude items with none. | P2 | No |
 | TS-DISC-03 | Discovery empty states | Pages show an empty-state message instead of breaking when there is no data or the API fails. | P3 | No |
 | TS-DISC-04 | Genres page sections | `/genres` shows genre sections with the right names and songs. | P3 | No |
 | TS-DISC-05 | Category page content and paging | The category page shows its sections with working paging. | P3 | No |
 | TS-DISC-06 | Category ordering and artist placement | Songs are ordered by total streams; an artist appears under the genre holding most of their songs. | P3 | No |
-| TS-DISC-07 | Unknown category | An unknown category id is reported as not found. | P2 | No |
-| TS-DISC-08 | Charts structure | Charts show ranked lists in the agreed category order, without artists or favorites. | P3 | No |
-| TS-DISC-09 | Chart links | Chart entries navigate correctly. | P3 | No |
+| TS-DISC-07 | Unknown category | An unknown category id is reported as not found. | P2 | Yes |
+| TS-DISC-08 | Charts structure | Charts show ranked lists in the agreed category order, without artists or favorites. | P3 | Yes |
+| TS-DISC-09 | Chart links | Chart entries navigate correctly. | P3 | Yes |
 | TS-DISC-10 | Artist page content and Play | The artist page shows its sections and Play starts the artist's songs. | P3 | No |
 | TS-DISC-11 | Signed-in user sees favorite state in artist lists | Song lists reflect the user's favorites. | P3 | No |
-| TS-DISC-12 | Unknown artist | An unknown artist id is reported as not found. | P2 | No |
+| TS-DISC-12 | Unknown artist | An unknown artist id is reported as not found. | P2 | Yes |
+
+**Implementation notes (2026-10-13).** Run: `npx playwright test tests/search tests/favorites tests/discovery tests/shared --repeat-each=3` against the local dev build (UI `https://localhost:5173`, API `https://localhost:7215`), Chromium, parallel workers: 39/39 give the expected result (three are known-defect expected failures), no flaky result. Full suite (`npx playwright test`, 66 tests before TS-DISC-08 and 09 were split, 67 after): all passed in three consecutive runs. Facts used here are recorded in `docs/exploration/browser/discovery.md`. Home and Charts only list genres and artists played in the last 7 days, so counts are checked as "at most" and names are compared with the page they open.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-DISC-01 | `discovery/discovery.spec.ts` | Pass | At most 8 genre tiles and 10 trending artists (2 and 1 today). See all of genres → `/genres`, of artists → `/charts`. The first genre tile opens its `/category/{id}` with the same name; the first artist card opens `/artist/{id}` with the same name |
+| TS-DISC-07 | `shared/not-found.spec.ts` | Expected fail (known defect) | `GET /api/category/99999999` → **204** (expected 404); `/category/99999999` shows no not-found message. Known defect `US-007-AC-05`. The UI message is checked as any visible "not found" text: the story fixes no wording |
+| TS-DISC-08 | `discovery/discovery.spec.ts` | Pass | Same page as TS-DISC-09, two tests so each scenario keeps its own result (analysis §6 #9). At most 10 charts (2 today), each ranked 1…n with n ≤ 10; genres 10 and 26, when present, lead in id order (only 10 is popular today); no Trending Artists block, no heart |
+| TS-DISC-09 | `discovery/discovery.spec.ts` | Pass | First chart song title → `/song/{id}` with the same title; back; first artist name (a clickable span) → `/artist/{id}` with the same name |
+| TS-DISC-12 | `shared/not-found.spec.ts` | Expected fail (known defect) | `GET /api/artist/99999999` → **204**; the page shows only a Play button. Known defect `US-009-AC-05` |
 
 # Search
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-SRCH-01 | Suggestion threshold and debounce | Suggestions are requested only for 2+ characters after the typing pause. | P2 | No |
+| TS-SRCH-01 | Suggestion threshold and debounce | Suggestions are requested only for 2+ characters after the typing pause. | P2 | Yes |
 | TS-SRCH-02 | Suggestion box states | The suggestion box shows loading, results and no-result states. | P2 | No |
-| TS-SRCH-03 | Navigation from suggestions and Enter | Search leads to the right page. | P2 | No |
+| TS-SRCH-03 | Navigation from suggestions and Enter | Search leads to the right page. | P2 | Yes |
 | TS-SRCH-04 | Results page tabs and limits | The results page groups and limits results correctly. | P2 | No |
-| TS-SRCH-05 | No results | An empty result is clearly reported. | P2 | No |
+| TS-SRCH-05 | No results | An empty result is clearly reported. | P2 | Yes |
 | TS-SRCH-06 | Clear the search | The X button resets the search. | P2 | No |
 | TS-SRCH-07 | Page size is raised to 10 | The server raises a size below 10 to 10. | P2 | No |
-| TS-SRCH-08 | Real search finds indexed songs and artists | Search works against the real index. | P2 | No |
+| TS-SRCH-08 | Real search finds indexed songs and artists | Search works against the real index. | P2 | Yes |
 | TS-SRCH-09 | Missing or empty keyword | The search API handles a missing keyword without a server error. | P3 | No |
+
+**Implementation notes (2026-10-13).** Same run as Discovery. UI scenarios answer `GET /api/song/search` in the browser with fixtures copied from real responses (`src/data/search.ts`), as the automation analysis prescribes (§3.5); TS-SRCH-08 checks the real index and the shape those fixtures copy. Findings in `docs/exploration/browser/search.md` §8.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-SRCH-01 | `search/search.spec.ts` | Pass | The page clock is paused, so the 300 ms pause is driven exactly: 1 character sends nothing even after 900 ms; after typing "Binz" fast, nothing at 299 ms, one request for "Binz" at 300 ms |
+| TS-SRCH-03 | `search/search.spec.ts` | Pass | Artist suggestion → `/artist/27` "Binz"; song suggestion → `/song/1`; Enter on `"  Chờ Anh Nhé  "` → `/search?q=Chờ Anh Nhé`; Enter on spaces stays. **Fix during the run:** a focus given within 150 ms after a suggestion click was undone by the header's blur timer, so `chooseSuggestion` waits for the box to close (SE-3) |
+| TS-SRCH-05 | `search/search.spec.ts` | Pass | Controlled empty result: `No results found for "xyzqwvzz".`, no Top result section |
+| TS-SRCH-08 | `search/search.spec.ts` | Pass | `@sit-live`. API: `Binz` and `BINZ` → top result artist 27; `Chờ Anh Nhé` → song 1; `Dương Domic` → artist 13; partial `Chờ Anh` and `Bin` find song 1 and artist 27 without a top result. UI: `/search?q=Chờ Anh Nhé` shows it as Top result. Preflight skips as "external unavailable" when a known artist returns nothing |
 
 # Song Details
 
@@ -189,10 +208,10 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-FAV-01 | Favorite and unfavorite update state and counts | A toggle changes the heart, the response and the like count by exactly one, consistently everywhere. | P2 | No |
+| TS-FAV-01 | Favorite and unfavorite update state and counts | A toggle changes the heart, the response and the like count by exactly one, consistently everywhere. | P2 | Yes |
 | TS-FAV-02 | Rapid clicks while a request is in flight | Fast repeated clicks do not leave the state inconsistent. | P3 | No |
-| TS-FAV-03 | Favorites page reflects a change at once | A toggle clears the 15-minute favorites cache. | P3 | No |
-| TS-FAV-04 | Re-favoriting reuses the same record | Toggling repeatedly keeps one favorite record per user and song. | P3 | No |
+| TS-FAV-03 | Favorites page reflects a change at once | A toggle clears the 15-minute favorites cache. | P3 | Yes |
+| TS-FAV-04 | Re-favoriting reuses the same record | Toggling repeatedly keeps one favorite record per user and song. | P3 | Yes |
 | TS-FAV-05 | Favorite control exists only in the player bar | No favorite control appears elsewhere. | P3 | No |
 | TS-FAV-06 | Favoriting a song that does not exist | The API refuses an unknown song id. | P3 | No |
 | TS-FAV-07 | Favorites list and featured artist line | The playlist lists the user's favorites with a correct summary line. | P3 | No |
@@ -200,6 +219,14 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 | TS-FAV-09 | Play All | The playlist can be played as a queue. | P3 | No |
 | TS-FAV-10 | Reorder is client-only | Drag reordering changes display and queue but is not saved. | P3 | No |
 | TS-FAV-11 | Show more and playlist download | Long lists collapse; the playlist downloads song by song. | P3 | No |
+
+**Implementation notes (2026-10-13).** Same run as Discovery. Each test uses its own song (1129, 2179, 1349) so the shared like-count deltas do not collide; every favorite is removed through the API in `finally`. Member playback answers the stream request in the browser.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-FAV-01 | `favorites/favorites.spec.ts` | Pass + expected fail (known defect) | Two tests. (1) Heart filled / cleared; responses exactly `{ message: "Đã thêm vào yêu thích", isFavorited: true }` and `{ "Đã bỏ yêu thích", false }`; `/player` `isFavorited` and `likes` +1 then back, never below 0. (2) Song-page count after favoriting: stays at its page-load value (known defect `US-015-AC-01`, F-6). The player bar shows no like count and neither message is displayed (`discovery.md` FV-1) |
+| TS-FAV-03 | `favorites/favorites.spec.ts` | Pass | In-app only: first visit shows the empty playlist (cached); after favoriting from the player bar the playlist shows the song; after unfavoriting it is empty again, with no wait for the 15-minute cache |
+| TS-FAV-04 | `favorites/favorites.spec.ts` | Pass | `@api`. On, off, on, off: states alternate and `likes` is +1, 0, +1, 0 against the start value |
 
 # Rating and Review
 
@@ -274,7 +301,7 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Spec | Result | Notes |
 | ------------ | ---- | ------ | ----- |
-| TS-REC-12 | `tracking.spec.ts` | Pass | Guest with consent stored as granted before the SPA boots. Home, song 1, category 10, Genres and Charts are opened and scrolled; each page must render recommendation cards first, so silence is not an outage. No `POST /event` is sent. **Positive control:** a song-card Play on `/genres` then produces an event, which proves the capture works. Preflight skips the test as "external unavailable" if the tracker does not load its rules within 30 s. **Fix during the run (2026-10-13):** the first run against `https://localhost:5173` failed on Home with no cards: on the first load of a fresh browser the tracker sends no `/recommendation` (`recommendations.md` R-9.5). The preflight now also waits for `recsys_anon_id`; then 4/4 passed |
+| TS-REC-12 | `tracking.spec.ts` | Pass | Guest with consent stored as granted before the SPA boots. Home, song 1, category 10, Genres and Charts are opened and scrolled; each page must render recommendation cards first, so silence is not an outage. No `POST /event` is sent. **Positive control:** a song-card Play on `/genres` then produces an event, which proves the capture works. Preflight skips the test as "external unavailable" if the tracker does not load its rules within 30 s. **Fix during the run (2026-10-13):** the first run against `https://localhost:5173` failed on Home with no cards: on the first load of a fresh browser the tracker sends no `/recommendation` (`recommendations.md` R-9.5). The preflight now also waits for `recsys_anon_id`; then 4/4 passed. On 2026-10-13 it ran out of the 30 s test budget once in a full parallel run (seven third-party page loads); the test now has a documented 120 s budget, waits unchanged |
 | TS-REC-09, TS-REC-10 | — | Blocked | **New finding (2026-10-12, `recommendations.md` §9):** the tracker no longer shows its consent banner on a first visit, so the precondition "banner visible, no choice made" and the Decline click cannot be reached. Without a stored choice, nothing is sent (no `/recommendation`, no `/event`). Needs confirmation of the intended consent flow before these tests are written |
 | TS-REC-13, TS-REC-14, TS-REC-15 | — | Not automated | Not in this round: REC-13 needs D-WR and A-Q3, REC-14 the allowlist approval (A-Q2), REC-15 an approved configuration snapshot (the live configuration has changed since 2026-09-30, see §9) |
 
@@ -306,14 +333,14 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 | Metric           | Count |
 | ---------------- | ----: |
 | Total Test Cases | 117 |
-| Implemented | 33 |
+| Implemented | 45 |
 | Partial | 6 |
-| Not Implemented | 78 |
-| Progress | 30.8% |
+| Not Implemented | 66 |
+| Progress | 41.0% |
 
 Progress = (Implemented + 0.5 × Partial) / Total × 100
 
-Recounted on 2026-10-12 from the status column of every table above. The previous totals (13 implemented) had not
+Recounted on 2026-10-13 from the status column of every table above. The previous totals (13 implemented) had not
 counted Authorization and Gating (8) or TS-PLAY-06.
 
 ### By feature
@@ -323,12 +350,12 @@ counted Authorization and Gating (8) or TS-PLAY-06.
 | Registration | 8 | 0 | 0 | 8 | 0.0% |
 | Authentication and Session | 11 | 8 | 3 | 0 | 86.4% |
 | Authorization and Gating | 8 | 8 | 0 | 0 | 100.0% |
-| Discovery | 12 | 0 | 0 | 12 | 0.0% |
-| Search | 9 | 0 | 0 | 9 | 0.0% |
+| Discovery | 12 | 5 | 0 | 7 | 41.7% |
+| Search | 9 | 4 | 0 | 5 | 44.4% |
 | Song Details | 7 | 5 | 1 | 1 | 78.6% |
 | Download | 2 | 0 | 0 | 2 | 0.0% |
 | Player | 10 | 8 | 0 | 2 | 80.0% |
-| Favorites | 11 | 0 | 0 | 11 | 0.0% |
+| Favorites | 11 | 3 | 0 | 8 | 27.3% |
 | Rating and Review | 9 | 1 | 2 | 6 | 22.2% |
 | Listening Statistics | 4 | 0 | 0 | 4 | 0.0% |
 | Language and Theme | 4 | 0 | 0 | 4 | 0.0% |
@@ -336,17 +363,18 @@ counted Authorization and Gating (8) or TS-PLAY-06.
 | Recommendations | 16 | 1 | 0 | 15 | 6.3% |
 | Cross-cutting API Behavior | 2 | 0 | 0 | 2 | 0.0% |
 | Journeys | 2 | 2 | 0 | 0 | 100.0% |
-| **Total** | **117** | **33** | **6** | **78** | **30.8%** |
+| **Total** | **117** | **45** | **6** | **66** | **41.0%** |
 
 ### P1 coverage
 
 Every P1 scenario classified AUTOMATE is now implemented (fully or partly) except five Recommendations privacy
 scenarios: TS-REC-09 and TS-REC-10 are blocked by the consent-banner finding; TS-REC-13, 14 and 15 wait for decisions
 or data. The three P1 scenarios deferred by the automation analysis (TS-PLAY-10, TS-REV-07, TS-REV-08) stay deferred.
-Areas without any P1 scenario (Registration, Discovery, Search, Download, Favorites, Listening Statistics, Language
-and Theme, Navigation, Cross-cutting API) are still **No**. Discovery and Favorites are exercised end to end by the
-journeys (TS-E2E-01: Home and genre pages; TS-E2E-02: favorite toggle and playlist), but their own scenarios are not
-automated.
+Of the areas without any P1 scenario, Search, Favorites and Discovery now have their most important scenarios
+automated (2026-10-13): Search TS-SRCH-01, 03, 05, 08 (all P2); Favorites TS-FAV-01 (P2), 03, 04; Discovery
+TS-DISC-07 and 12 (both P2 not-found scenarios), 01, 08, 09. Still open there: TS-SRCH-02, 04, 06, 07, the playlist
+scenarios TS-FAV-07 to 11, and the remaining Discovery pages (Genres, category paging, artist page). Registration, Download, Listening Statistics,
+Language and Theme, Navigation and Cross-cutting API are still **No**.
 
 ### Context
 
