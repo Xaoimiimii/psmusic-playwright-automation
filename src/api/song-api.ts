@@ -15,7 +15,11 @@ export const songRoutes = {
   favorites: '/api/song/favorites',
   /** `[Authorize]`; records one play, sent by the SPA once a member's playback passes 20 s. */
   stream: (songId: number) => `/api/song/stream/${songId}`,
+  /** Public; `size` random songs that have lyrics (default 10). The player queues them after the song it starts. */
+  nextBatch: '/api/song/next-batch',
   addReview: (songId: number) => `/api/rating/${songId}/add-review`,
+  /** Public; every review of the song, read by the rating modal. */
+  reviews: (songId: number) => `/api/rating/${songId}/reviews`,
   /** Takes a SONG id, not an artist id (`ArtistController.GetArtistsBySong`). */
   artistsOfSong: (songId: number) => `/api/artist/${songId}/artists`,
 } as const;
@@ -53,14 +57,40 @@ export interface RelatedSong {
   artists: { id: number; name: string }[];
 }
 
-/** `SongPlayerDTO`. */
+/** `SongPlayerDTO`. `artist` is every artist name joined with ", "; the player bar shows `singerUrl` as the cover. */
 export interface SongPlayer {
   id: number;
   title: string;
+  artist: string;
+  coverUrl: string;
+  singerUrl: string;
   likes: number;
   reviews: number;
   isFavorited: boolean;
   isReviewed: boolean;
+  audioUrl: string;
+  lyricUrl: string;
+  duration: string;
+}
+
+/** `NextBatchSongDTO`: one random song of a `next-batch` response. */
+export interface NextBatchSong {
+  id: number;
+  title: string;
+  artistNames: string[];
+  coverUrl: string;
+  singerUrl: string;
+  likes: number;
+  audioUrl: string;
+  lyricUrl: string;
+  duration: string;
+}
+
+/** Body the rating modal posts to `add-review` (`RatingModal.jsx`); the server ignores `user` (`CreateRatingDTO`). */
+export interface ReviewSubmission {
+  rating: number;
+  comment: string;
+  user: string;
 }
 
 /** Body of a 404 from `detail` and `player`. */
@@ -99,6 +129,13 @@ export class SongApi {
   async relatedOrThrow(songId: number): Promise<RelatedSong[]> {
     const response = await this.request.get(this.url(songRoutes.related(songId)), { headers: this.headers() });
     return this.jsonOrThrow<RelatedSong[]>(response, `related songs of song ${songId}`);
+  }
+
+  async nextBatchOrThrow(size?: number): Promise<NextBatchSong[]> {
+    const url = new URL(songRoutes.nextBatch, env.apiBaseUrl);
+    if (size !== undefined) url.searchParams.set('size', String(size));
+    const response = await this.request.get(url.href, { headers: this.headers() });
+    return this.jsonOrThrow<NextBatchSong[]>(response, 'next batch of songs');
   }
 
   async artistsOfSongOrThrow(songId: number): Promise<SongArtist[]> {

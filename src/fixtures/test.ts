@@ -5,11 +5,15 @@ import { SongApi } from '../api/song-api';
 import { UserApi } from '../api/user-api';
 import { buildUser, type NewUser } from '../data/users';
 import { AuthPage } from '../pages/auth.page';
+import { CategoryPage } from '../pages/category.page';
 import { Header } from '../pages/components/header';
 import { PlayerBar } from '../pages/components/player-bar';
+import { RatingModal } from '../pages/components/rating-modal';
 import { Sidebar } from '../pages/components/sidebar';
 import { SignInPrompt } from '../pages/components/sign-in-prompt';
 import { FavoritesPage } from '../pages/favorites.page';
+import { GenresPage } from '../pages/genres.page';
+import { HomePage } from '../pages/home.page';
 import { RecentPage } from '../pages/recent.page';
 import { SongPage } from '../pages/song.page';
 import { applyOutcomeMetadata, applyScenarioMetadata } from '../reporting/allure-metadata';
@@ -17,9 +21,18 @@ import { withApiReporting } from '../reporting/api-reporting';
 import { BrowserEvidence } from '../reporting/browser-evidence';
 import { recordLayer, resetTestObservations } from '../reporting/test-observations';
 import { blockRecommendationTracker, pinLanguage } from '../support/browser-setup';
+import { holdStreamRecording } from '../support/controlled-responses';
 import { ApiTrafficLog } from '../support/network';
 import { signInThroughApi } from '../support/session';
 import { xrayTestKeyFor } from '../support/xray';
+
+interface Options {
+  /**
+   * `blocked` (default, Mode 0): the recommendation tracker is aborted, as in every system-level test.
+   * `live` (Mode B): the real tracker runs, for `@sit-privacy` tests only (`levels/system-integration.md` §3).
+   */
+  recommendationTracker: 'blocked' | 'live';
+}
 
 interface Fixtures {
   /** API client on its own cookie jar (no browser). */
@@ -34,12 +47,18 @@ interface Fixtures {
   otherRegisteredUser: NewUser;
   /** A fresh account whose session is already in the browser context (refresh cookie set, no page loaded yet). */
   member: NewUser;
+  /** `member` whose stream requests are answered in the browser: for tests that play music as a member (TR-01). */
+  listeningMember: NewUser;
   apiTraffic: ApiTrafficLog;
   authPage: AuthPage;
   header: Header;
   sidebar: Sidebar;
   signInPrompt: SignInPrompt;
   playerBar: PlayerBar;
+  ratingModal: RatingModal;
+  homePage: HomePage;
+  categoryPage: CategoryPage;
+  genresPage: GenresPage;
   favoritesPage: FavoritesPage;
   recentPage: RecentPage;
   songPage: SongPage;
@@ -62,13 +81,15 @@ async function registerFreshUser(role: string): Promise<NewUser> {
   return user;
 }
 
-export const test = base.extend<Fixtures>({
-  // Every UI test: tracker blocked (Mode 0) and English pinned before the SPA boots.
+export const test = base.extend<Options & Fixtures>({
+  recommendationTracker: ['blocked', { option: true }],
+
+  // Every UI test: tracker blocked (Mode 0) unless the test opts in, and English pinned before the SPA boots.
   // Console, page errors and the page's API calls are attached if the test fails.
-  context: async ({ context }, use, testInfo) => {
+  context: async ({ context, recommendationTracker }, use, testInfo) => {
     recordLayer('UI');
     const evidence = new BrowserEvidence(context);
-    await blockRecommendationTracker(context);
+    if (recommendationTracker === 'blocked') await blockRecommendationTracker(context);
     await pinLanguage(context);
     await use(context);
     await evidence.attachIfFailed(testInfo);
@@ -105,6 +126,11 @@ export const test = base.extend<Fixtures>({
     await use(registeredUser);
   },
 
+  listeningMember: async ({ page, member }, use) => {
+    await holdStreamRecording(page);
+    await use(member);
+  },
+
   apiTraffic: async ({ page }, use) => {
     await use(new ApiTrafficLog(page));
   },
@@ -114,6 +140,10 @@ export const test = base.extend<Fixtures>({
   sidebar: async ({ page }, use) => use(new Sidebar(page)),
   signInPrompt: async ({ page }, use) => use(new SignInPrompt(page)),
   playerBar: async ({ page }, use) => use(new PlayerBar(page)),
+  ratingModal: async ({ page }, use) => use(new RatingModal(page)),
+  homePage: async ({ page }, use) => use(new HomePage(page)),
+  categoryPage: async ({ page }, use) => use(new CategoryPage(page)),
+  genresPage: async ({ page }, use) => use(new GenresPage(page)),
   favoritesPage: async ({ page }, use) => use(new FavoritesPage(page)),
   recentPage: async ({ page }, use) => use(new RecentPage(page)),
   songPage: async ({ page }, use) => use(new SongPage(page)),

@@ -122,6 +122,9 @@ Stability legend: **S** stable (role/name/placeholder/href), **M** medium (depen
 
 Scope all player locators to **`[class*="playerWrapper"] [class*="player-controls-new"]`**, because unscoped matches return 2-3 copies.
 
+Updated 2026-10-12: Previous, Next, Shuffle and Repeat are now located by their `data-tooltip` / class, and the title,
+artist, cover and play/pause icon locators were verified at runtime. See `player.md` §1 (used by `src/pages/components/player-bar.ts`).
+
 | # | Control | Verified locator | Stab. | Notes |
 |---|---|---|---|---|
 | 0 | Shuffle | `button:has(svg.lucide-shuffle)` / `[class*="shuffle-btn"]` | M/F | |
@@ -158,6 +161,9 @@ Scope all player locators to **`[class*="playerWrapper"] [class*="player-control
 | Comment | placeholder | `getByPlaceholder('Viết bình luận của bạn (Không bắt buộc)...')` | M | Optional |
 | Submit | role | `getByRole('button', { name: 'Gửi đánh giá' })` | M | Disabled until a star is chosen; **absent** once the user has reviewed |
 | Community list | heading | `getByRole('heading', { name: 'Bình luận từ cộng đồng' })`; item = `strong` (author) + `paragraph` (comment) + "Ngày: <date>" | M | |
+
+Updated 2026-10-12 (`player.md` §3): form stars are the `svg`s inside `[class*="star-rating"]` (not `star-rating-display`),
+selected fill `#FFD700`; the success text `Đánh giá thành công!` is not displayed (P-6). Used by `src/pages/components/rating-modal.ts`.
 
 ## 13. Favorites `/favorites` (logged in)
 

@@ -22,6 +22,19 @@ export async function nextApiResponse(page: Page, method: string, route: string)
 }
 
 /**
+ * Id of the next song the player loads (`GET /api/song/{id}/player`) after this call. Call it before the action that
+ * changes the song, await it after: the test then compares the id instead of timing out on a wrong song.
+ */
+export async function nextPlayerSongId(page: Page): Promise<number> {
+  const apiOrigin = new URL(env.apiBaseUrl).origin;
+  const request = await page.waitForRequest((r) => {
+    const url = new URL(r.url());
+    return r.method() === 'GET' && url.origin === apiOrigin && PLAYER_PATH.test(url.pathname);
+  });
+  return Number(new URL(request.url()).pathname.match(PLAYER_PATH)![1]);
+}
+
+/**
  * Returns once a marker request, sent by the page after this call, has been seen.
  * The browser reports requests in the order they are issued, so a request
  * triggered by an earlier click is already reported when this returns. Used to
@@ -35,6 +48,8 @@ export async function requestBarrier(page: Page): Promise<void> {
   }, marker);
   await seen;
 }
+
+const PLAYER_PATH = /^\/api\/song\/(\d+)\/player$/;
 
 export interface ApiCall {
   method: string;
@@ -80,6 +95,20 @@ export class ApiTrafficLog {
 
   indexOf(call: ApiCall): number {
     return this.calls.indexOf(call);
+  }
+
+  /**
+   * Songs the player loaded after position `from`, in order: one `GET /api/song/{id}/player` per song change
+   * (only `PlayerControlService` calls it). The dev build may send the same GET twice in a row, so repeats of the
+   * same id next to each other count once.
+   */
+  playerSongIds(from = 0): number[] {
+    const ids: number[] = [];
+    for (const call of this.calls.slice(from)) {
+      const id = call.method === 'GET' ? Number(call.path.match(PLAYER_PATH)?.[1]) : NaN;
+      if (Number.isInteger(id) && ids.at(-1) !== id) ids.push(id);
+    }
+    return ids;
   }
 
   /** Number of `method route` calls sent but not answered yet. */

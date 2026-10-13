@@ -81,7 +81,7 @@ function scanSpecs() {
     const text = fs.readFileSync(file, 'utf8');
     const lines = text.split('\n');
     lines.forEach((line, i) => {
-      const m = line.match(/(?:test(?:\.describe)?\(\s*['`]|scenario:\s*')(TS-[A-Z]+-\d+)((?:\\.|[^'`\\])*)['`]/);
+      const m = line.match(/(?:test(?:\.describe)?\(\s*['`]|scenario:\s*')(TS-[A-Z0-9]+-\d+)((?:\\.|[^'`\\])*)['`]/);
       if (!m) return;
       const id = m[1];
       specs[id] ??= `${rel(file)} > ${(m[1] + m[2].replace(/\\(.)/g, '$1')).trim()}`;

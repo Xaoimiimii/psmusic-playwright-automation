@@ -5,7 +5,7 @@
 | Source of test cases | `docs/test-strategy/test-scenarios.md` (117 scenarios, `TS-AREA-nn`) |
 | Automation classification | `docs/test-strategy/automation-analysis.md` §3 |
 | Code inspected | `tests/`, `src/`, `playwright.config.ts` on branch `feature/song-details` |
-| Last reviewed | 2026-10-08 (branch `feature/authorization`, Authorization and Gating implementation) |
+| Last reviewed | 2026-10-12 (branch `feature/p1-core-coverage`, P1 Player, Rating, Journeys and Recommendations implementation) |
 
 ## Status basis
 
@@ -13,7 +13,7 @@
 - **Partial**: an automated test exists but covers only part of the scenario.
 - **No**: the scenario is defined but no automated test covers it.
 
-**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Player: TS-PLAY-06 (volume and mute) is automated in `tests/player/volume.spec.ts` with the extended `PlayerBar` (2026-10-09, branch `feature/player-automation`). Every other area is still **No**. Run results and open findings are listed under each area.
+**Current state:** the AUTH area (TS-AUTH-01 to 11) is automated in `tests/auth/` (`login.spec.ts`, `session.spec.ts`, `logout.spec.ts`) on the framework in `src/` (environment config, `AuthApi` client, page objects, fixtures). The default `tests/example.spec.ts` scaffold was removed. Song Details (TS-SONG-01 to 07, except the manual TS-SONG-04) is automated in `tests/song/song-details.spec.ts` and `tests/shared/not-found.spec.ts`, with the `SongApi` client and an extended `SongPage`. Authorization and Gating (TS-AUTHZ-01 to 06, TS-PROF-01, TS-PROF-02) is automated in `tests/authz/` (`api-access.spec.ts`, `guest-gating.spec.ts`, `protected-routes.spec.ts`) and `tests/profile/profile.spec.ts`, with the `sendApiRequest` helper, the `UserApi` client and the `SignInPrompt`, `PlayerBar` and `RecentPage` page objects. Player: TS-PLAY-06 (volume and mute) is automated in `tests/player/volume.spec.ts` with the extended `PlayerBar` (2026-10-09, branch `feature/player-automation`). On 2026-10-12 (branch `feature/p1-core-coverage`) the remaining automatable P1 scenarios were added: Player (TS-PLAY-01 to 05, 07, 08) in `tests/player/`, Rating and Review (TS-REV-01, UI halves of TS-REV-02 and TS-REV-04) in `tests/review/`, both Journeys in `tests/journeys/`, and Recommendations TS-REC-12 against the live tracker in `tests/recommendations/`. Every other area is still **No**. Run results and open findings are listed under each area.
 
 Scenario names and objectives are taken from `test-scenarios.md`. Priorities are the scenario priorities defined there.
 
@@ -160,16 +160,30 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-PLAY-01 | Start playback | Pressing Play starts the song for guests and members. | P1 | No |
-| TS-PLAY-02 | Pause and resume | Pause stops playback and Play resumes it. | P1 | No |
-| TS-PLAY-03 | Next, previous and queue refill | Queue navigation works and the queue never runs dry. | P1 | No |
-| TS-PLAY-04 | Repeat modes | Repeat cycles through its states and each state behaves correctly. | P1 | No |
-| TS-PLAY-05 | Shuffle | Shuffle reorders the rest of the queue and can be undone. | P1 | No |
+| TS-PLAY-01 | Start playback | Pressing Play starts the song for guests and members. | P1 | Yes |
+| TS-PLAY-02 | Pause and resume | Pause stops playback and Play resumes it. | P1 | Yes |
+| TS-PLAY-03 | Next, previous and queue refill | Queue navigation works and the queue never runs dry. | P1 | Yes |
+| TS-PLAY-04 | Repeat modes | Repeat cycles through its states and each state behaves correctly. | P1 | Yes |
+| TS-PLAY-05 | Shuffle | Shuffle reorders the rest of the queue and can be undone. | P1 | Yes |
 | TS-PLAY-06 | Volume and mute | Volume defaults and mute behave as agreed. | P1 | Yes |
-| TS-PLAY-07 | Next song starts when a song ends | Playback continues automatically. | P1 | No |
-| TS-PLAY-08 | One click performs one action | Duplicated player controls (rendered 2 to 3 times) do not double-handle a click. | P1 | No |
+| TS-PLAY-07 | Next song starts when a song ends | Playback continues automatically. | P1 | Yes |
+| TS-PLAY-08 | One click performs one action | Duplicated player controls (rendered 2 to 3 times) do not double-handle a click. | P1 | Yes |
 | TS-PLAY-09 | Player title shortening and link | Long titles are shortened and the title opens the song. | P3 | No |
 | TS-PLAY-10 | Audio file cannot be loaded | A missing or failing MP3 does not freeze the app. | P1 | No |
+
+**Implementation notes (2026-10-12).** Run: `npx playwright test tests/player tests/review tests/journeys tests/recommendations --repeat-each=3` against the local dev build (UI `https://localhost:5174`, API `https://localhost:7215`), Chromium, parallel workers: 51/51 passed, no flaky result. The full suite (`npx playwright test`, 54 tests) also passed as a regression check of the shared changes (`PlayerBar`, `FavoritesPage`, `Sidebar`, `SongApi`, fixtures). Facts used by these tests (queue, refill point, repeat and shuffle states, control copies) were observed at runtime and are recorded in `docs/exploration/browser/player.md`. Every player test except TS-PLAY-01 (member) and TS-PLAY-08 runs as a guest: guests can play and record no stream. Member tests answer `POST /api/song/stream/{id}` in the browser (`listeningMember` fixture), so no permanent stream row is written.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-PLAY-01 | `playback.spec.ts` | Pass | Guest and member. Player bar title, artist and cover equal the `/player` response of the same load; the audio position advances; the Pause icon is shown |
+| TS-PLAY-02 | `playback.spec.ts` | Pass | Pause: `audio.paused`, Play icon. Resume continues from the paused position and advances again. "Position stops" is read from `paused` and the held position, not a fixed wait |
+| TS-PLAY-03 | `queue.spec.ts` | Pass | Next = first `next-batch` song, Previous = song 1 (asserted on the `/player` request). The refill `next-batch` is sent on the 8th Next after a fresh start (3 songs left counting the started one) and not before (request barrier). Both batches: 10 songs, all with a lyric URL. After the first batch, Next continues with the refill batch in its order |
+| TS-PLAY-04 | `queue.spec.ts` | Pass | Three tests. Cycle Off → All → One → Off read from the `data-tooltip` and the active class. Repeat One: at the end the same MP3 restarts near 0 s, no other song loaded. Repeat All: `next-batch` is answered in the browser with one real catalog song, then an empty list, because a real queue is refilled before it can end; at the end of that song the queue restarts at song 1. End of song is reached by moving the audio element to its last second (seek-bar behavior is still open, AC-10) |
+| TS-PLAY-05 | `queue.spec.ts` | Pass | Shuffle on: no song change. Four Nexts play four distinct queue songs in an order different from the batch (chance of a false failure 1 in 5040). Previous back to the start reaches song 1, so the current song stayed first. Shuffle off: Previous plays the song before the current one in the original order |
+| TS-PLAY-07 | `playback.spec.ts` | Pass | Repeat off; the song moved to its last second; the next queue song is loaded, shown and playing |
+| TS-PLAY-08 | `single-action.spec.ts` | Pass | Member. Precondition asserted: 3 control copies on `/song/1`, 2 on `/` (reached in-app from the sidebar). One Next click loads exactly one song (the next in the queue); one heart click sends exactly one `favorite-toggle` (200) and fills the heart. Favorites removed through the API in `finally`. A production-build comparison (TR-13) is not part of this run |
+| TS-PLAY-09 | — | Not automated | P3, needs boundary titles (T-GAP). The shortening rule is used as `playerBarTitle()` by the tests above |
+| TS-PLAY-10 | — | Deferred | Expected behavior not agreed (A-Q18), automation analysis §10.1 |
 
 # Favorites
 
@@ -191,15 +205,24 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-REV-01 | Rating form for a user who has not reviewed | The form only allows a submit once a star is chosen. | P1 | No |
-| TS-REV-02 | Submitting a review | A review is saved and shown at once. | P1 | No |
+| TS-REV-01 | Rating form for a user who has not reviewed | The form only allows a submit once a star is chosen. | P1 | Yes |
+| TS-REV-02 | Submitting a review | A review is saved and shown at once. | P1 | Partial |
 | TS-REV-03 | Submitting without a comment | An empty comment gets the agreed placeholder. | P3 | No |
-| TS-REV-04 | Rated state for a user who already reviewed | The UI does not offer a second review. | P1 | No |
+| TS-REV-04 | Rated state for a user who already reviewed | The UI does not offer a second review. | P1 | Partial |
 | TS-REV-05 | Review list format and order | Reviews show the agreed fields, newest first, with one date format. | P3 | No |
 | TS-REV-06 | Submit failure is reported | The user learns that the review was not saved. | P3 | No |
 | TS-REV-07 | Server refuses a second review | Uniqueness is enforced by the server, not only by the UI. | P1 | No |
 | TS-REV-08 | Server enforces the rating range | Only ratings 1 to 5 are stored. | P1 | No |
 | TS-REV-09 | Rating modal with no reviews and closing | Record and check the open modal behaviors once agreed. | P3 | No |
+
+**Implementation notes (2026-10-12).** Same run as Player. Reviews are permanent (TR-01), so nothing is submitted to the server: the submit and the "already reviewed" flag are answered in the browser (`src/support/controlled-responses.ts`), and each test records a `controlled-response` annotation. Every test is a fresh member who plays song 1 and opens the modal from the player bar (`RatingModal` component).
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-REV-01 | `rating.spec.ts` | Pass | Heading `Đánh Giá và Bình luận về "<title>"`, 5 empty stars, empty comment, submit disabled; 1 star enables submit; 5 stars fills all five. No `add-review` request (request barrier) |
+| TS-REV-02 | `rating.spec.ts` | Pass | **Partial:** UI half. `add-review` answered with the real body `{"message":"Đánh giá thành công!"}`. Request body is exactly `{ rating: 4, comment, user: <username> }`; the review is first in the list with author, comment and 4 stars; the form is gone; the rate button gets the `rated` state. Persistence in the API list waits for D-WR. **Findings (P-6, P-7 in `player.md`):** the modal never displays `Đánh giá thành công!`, and the increased review count is kept in player state only (no screen shows it), so "count +1" is not asserted |
+| TS-REV-04 | `rating.spec.ts` | Pass | **Partial:** the real `/player` response is served with `isReviewed: true`. Rate button has the `rated` state; the modal shows the review list and no stars, comment or submit. The real flag after a real review waits for D-WR |
+| TS-REV-07, TS-REV-08 | — | Deferred | Permanent reviews (D-WR) and the status code decision (A-Q15), automation analysis §10.1 |
 
 # Listening Statistics
 
@@ -241,11 +264,19 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 | TS-REC-09 | Nothing is sent before a consent choice | The tracker stays silent until the user chooses. | P1 | No |
 | TS-REC-10 | Decline stops behavior and identity | Declining is respected while recommendations keep working. | P1 | No |
 | TS-REC-11 | Behavior event per song-card type after consent | Each tracked interaction produces the right event for the right song. | P3 | No |
-| TS-REC-12 | No behavior without interaction | Browsing alone sends no behavior. | P1 | No |
+| TS-REC-12 | No behavior without interaction | Browsing alone sends no behavior. | P1 | Yes |
 | TS-REC-13 | Rating, review and search after consent | Rating, review and search keyword tracking send only what is agreed. | P1 | No |
 | TS-REC-14 | Only approved data is sent | Detect any sensitive or unapproved data sent to the service. | P1 | No |
 | TS-REC-15 | Tracker configuration matches the approved snapshot | Detect remote changes to tracking rules, display configuration or the loader. | P1 | No |
 | TS-REC-16 | Real recommendation service end to end | The real service is reachable, keeps its contract and works with PSMusic. | P2 | No |
+
+**Implementation notes (2026-10-12).** Run in the same repeated run as Player (3/3 passed). Mode B: the test opts in to the live tracker (`test.use({ recommendationTracker: 'live' })`, tag `@sit-privacy`); every other test keeps it blocked.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-REC-12 | `tracking.spec.ts` | Pass | Guest with consent stored as granted before the SPA boots. Home, song 1, category 10, Genres and Charts are opened and scrolled; each page must render recommendation cards first, so silence is not an outage. No `POST /event` is sent. **Positive control:** a song-card Play on `/genres` then produces an event, which proves the capture works. Preflight skips the test as "external unavailable" if the tracker does not load its rules within 30 s. **Fix during the run (2026-10-13):** the first run against `https://localhost:5173` failed on Home with no cards: on the first load of a fresh browser the tracker sends no `/recommendation` (`recommendations.md` R-9.5). The preflight now also waits for `recsys_anon_id`; then 4/4 passed |
+| TS-REC-09, TS-REC-10 | — | Blocked | **New finding (2026-10-12, `recommendations.md` §9):** the tracker no longer shows its consent banner on a first visit, so the precondition "banner visible, no choice made" and the Decline click cannot be reached. Without a stored choice, nothing is sent (no `/recommendation`, no `/event`). Needs confirmation of the intended consent flow before these tests are written |
+| TS-REC-13, TS-REC-14, TS-REC-15 | — | Not automated | Not in this round: REC-13 needs D-WR and A-Q3, REC-14 the allowlist approval (A-Q2), REC-15 an approved configuration snapshot (the live configuration has changed since 2026-09-30, see §9) |
 
 # Cross-cutting API Behavior
 
@@ -258,8 +289,15 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 
 | Test Case ID | Name | Scenario | Priority | Implemented |
 | ------------ | ---- | -------- | -------- | ----------- |
-| TS-E2E-01 | Guest discovers and plays a song | A first-time visitor can find and play music. | P1 | No |
-| TS-E2E-02 | Member listens, favorites and logs out | The main member journey works end to end. | P1 | No |
+| TS-E2E-01 | Guest discovers and plays a song | A first-time visitor can find and play music. | P1 | Yes |
+| TS-E2E-02 | Member listens, favorites and logs out | The main member journey works end to end. | P1 | Yes |
+
+**Implementation notes (2026-10-12).** Same run as Player.
+
+| Test Case ID | Spec | Result | Notes |
+| ------------ | ---- | ------ | ----- |
+| TS-E2E-01 | `journeys/journeys.spec.ts` | Pass | `@smoke`. Guest: Home "Discover by Genre" → first genre tile → category page (waits on the genre name, R-SYNC) → first song → song page → Play: the player bar shows the song and the audio plays. Depends on the Home genre section, which needs plays in the last 7 days (popular data) |
+| TS-E2E-02 | `journeys/journeys.spec.ts` | Pass | UI login → play song 1 → favorite from the player bar → Next → Favorites via the sidebar shows the song → Play All plays it (song change asserted on `/player`) → logout: session cookie removed, user menu gone. The landing page is not asserted (TS-AUTH-10, known defect US-004-AC-01). The Next step is needed because Play All only pauses when the playing song is already in the playlist (`player.md` P-8). Stream answered in the browser; favorite removed in `finally` |
 
 ---
 
@@ -268,12 +306,15 @@ Known-defect tests use `knownDefect()` (`src/support/known-defect.ts`), called r
 | Metric           | Count |
 | ---------------- | ----: |
 | Total Test Cases | 117 |
-| Implemented | 13 |
-| Partial | 4 |
-| Not Implemented | 100 |
-| Progress | 12.8% |
+| Implemented | 33 |
+| Partial | 6 |
+| Not Implemented | 78 |
+| Progress | 30.8% |
 
 Progress = (Implemented + 0.5 × Partial) / Total × 100
+
+Recounted on 2026-10-12 from the status column of every table above. The previous totals (13 implemented) had not
+counted Authorization and Gating (8) or TS-PLAY-06.
 
 ### By feature
 
@@ -281,21 +322,31 @@ Progress = (Implemented + 0.5 × Partial) / Total × 100
 | ------- | ----: | ----------: | ------: | --------------: | -------: |
 | Registration | 8 | 0 | 0 | 8 | 0.0% |
 | Authentication and Session | 11 | 8 | 3 | 0 | 86.4% |
-| Authorization and Gating | 8 | 0 | 0 | 8 | 0.0% |
+| Authorization and Gating | 8 | 8 | 0 | 0 | 100.0% |
 | Discovery | 12 | 0 | 0 | 12 | 0.0% |
 | Search | 9 | 0 | 0 | 9 | 0.0% |
 | Song Details | 7 | 5 | 1 | 1 | 78.6% |
 | Download | 2 | 0 | 0 | 2 | 0.0% |
-| Player | 10 | 0 | 0 | 10 | 0.0% |
+| Player | 10 | 8 | 0 | 2 | 80.0% |
 | Favorites | 11 | 0 | 0 | 11 | 0.0% |
-| Rating and Review | 9 | 0 | 0 | 9 | 0.0% |
+| Rating and Review | 9 | 1 | 2 | 6 | 22.2% |
 | Listening Statistics | 4 | 0 | 0 | 4 | 0.0% |
 | Language and Theme | 4 | 0 | 0 | 4 | 0.0% |
 | Navigation | 2 | 0 | 0 | 2 | 0.0% |
-| Recommendations | 16 | 0 | 0 | 16 | 0.0% |
+| Recommendations | 16 | 1 | 0 | 15 | 6.3% |
 | Cross-cutting API Behavior | 2 | 0 | 0 | 2 | 0.0% |
-| Journeys | 2 | 0 | 0 | 2 | 0.0% |
-| **Total** | **117** | **13** | **4** | **100** | **12.8%** |
+| Journeys | 2 | 2 | 0 | 0 | 100.0% |
+| **Total** | **117** | **33** | **6** | **78** | **30.8%** |
+
+### P1 coverage
+
+Every P1 scenario classified AUTOMATE is now implemented (fully or partly) except five Recommendations privacy
+scenarios: TS-REC-09 and TS-REC-10 are blocked by the consent-banner finding; TS-REC-13, 14 and 15 wait for decisions
+or data. The three P1 scenarios deferred by the automation analysis (TS-PLAY-10, TS-REV-07, TS-REV-08) stay deferred.
+Areas without any P1 scenario (Registration, Discovery, Search, Download, Favorites, Listening Statistics, Language
+and Theme, Navigation, Cross-cutting API) are still **No**. Discovery and Favorites are exercised end to end by the
+journeys (TS-E2E-01: Home and genre pages; TS-E2E-02: favorite toggle and playlist), but their own scenarios are not
+automated.
 
 ### Context
 
