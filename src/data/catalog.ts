@@ -13,6 +13,16 @@ export const catalog = {
   songWithoutOtherSongs: 1349,
   /** "Vietnamese Music": a genre with songs, the first Home genre tile on 2026-10-12. */
   genreWithSongs: 10,
+  /**
+   * Songs reserved for the favorites tests, one per test, so their like-count deltas do not collide with each other
+   * or with the song-1 tests (shared counters, `automation-analysis.md` §8). All have MP3 and lyrics (probe 2026-10-13).
+   */
+  songForFavoriteToggle: 1129,
+  songForFavoritesPage: 2179,
+  songForFavoriteRecord: 1349,
   /** No song has this id (code T-UNK). */
   unknownSongId: 99999999,
+  /** No category / artist has this id; the API answers 204 today (known defects US-007-AC-05, US-009-AC-05). */
+  unknownCategoryId: 99999999,
+  unknownArtistId: 99999999,
 } as const;

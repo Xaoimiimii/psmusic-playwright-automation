@@ -1,4 +1,5 @@
 import { test, type Page } from '@playwright/test';
+import { searchRoutes, type SearchResponse } from '../api/search-api';
 import { songRoutes, type NextBatchSong, type ReviewSubmission, type SongPlayer } from '../api/song-api';
 import { env } from '../config/env';
 import { serverMessage } from '../data/messages';
@@ -41,6 +42,15 @@ export async function endQueueAfter(page: Page, songs: NextBatchSong[]): Promise
   await page.route(`${apiUrl(songRoutes.nextBatch)}*`, (route) =>
     route.fulfill({ json: calls++ === 0 ? songs : [] }),
   );
+}
+
+/**
+ * Answers every `GET /api/song/search` with `response`, so suggestions and results do not depend on the shared
+ * Elasticsearch index (`automation-analysis.md` §3.5). The fixture must keep the real shape (`src/data/search.ts`).
+ */
+export async function answerSearchWith(page: Page, response: SearchResponse, label: string): Promise<void> {
+  annotate(`GET ${searchRoutes.search} is answered in the browser with ${label}.`);
+  await page.route(`${apiUrl(searchRoutes.search)}*`, (route) => route.fulfill({ json: response }));
 }
 
 /**

@@ -26,6 +26,9 @@ test.describe('US-022 Receive "Recommended for you" recommendations', () => {
     context,
     genresPage,
   }) => {
+    // Seven page loads through the free-tier third-party host: with the whole suite running in parallel this took
+    // more than the default 30 s (2026-10-13). The individual waits are unchanged.
+    test.setTimeout(120_000);
     await grantRecommendationConsent(context);
     const tracker = new TrackerTraffic(page);
     const recommendationCards = page.locator('.recsys-item');

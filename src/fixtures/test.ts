@@ -1,11 +1,14 @@
 import { test as base, expect, request as playwrightRequest } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import { AuthApi } from '../api/auth-api';
+import { SearchApi } from '../api/search-api';
 import { SongApi } from '../api/song-api';
 import { UserApi } from '../api/user-api';
 import { buildUser, type NewUser } from '../data/users';
+import { ArtistPage } from '../pages/artist.page';
 import { AuthPage } from '../pages/auth.page';
 import { CategoryPage } from '../pages/category.page';
+import { ChartsPage } from '../pages/charts.page';
 import { Header } from '../pages/components/header';
 import { PlayerBar } from '../pages/components/player-bar';
 import { RatingModal } from '../pages/components/rating-modal';
@@ -15,6 +18,7 @@ import { FavoritesPage } from '../pages/favorites.page';
 import { GenresPage } from '../pages/genres.page';
 import { HomePage } from '../pages/home.page';
 import { RecentPage } from '../pages/recent.page';
+import { SearchResultsPage } from '../pages/search-results.page';
 import { SongPage } from '../pages/song.page';
 import { applyOutcomeMetadata, applyScenarioMetadata } from '../reporting/allure-metadata';
 import { withApiReporting } from '../reporting/api-reporting';
@@ -39,6 +43,8 @@ interface Fixtures {
   authApi: AuthApi;
   /** Song API client on its own request context (no browser, no cookies). */
   songApi: SongApi;
+  /** Search API client on its own request context (no browser, no cookies). */
+  searchApi: SearchApi;
   /** User API client on its own request context (no browser, no cookies). */
   userApi: UserApi;
   /** A fresh run-unique account registered through the API; not signed in anywhere. */
@@ -59,6 +65,9 @@ interface Fixtures {
   homePage: HomePage;
   categoryPage: CategoryPage;
   genresPage: GenresPage;
+  chartsPage: ChartsPage;
+  artistPage: ArtistPage;
+  searchResultsPage: SearchResultsPage;
   favoritesPage: FavoritesPage;
   recentPage: RecentPage;
   songPage: SongPage;
@@ -112,6 +121,12 @@ export const test = base.extend<Options & Fixtures>({
     await requestContext.dispose();
   },
 
+  searchApi: async ({}, use) => {
+    const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
+    await use(new SearchApi(withApiReporting(requestContext)));
+    await requestContext.dispose();
+  },
+
   userApi: async ({}, use) => {
     const requestContext = await playwrightRequest.newContext({ ignoreHTTPSErrors: true });
     await use(new UserApi(withApiReporting(requestContext)));
@@ -144,6 +159,9 @@ export const test = base.extend<Options & Fixtures>({
   homePage: async ({ page }, use) => use(new HomePage(page)),
   categoryPage: async ({ page }, use) => use(new CategoryPage(page)),
   genresPage: async ({ page }, use) => use(new GenresPage(page)),
+  chartsPage: async ({ page }, use) => use(new ChartsPage(page)),
+  artistPage: async ({ page }, use) => use(new ArtistPage(page)),
+  searchResultsPage: async ({ page }, use) => use(new SearchResultsPage(page)),
   favoritesPage: async ({ page }, use) => use(new FavoritesPage(page)),
   recentPage: async ({ page }, use) => use(new RecentPage(page)),
   songPage: async ({ page }, use) => use(new SongPage(page)),
