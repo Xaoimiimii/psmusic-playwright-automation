@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T10:26:11.080Z",
-  "gitCommit": "090c8eccf527c8523eaac08d2805d29595ccabbb",
+  "generatedAt": "2026-10-13T06:00:08.161Z",
+  "gitCommit": "60dfa04bc76dd7bca75d5f0ab8fb0055bcb80f77",
   "sources": [
     {
       "path": "docs/requirements/user-stories.md",
@@ -9,7 +9,7 @@
     },
     {
       "path": "docs/test-strategy/test-strategy.md",
-      "sha256": "de1b64116a204ace9454ac41764452e8eb2eedebb3c4ffb2f357251387e983fd"
+      "sha256": "73145768a3ab2bcd7b25ecb602f263585b5aab41846617c6a7d9f8dbab04300b"
     },
     {
       "path": "docs/test-strategy/risk-register.md",
@@ -25,7 +25,7 @@
     },
     {
       "path": "docs/test-case-implementation-progress.md",
-      "sha256": "f2a7c755d806386688fa54208180f07e432d25fe4496de96e02665e7524b2e40"
+      "sha256": "faea7eed3248cf5e7a0ca4b2890618f653dc27398ffd42f92619e7521637766b"
     },
     {
       "path": "docs/exploration/exploration-validation.md",
@@ -3003,13 +3003,13 @@
       "localId": "TS-PLAY-01",
       "type": "test",
       "summary": "TS-PLAY-01 Start playback",
-      "description": "**Objective:** Pressing Play starts the song for guests and members.\n**Preconditions:** Guest on `/song/1`; repeat as a signed-in user.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-013-AC-01, AC-09\n**Risk:** PR-08 | **Condition:** TC-PR08-1, TC-PR08-8\n**Rule:** Guests can play.\n**Dependencies:** S3.\n**Notes:** Audio needs a few seconds of buffering; wait on the position, not a fixed time.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Pressing Play starts the song for guests and members.\n**Preconditions:** Guest on `/song/1`; repeat as a signed-in user.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-013-AC-01, AC-09\n**Risk:** PR-08 | **Condition:** TC-PR08-1, TC-PR08-8\n**Rule:** Guests can play.\n**Dependencies:** S3.\n**Notes:** Audio needs a few seconds of buffering; wait on the position, not a fixed time.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-01"
       ],
@@ -3024,7 +3024,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/playback.spec.ts > TS-PLAY-01 start playback"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-01"
     },
@@ -3033,13 +3033,13 @@
       "localId": "TS-PLAY-02",
       "type": "test",
       "summary": "TS-PLAY-02 Pause and resume",
-      "description": "**Objective:** Pause stops playback and Play resumes it.\n**Preconditions:** Song playing.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-02\n**Risk:** PR-08 | **Condition:** TC-PR08-2\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Pause stops playback and Play resumes it.\n**Preconditions:** Song playing.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-02\n**Risk:** PR-08 | **Condition:** TC-PR08-2\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-02"
       ],
@@ -3054,7 +3054,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/playback.spec.ts > TS-PLAY-02 pause and resume"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-02"
     },
@@ -3063,13 +3063,13 @@
       "localId": "TS-PLAY-03",
       "type": "test",
       "summary": "TS-PLAY-03 Next, previous and queue refill",
-      "description": "**Objective:** Queue navigation works and the queue never runs dry.\n**Preconditions:** Song playing with a queue.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-013-AC-03\n**Risk:** PR-08 | **Condition:** TC-PR08-3\n**Rule:** Next batch is random songs that have lyrics.\n**Dependencies:** S3.\n**Notes:** Queue content is random (TR-08); assert the change of song and the refill, not specific songs.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Queue navigation works and the queue never runs dry.\n**Preconditions:** Song playing with a queue.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-013-AC-03\n**Risk:** PR-08 | **Condition:** TC-PR08-3\n**Rule:** Next batch is random songs that have lyrics.\n**Dependencies:** S3.\n**Notes:** Queue content is random (TR-08); assert the change of song and the refill, not specific songs.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-03"
       ],
@@ -3084,7 +3084,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/queue.spec.ts > TS-PLAY-03 next, previous and queue refill"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-03"
     },
@@ -3093,13 +3093,13 @@
       "localId": "TS-PLAY-04",
       "type": "test",
       "summary": "TS-PLAY-04 Repeat modes",
-      "description": "**Objective:** Repeat cycles through its states and each state behaves correctly.\n**Preconditions:** Song playing in a short queue.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-04\n**Risk:** PR-08 | **Condition:** TC-PR08-4\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** Not yet run (US-013 status).\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Repeat cycles through its states and each state behaves correctly.\n**Preconditions:** Song playing in a short queue.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-04\n**Risk:** PR-08 | **Condition:** TC-PR08-4\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** Not yet run (US-013 status).\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-04"
       ],
@@ -3114,7 +3114,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/queue.spec.ts > TS-PLAY-04 repeat modes"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-04"
     },
@@ -3123,13 +3123,13 @@
       "localId": "TS-PLAY-05",
       "type": "test",
       "summary": "TS-PLAY-05 Shuffle",
-      "description": "**Objective:** Shuffle reorders the rest of the queue and can be undone.\n**Preconditions:** Song playing with a queue of several songs.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-05\n**Risk:** PR-08 | **Condition:** TC-PR08-5\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** A shuffle can return the same order by chance; use a queue long enough to make that unlikely.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Shuffle reorders the rest of the queue and can be undone.\n**Preconditions:** Song playing with a queue of several songs.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-05\n**Risk:** PR-08 | **Condition:** TC-PR08-5\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** A shuffle can return the same order by chance; use a queue long enough to make that unlikely.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-05"
       ],
@@ -3144,7 +3144,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/queue.spec.ts > TS-PLAY-05 shuffle reorders the rest of the queue and can be undone"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-05"
     },
@@ -3183,13 +3183,13 @@
       "localId": "TS-PLAY-07",
       "type": "test",
       "summary": "TS-PLAY-07 Next song starts when a song ends",
-      "description": "**Objective:** Playback continues automatically.\n**Preconditions:** Song near its end (Repeat off).\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-07\n**Risk:** PR-08 | **Condition:** TC-PR08-7\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** Seek behavior itself is open (AC-10).\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Playback continues automatically.\n**Preconditions:** Song near its end (Repeat off).\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-013-AC-07\n**Risk:** PR-08 | **Condition:** TC-PR08-7\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** Seek behavior itself is open (AC-10).\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-07"
       ],
@@ -3204,7 +3204,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/playback.spec.ts > TS-PLAY-07 next song starts when a song ends"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-07"
     },
@@ -3213,13 +3213,13 @@
       "localId": "TS-PLAY-08",
       "type": "test",
       "summary": "TS-PLAY-08 One click performs one action",
-      "description": "**Objective:** Duplicated player controls (rendered 2 to 3 times) do not double-handle a click.\n**Preconditions:** Song playing on `/song/{id}` (3 control copies observed) and on `/` (2 copies).\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-013-AC-03\n**Risk:** PR-08, TR-03 | **Condition:** TC-PR08-3\n**Rule:** -\n**Dependencies:** None.\n**Notes:** From F-3; also compare on a production build (TR-13).\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Duplicated player controls (rendered 2 to 3 times) do not double-handle a click.\n**Preconditions:** Song playing on `/song/{id}` (3 control copies observed) and on `/` (2 copies).\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-013-AC-03\n**Risk:** PR-08, TR-03 | **Condition:** TC-PR08-3\n**Rule:** -\n**Dependencies:** None.\n**Notes:** From F-3; also compare on a production build (TR-13).\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-play",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-PLAY-08"
       ],
@@ -3234,7 +3234,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/player/single-action.spec.ts > TS-PLAY-08 one click performs one action"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-PLAY-08"
     },
@@ -3634,13 +3634,13 @@
       "localId": "TS-REV-01",
       "type": "test",
       "summary": "TS-REV-01 Rating form for a user who has not reviewed",
-      "description": "**Objective:** The form only allows a submit once a star is chosen.\n**Preconditions:** Signed-in user who has not reviewed the song; song playing; rating modal opened from the player bar.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-017-AC-01\n**Risk:** PR-03 | **Condition:** TC-PR03-3\n**Rule:** Rating 1 to 5; comment optional.\n**Dependencies:** None (no submit).\n**Notes:** The modal text is Vietnamese only.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** The form only allows a submit once a star is chosen.\n**Preconditions:** Signed-in user who has not reviewed the song; song playing; rating modal opened from the player bar.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-017-AC-01\n**Risk:** PR-03 | **Condition:** TC-PR03-3\n**Rule:** Rating 1 to 5; comment optional.\n**Dependencies:** None (no submit).\n**Notes:** The modal text is Vietnamese only.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-rev",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-REV-01"
       ],
@@ -3655,7 +3655,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/review/rating.spec.ts > TS-REV-01 rating form for a user who has not reviewed"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-REV-01"
     },
@@ -3664,13 +3664,13 @@
       "localId": "TS-REV-02",
       "type": "test",
       "summary": "TS-REV-02 Submitting a review",
-      "description": "**Objective:** A review is saved and shown at once.\n**Preconditions:** Signed-in user who has not reviewed the song.\n\n**Level:** SYS | **Layers:** UI, API, Data, E2E\n**Story / AC:** US-017-AC-02\n**Risk:** PR-02 | **Condition:** TC-US017-1\n**Rule:** -\n**Dependencies:** TR-01.\n**Notes:** This is also the member rating journey.\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: No\n**Flags:** Write\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** A review is saved and shown at once.\n**Preconditions:** Signed-in user who has not reviewed the song.\n\n**Level:** SYS | **Layers:** UI, API, Data, E2E\n**Story / AC:** US-017-AC-02\n**Risk:** PR-02 | **Condition:** TC-US017-1\n**Rule:** -\n**Dependencies:** TR-01.\n**Notes:** This is also the member rating journey.\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: Partial\n**Flags:** Write\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-rev",
         "p1",
         "level-sys",
-        "not-automated",
+        "partially-automated",
         "automate-multi-layer",
         "write",
         "lid_TS-REV-02"
@@ -3686,7 +3686,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/review/rating.spec.ts > TS-REV-02 submitting a review"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-REV-02"
     },
@@ -3726,13 +3726,13 @@
       "localId": "TS-REV-04",
       "type": "test",
       "summary": "TS-REV-04 Rated state for a user who already reviewed",
-      "description": "**Objective:** The UI does not offer a second review.\n**Preconditions:** Signed-in user who has reviewed the song.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-017-AC-04\n**Risk:** PR-02 | **Condition:** TC-PR02-3\n**Rule:** One review per user and song.\n**Dependencies:** TR-01.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** The UI does not offer a second review.\n**Preconditions:** Signed-in user who has reviewed the song.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-017-AC-04\n**Risk:** PR-02 | **Condition:** TC-PR02-3\n**Rule:** One review per user and song.\n**Dependencies:** TR-01.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: Partial\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-rev",
         "p1",
         "level-sys",
-        "not-automated",
+        "partially-automated",
         "automate-ui",
         "lid_TS-REV-04"
       ],
@@ -3747,7 +3747,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/review/rating.spec.ts > TS-REV-04 rated state for a user who already reviewed"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-REV-04"
     },
@@ -4546,13 +4546,13 @@
       "localId": "TS-REC-12",
       "type": "test",
       "summary": "TS-REC-12 No behavior without interaction",
-      "description": "**Objective:** Browsing alone sends no behavior.\n**Preconditions:** Consent granted.\n\n**Level:** SIT (Mode B) | **Layers:** Integration\n**Story / AC:** US-022-AC-16\n**Risk:** PR-06 | **Condition:** TC-PR06-4\n**Rule:** -\n**Dependencies:** None.\n**Notes:** Observed correct.\n\n**Automation:** AUTOMATE — INTEGRATION; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Browsing alone sends no behavior.\n**Preconditions:** Consent granted.\n\n**Level:** SIT (Mode B) | **Layers:** Integration\n**Story / AC:** US-022-AC-16\n**Risk:** PR-06 | **Condition:** TC-PR06-4\n**Rule:** -\n**Dependencies:** None.\n**Notes:** Observed correct.\n\n**Automation:** AUTOMATE — INTEGRATION; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-rec",
         "p1",
         "level-sit",
-        "not-automated",
+        "automated",
         "automate-integration",
         "lid_TS-REC-12"
       ],
@@ -4567,7 +4567,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/recommendations/tracking.spec.ts > TS-REC-12 no behavior is sent without interaction"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-REC-12"
     },
@@ -4757,15 +4757,16 @@
       "localId": "TS-E2E-01",
       "type": "test",
       "summary": "TS-E2E-01 Guest discovers and plays a song",
-      "description": "**Objective:** A first-time visitor can find and play music.\n**Preconditions:** Guest, clean browser.\n\n**Level:** SYS | **Layers:** E2E, UI\n**Story / AC:** US-005, US-006, US-011, US-013\n**Risk:** PR-08 | **Condition:** TC-PR08-1\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** Candidate for smoke.\n\n**Automation:** AUTOMATE — E2E; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** A first-time visitor can find and play music.\n**Preconditions:** Guest, clean browser.\n\n**Level:** SYS | **Layers:** E2E, UI\n**Story / AC:** US-005, US-006, US-011, US-013\n**Risk:** PR-08 | **Condition:** TC-PR08-1\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** Candidate for smoke.\n\n**Automation:** AUTOMATE — E2E; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-e2e",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-e2e",
-        "lid_TS-E2E-01"
+        "lid_TS-E2E-01",
+        "smoke"
       ],
       "priority": "High",
       "xray": {
@@ -4778,7 +4779,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/journeys/journeys.spec.ts > TS-E2E-01 guest discovers and plays a song"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-E2E-01"
     },
@@ -4787,13 +4788,13 @@
       "localId": "TS-E2E-02",
       "type": "test",
       "summary": "TS-E2E-02 Member listens, favorites and logs out",
-      "description": "**Objective:** The main member journey works end to end.\n**Preconditions:** Existing user, signed out.\n\n**Level:** SYS | **Layers:** E2E, UI, API\n**Story / AC:** US-002, US-013, US-015, US-016, US-004\n**Risk:** PR-07, PR-08, PR-09 | **Condition:** TC-PR07-0, TC-PR13-1, TC-PR09-1\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** The logout step fails today (known defect PR-09). Unfavorite in teardown.\n\nThe member rating journey is TS-REV-02.\n\n**Automation:** AUTOMATE — E2E; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** The main member journey works end to end.\n**Preconditions:** Existing user, signed out.\n\n**Level:** SYS | **Layers:** E2E, UI, API\n**Story / AC:** US-002, US-013, US-015, US-016, US-004\n**Risk:** PR-07, PR-08, PR-09 | **Condition:** TC-PR07-0, TC-PR13-1, TC-PR09-1\n**Rule:** -\n**Dependencies:** S3.\n**Notes:** The logout step fails today (known defect PR-09). Unfavorite in teardown.\n\nThe member rating journey is TS-REV-02.\n\n**Automation:** AUTOMATE — E2E; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-e2e",
         "p1",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-e2e",
         "lid_TS-E2E-02"
       ],
@@ -4808,7 +4809,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/journeys/journeys.spec.ts > TS-E2E-02 member listens, favorites and logs out"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-E2E-02"
     },
@@ -9406,6 +9407,13 @@
       "to": "PLAN-SMOKE",
       "relationshipKey": null,
       "source": "tests/**/*.spec.ts @smoke tags; test-strategy.md §10.1"
+    },
+    {
+      "kind": "testPlanMember",
+      "from": "TS-E2E-01",
+      "to": "PLAN-SMOKE",
+      "relationshipKey": null,
+      "source": "tests/**/*.spec.ts @smoke tags; test-strategy.md §10.1"
     }
   ],
   "ambiguities": [
@@ -9446,7 +9454,20 @@
         "TS-SONG-05",
         "TS-SONG-06",
         "TS-SONG-07",
-        "TS-PLAY-06"
+        "TS-PLAY-01",
+        "TS-PLAY-02",
+        "TS-PLAY-03",
+        "TS-PLAY-04",
+        "TS-PLAY-05",
+        "TS-PLAY-06",
+        "TS-PLAY-07",
+        "TS-PLAY-08",
+        "TS-REV-01",
+        "TS-REV-02",
+        "TS-REV-04",
+        "TS-REC-12",
+        "TS-E2E-01",
+        "TS-E2E-02"
       ],
       "blocking": false
     },
@@ -9507,55 +9528,11 @@
       "gap": "P1 test/project risk: mitigated by process (risk-register.md §4 Mitigation), not by a product test. Documented exception."
     },
     {
-      "localId": "TS-PLAY-01",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-02",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-03",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-04",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-05",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-07",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-PLAY-08",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-REV-01",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-REV-02",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-REV-04",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
       "localId": "TS-REC-09",
       "gap": "P1 scenario classified AUTOMATE but not implemented yet."
     },
     {
       "localId": "TS-REC-10",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-REC-12",
       "gap": "P1 scenario classified AUTOMATE but not implemented yet."
     },
     {
@@ -9568,14 +9545,6 @@
     },
     {
       "localId": "TS-REC-15",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-E2E-01",
-      "gap": "P1 scenario classified AUTOMATE but not implemented yet."
-    },
-    {
-      "localId": "TS-E2E-02",
       "gap": "P1 scenario classified AUTOMATE but not implemented yet."
     }
   ]

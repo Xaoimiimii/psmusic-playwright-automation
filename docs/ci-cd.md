@@ -68,9 +68,12 @@ Suites are chosen by **tag**, not by file list. Tags are set on each test (`{ ta
 
 | Suite | Command | Runs in | Contents today |
 |---|---|---|---|
-| Smoke | `npm run test:smoke` (`--grep @smoke`) | `ci.yml`, `post-deployment.yml` | 4 tests (2026-10-09). About 10–20 s |
-| Critical | `npx playwright test --grep @critical` | `pre-merge-validation.yml` (application repository) | 29 tests (2026-10-09), every smoke test included |
-| Regression | `npm run test:regression` (whole `tests/` folder) | `regression.yml` | All 37 tests (2026-10-09): `@smoke`, `@critical`, `@regression`, `@sit-controlled`. About 1 minute |
+| Smoke | `npm run test:smoke` (`--grep @smoke`) | `ci.yml`, `post-deployment.yml` | 5 tests (2026-10-12), including the guest journey TS-E2E-01. About 20–30 s |
+| Critical | `npx playwright test --grep @critical` | `pre-merge-validation.yml` (application repository) | 44 tests (2026-10-12), every smoke test included |
+| Regression | `npm run test:regression` (whole `tests/` folder) | `regression.yml` | All 54 tests (2026-10-12): `@smoke`, `@critical`, `@regression`, `@sit-controlled`, `@sit-privacy`. About 1–2 minutes with parallel workers locally |
+
+`@sit-privacy` (TS-REC-12) is the only tag that runs the **live** recommendation tracker (third party). It skips itself
+as "external unavailable" when the tracker does not load, instead of failing.
 
 To put a test in smoke, add `@smoke` to its tags. Keep smoke small and read-only (strategy §10.1).
 
