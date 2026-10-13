@@ -69,11 +69,12 @@ Suites are chosen by **tag**, not by file list. Tags are set on each test (`{ ta
 | Suite | Command | Runs in | Contents today |
 |---|---|---|---|
 | Smoke | `npm run test:smoke` (`--grep @smoke`) | `ci.yml`, `post-deployment.yml` | 5 tests (2026-10-12), including the guest journey TS-E2E-01. About 20–30 s |
-| Critical | `npx playwright test --grep @critical` | `pre-merge-validation.yml` (application repository) | 44 tests (2026-10-12), every smoke test included |
-| Regression | `npm run test:regression` (whole `tests/` folder) | `regression.yml` | All 54 tests (2026-10-12): `@smoke`, `@critical`, `@regression`, `@sit-controlled`, `@sit-privacy`. About 1–2 minutes with parallel workers locally |
+| Critical | `npx playwright test --grep @critical` | `pre-merge-validation.yml` (application repository) | 51 tests (2026-10-13), every smoke test included |
+| Regression | `npm run test:regression` (whole `tests/` folder) | `regression.yml` | All 67 tests (2026-10-13): `@smoke`, `@critical`, `@regression`, `@sit-controlled`, `@sit-privacy`, `@sit-live`. About 1 minute with parallel workers locally |
 
 `@sit-privacy` (TS-REC-12) is the only tag that runs the **live** recommendation tracker (third party). It skips itself
-as "external unavailable" when the tracker does not load, instead of failing.
+as "external unavailable" when the tracker does not load, instead of failing. `@sit-live` (TS-SRCH-08) runs against the
+real search index and skips the same way when a known artist returns nothing.
 
 To put a test in smoke, add `@smoke` to its tags. Keep smoke small and read-only (strategy §10.1).
 

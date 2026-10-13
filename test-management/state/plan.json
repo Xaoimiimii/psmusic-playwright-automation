@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T06:00:08.161Z",
-  "gitCommit": "60dfa04bc76dd7bca75d5f0ab8fb0055bcb80f77",
+  "generatedAt": "2026-10-13T06:29:12.997Z",
+  "gitCommit": "5de8c4108926b513dd2cf7de69d933e260d42733",
   "sources": [
     {
       "path": "docs/requirements/user-stories.md",
@@ -25,7 +25,7 @@
     },
     {
       "path": "docs/test-case-implementation-progress.md",
-      "sha256": "faea7eed3248cf5e7a0ca4b2890618f653dc27398ffd42f92619e7521637766b"
+      "sha256": "9b6e98903db7945041f2203a2b142bc1453b10390f0fd724678012477ac1bf66"
     },
     {
       "path": "docs/exploration/exploration-validation.md",
@@ -2100,13 +2100,13 @@
       "localId": "TS-DISC-01",
       "type": "test",
       "summary": "TS-DISC-01 Home sections, limits and links",
-      "description": "**Objective:** Home shows the agreed sections and navigates correctly.\n**Preconditions:** Environment with popular data.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-005-AC-01, AC-02, AC-04\n**Risk:** PR-21 | **Condition:** TC-PR21-1\n**Rule:** -\n**Dependencies:** Popular data exists (TR-08).\n**Notes:** \"Recommends for you\" is US-022.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Home shows the agreed sections and navigates correctly.\n**Preconditions:** Environment with popular data.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-005-AC-01, AC-02, AC-04\n**Risk:** PR-21 | **Condition:** TC-PR21-1\n**Rule:** -\n**Dependencies:** Popular data exists (TR-08).\n**Notes:** \"Recommends for you\" is US-022.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-disc",
         "p3",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-DISC-01"
       ],
@@ -2121,7 +2121,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/discovery/discovery.spec.ts > TS-DISC-01 Home sections, limits and links"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-DISC-01"
     },
@@ -2280,13 +2280,13 @@
       "localId": "TS-DISC-07",
       "type": "test",
       "summary": "TS-DISC-07 Unknown category",
-      "description": "**Objective:** An unknown category id is reported as not found.\n**Preconditions:** None.\n\n**Level:** CI + SYS | **Layers:** API, UI\n**Story / AC:** US-007-AC-05, SD-4\n**Risk:** PR-14 | **Condition:** TC-PR14-1, TC-PR14-2\n**Rule:** SD-4.\n**Dependencies:** None.\n**Notes:** Today: 204 and a blank page.\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: No\n**Flags:** Known defect\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** An unknown category id is reported as not found.\n**Preconditions:** None.\n\n**Level:** CI + SYS | **Layers:** API, UI\n**Story / AC:** US-007-AC-05, SD-4\n**Risk:** PR-14 | **Condition:** TC-PR14-1, TC-PR14-2\n**Rule:** SD-4.\n**Dependencies:** None.\n**Notes:** Today: 204 and a blank page.\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: Yes\n**Flags:** Known defect\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-disc",
         "p2",
         "level-ci",
-        "not-automated",
+        "automated",
         "automate-multi-layer",
         "known-defect",
         "lid_TS-DISC-07"
@@ -2302,7 +2302,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/shared/not-found.spec.ts > TS-DISC-07"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-DISC-07"
     },
@@ -2311,13 +2311,13 @@
       "localId": "TS-DISC-08",
       "type": "test",
       "summary": "TS-DISC-08 Charts structure",
-      "description": "**Objective:** Charts show ranked lists in the agreed category order, without artists or favorites.\n**Preconditions:** Popular data.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-008-AC-01, SD-2\n**Risk:** PR-21 | **Condition:** TC-US008-1\n**Rule:** SD-2.\n**Dependencies:** None.\n**Notes:** Wait for chart content, not the URL: the previous page's content stays for about 1-2 s (UF-02).\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Charts show ranked lists in the agreed category order, without artists or favorites.\n**Preconditions:** Popular data.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-008-AC-01, SD-2\n**Risk:** PR-21 | **Condition:** TC-US008-1\n**Rule:** SD-2.\n**Dependencies:** None.\n**Notes:** Wait for chart content, not the URL: the previous page's content stays for about 1-2 s (UF-02).\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-disc",
         "p3",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-DISC-08"
       ],
@@ -2332,7 +2332,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/discovery/discovery.spec.ts > TS-DISC-08 charts structure"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-DISC-08"
     },
@@ -2341,13 +2341,13 @@
       "localId": "TS-DISC-09",
       "type": "test",
       "summary": "TS-DISC-09 Chart links",
-      "description": "**Objective:** Chart entries navigate correctly.\n**Preconditions:** `/charts` loaded.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-008-AC-03\n**Risk:** - | **Condition:** TC-US008-2\n**Rule:** -\n**Dependencies:** None.\n**Notes:** Chart song titles are buttons without `href`; the id is known only from the resulting URL.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Chart entries navigate correctly.\n**Preconditions:** `/charts` loaded.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-008-AC-03\n**Risk:** - | **Condition:** TC-US008-2\n**Rule:** -\n**Dependencies:** None.\n**Notes:** Chart song titles are buttons without `href`; the id is known only from the resulting URL.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-disc",
         "p3",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-DISC-09"
       ],
@@ -2362,7 +2362,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/discovery/discovery.spec.ts > TS-DISC-09 chart links"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-DISC-09"
     },
@@ -2431,13 +2431,13 @@
       "localId": "TS-DISC-12",
       "type": "test",
       "summary": "TS-DISC-12 Unknown artist",
-      "description": "**Objective:** An unknown artist id is reported as not found.\n**Preconditions:** None.\n\n**Level:** CI + SYS | **Layers:** API, UI\n**Story / AC:** US-009-AC-05, SD-4\n**Risk:** PR-14 | **Condition:** TC-PR14-1, TC-PR14-2\n**Rule:** SD-4.\n**Dependencies:** None.\n**Notes:** Today: 204 and only a Play button.\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: No\n**Flags:** Known defect\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** An unknown artist id is reported as not found.\n**Preconditions:** None.\n\n**Level:** CI + SYS | **Layers:** API, UI\n**Story / AC:** US-009-AC-05, SD-4\n**Risk:** PR-14 | **Condition:** TC-PR14-1, TC-PR14-2\n**Rule:** SD-4.\n**Dependencies:** None.\n**Notes:** Today: 204 and only a Play button.\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: Yes\n**Flags:** Known defect\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-disc",
         "p2",
         "level-ci",
-        "not-automated",
+        "automated",
         "automate-multi-layer",
         "known-defect",
         "lid_TS-DISC-12"
@@ -2453,7 +2453,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/shared/not-found.spec.ts > TS-DISC-12"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-DISC-12"
     },
@@ -2462,13 +2462,13 @@
       "localId": "TS-SRCH-01",
       "type": "test",
       "summary": "TS-SRCH-01 Suggestion threshold and debounce",
-      "description": "**Objective:** Suggestions are requested only for 2+ characters after the typing pause.\n**Preconditions:** Any page with the header search.\n\n**Level:** SYS | **Layers:** UI (+ request capture)\n**Story / AC:** US-010-AC-01, AC-02\n**Risk:** PR-16 | **Condition:** TC-PR16-1\n**Rule:** Minimum 2 characters; 300 ms debounce.\n**Dependencies:** None.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Suggestions are requested only for 2+ characters after the typing pause.\n**Preconditions:** Any page with the header search.\n\n**Level:** SYS | **Layers:** UI (+ request capture)\n**Story / AC:** US-010-AC-01, AC-02\n**Risk:** PR-16 | **Condition:** TC-PR16-1\n**Rule:** Minimum 2 characters; 300 ms debounce.\n**Dependencies:** None.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-srch",
         "p2",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-SRCH-01"
       ],
@@ -2483,7 +2483,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/search/search.spec.ts > TS-SRCH-01 suggestions need 2 characters and the typing pause"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-SRCH-01"
     },
@@ -2522,13 +2522,13 @@
       "localId": "TS-SRCH-03",
       "type": "test",
       "summary": "TS-SRCH-03 Navigation from suggestions and Enter",
-      "description": "**Objective:** Search leads to the right page.\n**Preconditions:** Suggestions available.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-010-AC-03, AC-04\n**Risk:** PR-16 | **Condition:** TC-PR16-3\n**Rule:** Query trimmed; blank query ignored.\n**Dependencies:** None.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Search leads to the right page.\n**Preconditions:** Suggestions available.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-010-AC-03, AC-04\n**Risk:** PR-16 | **Condition:** TC-PR16-3\n**Rule:** Query trimmed; blank query ignored.\n**Dependencies:** None.\n**Notes:** -\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-srch",
         "p2",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-SRCH-03"
       ],
@@ -2543,7 +2543,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/search/search.spec.ts > TS-SRCH-03 navigation from suggestions and Enter"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-SRCH-03"
     },
@@ -2582,13 +2582,13 @@
       "localId": "TS-SRCH-05",
       "type": "test",
       "summary": "TS-SRCH-05 No results",
-      "description": "**Objective:** An empty result is clearly reported.\n**Preconditions:** None.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-010-AC-06\n**Risk:** PR-16 | **Condition:** TC-PR16-6\n**Rule:** -\n**Dependencies:** None.\n**Notes:** This message is the only behavior visible today, because every search is empty.\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** An empty result is clearly reported.\n**Preconditions:** None.\n\n**Level:** SYS | **Layers:** UI\n**Story / AC:** US-010-AC-06\n**Risk:** PR-16 | **Condition:** TC-PR16-6\n**Rule:** -\n**Dependencies:** None.\n**Notes:** This message is the only behavior visible today, because every search is empty.\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-srch",
         "p2",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-SRCH-05"
       ],
@@ -2603,7 +2603,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/search/search.spec.ts > TS-SRCH-05 a search without match is reported"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-SRCH-05"
     },
@@ -2672,13 +2672,13 @@
       "localId": "TS-SRCH-08",
       "type": "test",
       "summary": "TS-SRCH-08 Real search finds indexed songs and artists",
-      "description": "**Objective:** Search works against the real index.\n**Preconditions:** API started after the song and artist exist in PostgreSQL (indexed by `ElasticSeeder`); a preflight search for a known title succeeds.\n\n**Level:** SIT | **Layers:** API, UI, Integration\n**Story / AC:** US-010, SD-1\n**Risk:** PR-16, TR-05 | **Condition:** TC-PR16-real\n**Rule:** Only indexed songs and artists are searchable; the index is refilled at API startup.\n**Dependencies:** TR-05.\n**Notes:** Fuzzy matching and diacritics are not asserted (AC-10 open).\n\n**Automation:** AUTOMATE — INTEGRATION; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Search works against the real index.\n**Preconditions:** API started after the song and artist exist in PostgreSQL (indexed by `ElasticSeeder`); a preflight search for a known title succeeds.\n\n**Level:** SIT | **Layers:** API, UI, Integration\n**Story / AC:** US-010, SD-1\n**Risk:** PR-16, TR-05 | **Condition:** TC-PR16-real\n**Rule:** Only indexed songs and artists are searchable; the index is refilled at API startup.\n**Dependencies:** TR-05.\n**Notes:** Fuzzy matching and diacritics are not asserted (AC-10 open).\n\n**Automation:** AUTOMATE — INTEGRATION; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-srch",
         "p2",
         "level-sit",
-        "not-automated",
+        "automated",
         "automate-integration",
         "lid_TS-SRCH-08"
       ],
@@ -2693,7 +2693,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/search/search.spec.ts > TS-SRCH-08 real search finds indexed songs and artists"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-SRCH-08"
     },
@@ -3303,13 +3303,13 @@
       "localId": "TS-FAV-01",
       "type": "test",
       "summary": "TS-FAV-01 Favorite and unfavorite update state and counts",
-      "description": "**Objective:** A toggle changes the heart, the response and the like count by exactly one, consistently everywhere.\n**Preconditions:** Signed-in user; the song is not a favorite; song playing in the player bar.\n\n**Level:** SYS | **Layers:** UI, API, Data\n**Story / AC:** US-015-AC-01, AC-02\n**Risk:** PR-13 | **Condition:** TC-PR13-1\n**Rule:** Count only includes `IsFavorite = true`.\n**Dependencies:** None.\n**Notes:** Today the song-page count stays unchanged until reload (F-6). Assert deltas; others may change the count (TR-08).\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: No\n**Flags:** Known defect (count)\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** A toggle changes the heart, the response and the like count by exactly one, consistently everywhere.\n**Preconditions:** Signed-in user; the song is not a favorite; song playing in the player bar.\n\n**Level:** SYS | **Layers:** UI, API, Data\n**Story / AC:** US-015-AC-01, AC-02\n**Risk:** PR-13 | **Condition:** TC-PR13-1\n**Rule:** Count only includes `IsFavorite = true`.\n**Dependencies:** None.\n**Notes:** Today the song-page count stays unchanged until reload (F-6). Assert deltas; others may change the count (TR-08).\n\n**Automation:** AUTOMATE — MULTI-LAYER; implemented: Yes\n**Flags:** Known defect (count)\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-fav",
         "p2",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-multi-layer",
         "known-defect",
         "lid_TS-FAV-01"
@@ -3325,7 +3325,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/favorites/favorites.spec.ts > TS-FAV-01 favorite and unfavorite update state and counts"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-FAV-01"
     },
@@ -3364,13 +3364,13 @@
       "localId": "TS-FAV-03",
       "type": "test",
       "summary": "TS-FAV-03 Favorites page reflects a change at once",
-      "description": "**Objective:** A toggle clears the 15-minute favorites cache.\n**Preconditions:** Signed-in user who has visited `/favorites`.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-015-AC-04, US-016-AC-01\n**Risk:** PR-19 | **Condition:** TC-PR19-2\n**Rule:** Cache cleared on change.\n**Dependencies:** None.\n**Notes:** Removal observed (BR-F3).\n\n**Automation:** AUTOMATE — UI; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** A toggle clears the 15-minute favorites cache.\n**Preconditions:** Signed-in user who has visited `/favorites`.\n\n**Level:** SYS | **Layers:** UI, API\n**Story / AC:** US-015-AC-04, US-016-AC-01\n**Risk:** PR-19 | **Condition:** TC-PR19-2\n**Rule:** Cache cleared on change.\n**Dependencies:** None.\n**Notes:** Removal observed (BR-F3).\n\n**Automation:** AUTOMATE — UI; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-fav",
         "p3",
         "level-sys",
-        "not-automated",
+        "automated",
         "automate-ui",
         "lid_TS-FAV-03"
       ],
@@ -3385,7 +3385,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/favorites/favorites.spec.ts > TS-FAV-03 the Favorites page reflects a change at once"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-FAV-03"
     },
@@ -3394,13 +3394,13 @@
       "localId": "TS-FAV-04",
       "type": "test",
       "summary": "TS-FAV-04 Re-favoriting reuses the same record",
-      "description": "**Objective:** Toggling repeatedly keeps one favorite record per user and song.\n**Preconditions:** Signed-in user.\n\n**Level:** CI | **Layers:** API, Data\n**Story / AC:** US-015-AC-05\n**Risk:** PR-19 | **Condition:** TC-PR19-3\n**Rule:** One record per user and song.\n**Dependencies:** None.\n**Notes:** The record itself is not visible without database access; the count is the oracle.\n\n**Automation:** AUTOMATE — API; implemented: No\n\nSource: docs/test-strategy/test-scenarios.md",
+      "description": "**Objective:** Toggling repeatedly keeps one favorite record per user and song.\n**Preconditions:** Signed-in user.\n\n**Level:** CI | **Layers:** API, Data\n**Story / AC:** US-015-AC-05\n**Risk:** PR-19 | **Condition:** TC-PR19-3\n**Rule:** One record per user and song.\n**Dependencies:** None.\n**Notes:** The record itself is not visible without database access; the count is the oracle.\n\n**Automation:** AUTOMATE — API; implemented: Yes\n\nSource: docs/test-strategy/test-scenarios.md",
       "labels": [
         "psmusic",
         "area-fav",
         "p3",
         "level-ci",
-        "not-automated",
+        "automated",
         "automate-api",
         "lid_TS-FAV-04"
       ],
@@ -3415,7 +3415,7 @@
           }
         ],
         "unstructured": null,
-        "automatedSpec": null
+        "automatedSpec": "tests/favorites/favorites.spec.ts > TS-FAV-04 re-favoriting reuses the same record"
       },
       "source": "docs/test-strategy/test-scenarios.md#TS-FAV-04"
     },
@@ -9448,6 +9448,15 @@
         "TS-AUTHZ-06",
         "TS-PROF-01",
         "TS-PROF-02",
+        "TS-DISC-01",
+        "TS-DISC-07",
+        "TS-DISC-08",
+        "TS-DISC-09",
+        "TS-DISC-12",
+        "TS-SRCH-01",
+        "TS-SRCH-03",
+        "TS-SRCH-05",
+        "TS-SRCH-08",
         "TS-SONG-01",
         "TS-SONG-02",
         "TS-SONG-03",
@@ -9462,6 +9471,9 @@
         "TS-PLAY-06",
         "TS-PLAY-07",
         "TS-PLAY-08",
+        "TS-FAV-01",
+        "TS-FAV-03",
+        "TS-FAV-04",
         "TS-REV-01",
         "TS-REV-02",
         "TS-REV-04",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "projectKey": "MSC",
-  "updatedAt": "2026-10-13T05:48:18.583Z",
+  "updatedAt": "2026-10-13T06:42:14.581Z",
   "lastRunId": "SYNC-20261013-p1",
   "entities": {
     "FA-01": {
@@ -1834,7 +1834,7 @@
       "localId": "TS-DISC-01",
       "type": "test",
       "summary": "TS-DISC-01 Home sections, limits and links",
-      "planHash": "a0e734c8ec59bc84",
+      "planHash": "daa8b400e3c3d153",
       "jiraKey": "MSC-120",
       "jiraId": "10347",
       "xray": {
@@ -1844,11 +1844,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:14.877Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.157Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -1966,7 +1966,7 @@
       "localId": "TS-DISC-07",
       "type": "test",
       "summary": "TS-DISC-07 Unknown category",
-      "planHash": "2ac62e9c66879096",
+      "planHash": "5f6b50d5df1b9822",
       "jiraKey": "MSC-126",
       "jiraId": "10353",
       "xray": {
@@ -1976,11 +1976,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:46.873Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.158Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -1988,7 +1988,7 @@
       "localId": "TS-DISC-08",
       "type": "test",
       "summary": "TS-DISC-08 Charts structure",
-      "planHash": "f6780fb10693d72c",
+      "planHash": "d772e049cdddb8ae",
       "jiraKey": "MSC-127",
       "jiraId": "10354",
       "xray": {
@@ -1998,11 +1998,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:50.890Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2010,7 +2010,7 @@
       "localId": "TS-DISC-09",
       "type": "test",
       "summary": "TS-DISC-09 Chart links",
-      "planHash": "4c16913bcde79a1b",
+      "planHash": "07d7fcb5bd6816e0",
       "jiraKey": "MSC-128",
       "jiraId": "10355",
       "xray": {
@@ -2020,11 +2020,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:00:56.593Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2076,7 +2076,7 @@
       "localId": "TS-DISC-12",
       "type": "test",
       "summary": "TS-DISC-12 Unknown artist",
-      "planHash": "6df0265d7094cf81",
+      "planHash": "a7b0d993f4128044",
       "jiraKey": "MSC-131",
       "jiraId": "10358",
       "xray": {
@@ -2086,11 +2086,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:11.444Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2098,7 +2098,7 @@
       "localId": "TS-SRCH-01",
       "type": "test",
       "summary": "TS-SRCH-01 Suggestion threshold and debounce",
-      "planHash": "5763e6b30bd00ba1",
+      "planHash": "72c287ddde8a2a1a",
       "jiraKey": "MSC-132",
       "jiraId": "10359",
       "xray": {
@@ -2108,11 +2108,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:16.038Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2142,7 +2142,7 @@
       "localId": "TS-SRCH-03",
       "type": "test",
       "summary": "TS-SRCH-03 Navigation from suggestions and Enter",
-      "planHash": "d95d344ae0d09c17",
+      "planHash": "49210324c21a9f38",
       "jiraKey": "MSC-134",
       "jiraId": "10361",
       "xray": {
@@ -2152,11 +2152,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:25.954Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2186,7 +2186,7 @@
       "localId": "TS-SRCH-05",
       "type": "test",
       "summary": "TS-SRCH-05 No results",
-      "planHash": "bacfe48c2145432d",
+      "planHash": "5db570af9493f621",
       "jiraKey": "MSC-136",
       "jiraId": "10363",
       "xray": {
@@ -2196,11 +2196,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:35.807Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2252,7 +2252,7 @@
       "localId": "TS-SRCH-08",
       "type": "test",
       "summary": "TS-SRCH-08 Real search finds indexed songs and artists",
-      "planHash": "825685b2f57c8caa",
+      "planHash": "7cb0b053754eae59",
       "jiraKey": "MSC-139",
       "jiraId": "10366",
       "xray": {
@@ -2262,11 +2262,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:01:49.916Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2714,7 +2714,7 @@
       "localId": "TS-FAV-01",
       "type": "test",
       "summary": "TS-FAV-01 Favorite and unfavorite update state and counts",
-      "planHash": "0ad1fe3459c82713",
+      "planHash": "4090adb9993910a7",
       "jiraKey": "MSC-160",
       "jiraId": "10387",
       "xray": {
@@ -2724,11 +2724,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:45.902Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2758,7 +2758,7 @@
       "localId": "TS-FAV-03",
       "type": "test",
       "summary": "TS-FAV-03 Favorites page reflects a change at once",
-      "planHash": "6989dd398a007fe1",
+      "planHash": "79edb3d5cd9ac10b",
       "jiraKey": "MSC-162",
       "jiraId": "10389",
       "xray": {
@@ -2768,11 +2768,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:03:57.224Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -2780,7 +2780,7 @@
       "localId": "TS-FAV-04",
       "type": "test",
       "summary": "TS-FAV-04 Re-favoriting reuses the same record",
-      "planHash": "5ea696cc486c6cb2",
+      "planHash": "703a4631dafe3bfb",
       "jiraKey": "MSC-163",
       "jiraId": "10390",
       "xray": {
@@ -2790,11 +2790,11 @@
         "genericDefinition": null,
         "automatedSpec": null
       },
-      "creationStatus": "created",
+      "creationStatus": "updated",
       "verificationStatus": "PASS",
       "createdAt": "2026-10-09T14:04:02.097Z",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
-      "lastRunId": "SYNC-20261009-130902",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
+      "lastRunId": "SYNC-20261013-p1",
       "lastError": null,
       "duplicates": []
     },
@@ -6030,7 +6030,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6041,7 +6041,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6206,7 +6206,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6217,7 +6217,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6228,7 +6228,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6239,7 +6239,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6250,7 +6250,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6283,7 +6283,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6294,7 +6294,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6305,7 +6305,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6316,7 +6316,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6349,7 +6349,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6360,7 +6360,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6393,7 +6393,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6404,7 +6404,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6459,7 +6459,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6470,7 +6470,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6866,7 +6866,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6877,7 +6877,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6910,7 +6910,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6921,7 +6921,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6932,7 +6932,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6943,7 +6943,7 @@
       "relationshipKey": "testCoversRequirement",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {
@@ -6954,7 +6954,7 @@
       "relationshipKey": "testCoversRisk",
       "creationStatus": "created",
       "verificationStatus": "PASS",
-      "verifiedAt": "2026-10-09T14:36:49.830Z",
+      "verifiedAt": "2026-10-13T06:42:13.159Z",
       "lastError": null
     },
     {

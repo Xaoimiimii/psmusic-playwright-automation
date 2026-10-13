@@ -87,5 +87,21 @@ In Git Bash on Windows, `curl --data-urlencode "keyword=Chờ Anh Nhé"` sent a 
 
 ## 7. Still open
 
-- Browser pass: suggestion box states (including "No suitable suggestions", never seen), results page tabs and the Top result card with real data.
-- Whether repeated artists on page 2+ are visible in the UI.
+- Results page tabs (All / Songs / Artists), paging, and whether repeated artists on page 2+ are visible in the UI.
+- The loading state of the suggestion box (needs a slow controlled response, TS-SRCH-02).
+
+## 8. Browser pass (2026-10-13)
+
+Local dev build `https://localhost:5173`, English UI, tracker blocked. Source: `Header.jsx`, `SearchResultPage.jsx`.
+
+| # | Observation | Evidence |
+|---|---|---|
+| SE-1 | Suggestions: no request for 1 character; one `GET /api/song/search?keyword=Binz&page=1&size=5` for "Binz" typed fast, 300 ms after the last key (driven with a paused page clock in TS-SRCH-01) | RUNTIME-OBSERVED + SOURCE |
+| SE-2 | "Binz": the box lists the top result "Binz" first, then songs ("Hồn Lỡ Sa Vào", "Lift", …). Each suggestion is a `button` in `[class*="suggestBox"]`; it navigates on **mouse down**: artist → `/artist/27`, song → `/song/{id}`. "xyzqwvzz" → "No suitable suggestions" (first time seen) | RUNTIME-OBSERVED |
+| SE-3 | After a suggestion click the input blurs, and the header marks it unfocused 150 ms later (`setTimeout`). Focusing it again within those 150 ms is undone: typing then shows no box at all. A user who clicks back at once sees no suggestions until the next focus. Tests wait for the box to close first | RUNTIME-OBSERVED (TS-SRCH-03 run) + SOURCE |
+| SE-4 | **Song suggestions show no artist line.** The header reads `artistsName` / `artistName` / `artist`, but search items carry `artists: [{ id, name }]`, so the subtitle is always empty. US-010 does not say whether the artist should be shown; to be confirmed | RUNTIME-OBSERVED + SOURCE |
+| SE-5 | The search text stays in the header after a navigation (e.g. "Binz" still in the field on `/artist/27`) | RUNTIME-OBSERVED |
+| SE-6 | Enter on `"  Chờ Anh Nhé  "` → `/search?q=Chờ Anh Nhé` (trimmed); Enter on spaces only does nothing | RUNTIME-OBSERVED |
+| SE-7 | `/search?q=Chờ Anh Nhé`: heading "Search results", tabs All / Songs / Artists, "Top result" = song 1, then "Songs". `/search?q=xyzqwvzz`: `No results found for "xyzqwvzz".` | RUNTIME-OBSERVED |
+| SE-8 | The no-result message is shown when there is no song and no top result (source), so a search that finds only artists would also say "No results found". Not reproduced with real data yet | SOURCE |
+| SE-9 | Partial keywords: "Chờ Anh" lists song 1 (no top result); "Bin" lists artist 27 (no top result). Song durations now come as `"00:05:22.5600000"` (fractional seconds), not `"00:05:22"` as on 2026-10-08 | RUNTIME-OBSERVED (API) |
