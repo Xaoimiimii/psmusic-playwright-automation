@@ -19,6 +19,18 @@ export const uiText = {
   /** Player bar volume button tooltip (`mute` / `unmute`); the button has no other accessible name. */
   mute: 'Mute',
   unmute: 'Unmute',
+  /** Player bar tooltips (`next_song`, `prev_song`, …); the icon buttons have no other accessible name. */
+  nextSong: 'Next Song',
+  previousSong: 'Previous Song',
+  enableShuffle: 'Enable Shuffle',
+  disableShuffle: 'Disable Shuffle',
+  repeatOff: 'Repeat Off',
+  repeatAll: 'Repeat All',
+  repeatOne: 'Repeat One',
+  playAll: 'Play All',
+  favoritePlaylist: 'Favorite Playlist',
+  discover: 'Discover',
+  discoverByGenre: 'Discover by Genre',
   artists: 'Artists',
   otherSongsBy: 'Other songs by',
   startListening: 'Start Listening',
@@ -28,6 +40,15 @@ export const uiText = {
   recentPlaceholder: 'Nghe Gần Đây',
 } as const;
 
+/** Rating modal texts: hard-coded Vietnamese in `RatingModal.jsx`, the same in every UI language. */
+export const ratingText = {
+  /** Heading prefix; the song title follows in quotes. */
+  headingPrefix: 'Đánh Giá và Bình luận về',
+  commentPlaceholder: 'Viết bình luận của bạn (Không bắt buộc)...',
+  submit: 'Gửi đánh giá',
+  communityReviews: 'Bình luận từ cộng đồng',
+} as const;
+
 export const serverMessage = {
   loginSuccess: 'Đăng nhập thành công',
   unknownUsername: 'Tài khoản không tồn tại',
@@ -35,4 +56,6 @@ export const serverMessage = {
   refreshSuccess: 'Refresh thành công',
   logoutSuccess: 'Đăng xuất thành công',
   songNotFound: 'Không tìm thấy bài hát',
+  /** `RatingController.AddReview` success body; the modal does not display it. */
+  reviewSuccess: 'Đánh giá thành công!',
 } as const;

@@ -11,6 +11,8 @@ export const catalog = {
   songWithFourOtherSongs: 1129,
   /** "Good Luck, Babe!": no other song by its artist, so the section is not rendered (probe 2026-10-06). */
   songWithoutOtherSongs: 1349,
+  /** "Vietnamese Music": a genre with songs, the first Home genre tile on 2026-10-12. */
+  genreWithSongs: 10,
   /** No song has this id (code T-UNK). */
   unknownSongId: 99999999,
 } as const;

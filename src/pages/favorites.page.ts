@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { uiText } from '../data/messages';
 import { step } from '../reporting/step';
 
 /**
@@ -13,11 +14,24 @@ export class FavoritesPage {
   readonly emptyStateMessage: Locator;
   /** Whichever of the two states rendered: the page finished loading. */
   readonly content: Locator;
+  /** Plays the playlist from its first song; reads "Pause" while a playlist song is playing. */
+  readonly playAllButton: Locator;
 
   constructor(private readonly page: Page) {
-    this.playlistHeading = page.getByRole('heading', { name: 'Favorite Playlist', level: 1 });
+    this.playlistHeading = page.getByRole('heading', { name: uiText.favoritePlaylist, level: 1 });
     this.emptyStateMessage = page.getByText('Add your favorite songs to see them here!');
     this.content = this.playlistHeading.or(this.emptyStateMessage);
+    this.playAllButton = page.getByRole('main').getByRole('button', { name: uiText.playAll, exact: true });
+  }
+
+  /** The title button of a playlist row. */
+  songTitle(title: string): Locator {
+    return this.page.getByRole('main').getByRole('button', { name: title, exact: true });
+  }
+
+  @step('Click Play All on the Favorites page')
+  async playAll(): Promise<void> {
+    await this.playAllButton.click();
   }
 
   @step('Open the Favorites page')
