@@ -50,7 +50,7 @@ come from configuration (section 4).
 | Pull request targeting `main` | CI (smoke) | Fast feedback on automation changes before a merge |
 | Push to `main` (a merged PR) | CI (smoke) | Check that `main` still works |
 | Manual (`workflow_dispatch`) | CI (smoke) | Re-run smoke on any branch, for example after the environment was fixed |
-| Schedule, every day 01:00 UTC (08:00 in Vietnam) | Regression (all tests) | Catch breakage nobody triggered: environment, data, third parties. **Red every night until A-11 is fixed** (section 4.3). A red night is only news if the failures differ from TS-AUTH-08/10/11 |
+| Schedule, every day 01:00 UTC (08:00 in Vietnam). **Temporarily disabled**: the `schedule` trigger is commented out in `regression.yml`; manual runs still work | Regression (all tests) | Catch breakage nobody triggered: environment, data, third parties. **Red every night until A-11 is fixed** (section 4.3). A red night is only news if the failures differ from TS-AUTH-08/10/11 |
 | Manual (`workflow_dispatch`) | Regression (all tests) | Before a release or demo, or to investigate. Actions tab → **Regression** → **Run workflow** → choose the branch |
 | `repository_dispatch` event `psmusic-qa-deployed`, from the application's **Deploy to QA** | Post-deployment (smoke) | Check a deployment right after it happened (section 8.3) |
 | Manual (`workflow_dispatch`) | Post-deployment (smoke) | Re-check the QA environment by hand |

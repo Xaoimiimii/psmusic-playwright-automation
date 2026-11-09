@@ -4,9 +4,10 @@
 name: Regression
 
 on:
-  schedule:
-    # 01:00 UTC = 08:00 in Vietnam. GitHub may start a scheduled run some minutes late.
-    - cron: '0 1 * * *'
+  # Nightly schedule temporarily disabled; uncomment to re-enable.
+  # schedule:
+  #   # 01:00 UTC = 08:00 in Vietnam. GitHub may start a scheduled run some minutes late.
+  #   - cron: '0 1 * * *'
   workflow_dispatch:
 
 permissions:
